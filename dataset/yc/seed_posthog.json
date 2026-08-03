@@ -1,0 +1,210 @@
+{
+  "_id": "seed_posthog",
+  "yc_seed": {
+    "id": 13312,
+    "company_slug": "posthog",
+    "company_name": "PostHog",
+    "former_names": ["Hiberly"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/7f1b6d1787ae32a7ebc0d417ec6fb8a204a3bbe9.png",
+    "website": "https://www.posthog.com",
+    "all_locations": "San Francisco, CA, USA; Remote",
+    "long_description": "PostHog helps engineers build better products. We provide everything they need to make sure they are building something that people want. This means - product analytics, session replays, feedback tools, feature flags, experimentation, LLM observability, and a data warehouse (with SQL) with one click data imports from the places you use.\r\n\r\nWe've been averaging ~10% monthly revenue growth, we are default alive, and we didn't raised a huge / now-overpriced round in 2021. While others are focused on layoffs and struggling to grow into huge valuations, we're focusing on an awesome product for end users, hiring (a handful of) exceptional team members and seeing fantastic increases in revenue as a result.\r\n\r\nCheck out posthog.com/careers if you want to be part of this journey.",
+    "one_liner": "The single platform to analyze, test, observe, and deploy new features",
+    "team_size": 150,
+    "industry": "B2B",
+    "subindustry": "B2B -> Analytics",
+    "launched_at": 1583901228,
+    "tags": ["Developer Tools", "B2B", "Open Source"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Winter 2020",
+    "status": "Active",
+    "industries": ["B2B", "Analytics"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Fully Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": true,
+    "url": "https://www.ycombinator.com/companies/posthog",
+    "api": "https://yc-oss.github.io/api/batches/winter-2020/posthog.json",
+    "is_open_source": true
+  },
+  "scenario": {
+    "archetype": "devtool",
+    "description": "A developer-facing analytics platform that engineering teams embed into their own products to capture user events, record session replays, run feature flags and A/B experiments, and track errors. Usage data lands in a built-in warehouse that customers can query directly with SQL, and can also be piped through customer-defined data pipelines and webhooks. Offered both as a managed cloud service and as an open-source package that companies can run entirely on their own infrastructure."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785771576889,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2020/posthog.json",
+      "https://github.com/PostHog/posthog",
+      "https://github.com/PostHog/posthog-foss",
+      "https://posthog.com/docs/how-posthog-works",
+      "https://posthog.com/docs/how-posthog-works/clickhouse",
+      "https://posthog.com/docs/how-posthog-works/data-model",
+      "https://posthog.com/docs/how-posthog-works/ingestion-pipeline",
+      "https://posthog.com/blog/clickhouse-announcement",
+      "https://posthog.com/blog/how-we-turned-clickhouse-into-our-eventmansion",
+      "https://posthog.com/blog/clickhouse-vs-postgres",
+      "https://posthog.com/blog/duckdb-vs-clickhouse",
+      "https://posthog.com/subprocessors",
+      "https://posthog.com/handbook/engineering/project-structure"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "PostHog/posthog",
+        "url": "https://github.com/PostHog/posthog",
+        "description": "Main monorepo containing PostHog's Django backend, Rust ingestion services, Node.js event-processing service, React/TypeScript frontend, and the enterprise-only 'ee/' add-ons.",
+        "readme": "Describes PostHog as an open-source platform for building and improving software products, bundling product analytics, web analytics, session replays, feature flags, experiments, error tracking, logs, surveys, a SQL-queryable data warehouse, data pipelines, and AI/LLM observability into one suite. It lists SDKs across web, mobile, and many backend languages, and documents deployment via a managed PostHog Cloud or a self-hosted Docker-based install. The bottom of the README states the code is MIT-licensed except for the 'ee' directory, and points to a fully-stripped mirror for users who need a purely open-source build.",
+        "license": "MIT",
+        "license_notes": "The repository root is MIT ('MIT Expat'), but the ee/ directory ships under a separate, source-available 'PostHog Enterprise License' that permits reading and modifying the code for development/testing but forbids production use without a paid Enterprise subscription and forbids copying, redistributing, or reselling it — GitHub's own license detector correspondingly reports the repo's license as 'Other' rather than a clean MIT. A read-only mirror, PostHog/posthog-foss, is synced automatically from this repo with the ee/ directory removed, so it can be labeled plain MIT for users who need a fully permissive build."
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React",
+        "language": "TypeScript",
+        "description": "Single-page web dashboard (the main product UI) built with React and TypeScript, using the Kea library for state management (actions/reducers/selectors/listeners separated from view components) and Vite/esbuild for local development and production builds.",
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "frontend/" }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Django",
+        "language": "Python",
+        "description": "Core backend serving the REST API and dashboard, defining the ORM/data models, implementing the HogQL query layer used to query ClickHouse, and orchestrating asynchronous and scheduled work via Celery, Temporal, and Dagster.",
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "posthog/" }
+        ]
+      },
+      {
+        "framework": "Custom Rust services",
+        "language": "Rust",
+        "description": "High-throughput microservices sitting at the edge of the ingestion pipeline, handling event capture, feature-flag evaluation, session-replay ingestion, and error-tracking symbolication.",
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "rust/" }
+        ]
+      },
+      {
+        "framework": "Node.js service (evolved from the former standalone 'plugin-server')",
+        "language": "TypeScript/JavaScript",
+        "description": "Processes captured events during ingestion, runs customer-configured data-pipeline apps/plugins, and delivers webhooks and customer-data-platform (CDP) destinations.",
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "nodejs/" }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "Transactional store for application/config data: persons and their distinct_id mappings, feature flag definitions, organizations/teams, and other frequently-updated records. Person records are replicated into ClickHouse for fast querying, but Postgres remains the authoritative source since person properties can be updated at any time, unlike immutable event rows.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS",
+          "description": "PostHog's own architecture docs describe the managed PostHog Cloud transactional store as running on Amazon Aurora PostgreSQL; PostHog's subprocessor list separately confirms AWS provides the underlying cloud storage for PostHog Cloud data."
+        },
+        "justifications": [
+          {
+            "reason": "Kept as the system of record for mutable, relational application data (persons, feature flags, team/org config) because that data needs update-in-place semantics and referential structure that the append-only, immutable ClickHouse event store deliberately does not provide.",
+            "evidence": "PostHog's docs on its data model state that events are only ever stored in ClickHouse and, once written, cannot be changed, whereas person records live in PostgreSQL and are only replicated to ClickHouse for query speed — PostgreSQL stays the source of truth because a person's properties can be updated at any time via $set/$set_once/$unset operations.",
+            "sources": [
+              { "type": "official-docs", "url": "https://posthog.com/docs/how-posthog-works/data-model" },
+              { "type": "official-docs", "url": "https://posthog.com/docs/how-posthog-works/clickhouse" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "posthog/" }
+        ]
+      },
+      {
+        "name": "ClickHouse",
+        "description": "Primary analytics backend storing all event data (page views, custom events, autocapture) as immutable, append-only rows. Events stream in from Kafka into materialized views and distributed/sharded tables (a ReplacingMergeTree-based 'sharded_events' table), with rows routed across shards by hashing on distinct_id; person data needed for joins is replicated in from PostgreSQL onto every node to avoid cross-node joins.",
+        "data_shape": "time-series",
+        "vector_capable": false,
+        "hosting": {
+          "provider": "AWS",
+          "description": "Self-managed, sharded/replicated ClickHouse cluster; PostHog's subprocessor list lists AWS as the provider of underlying cloud storage for PostHog Cloud data (US region) or, for the EU cloud, storage in Germany."
+        },
+        "justifications": [
+          {
+            "reason": "Moved PostHog Open Source's event storage off PostgreSQL because, in their own telling, Postgres lacked analytical features they needed and stopped scaling for their workload at roughly 10,000 monthly active users.",
+            "evidence": "PostHog's ClickHouse announcement post states verbatim that they were 'moving PostHog Open Source from PostgreSQL because it doesn't support some features we need and struggles to scale beyond 10k monthly active users,' and a companion in-depth comparison post argues ClickHouse's columnar storage lets it aggregate a single column across billions of rows in one read, versus Postgres's row-based storage and largely single-process query execution.",
+            "sources": [
+              { "type": "blog", "url": "https://posthog.com/blog/clickhouse-announcement" },
+              { "type": "blog", "url": "https://posthog.com/blog/clickhouse-vs-postgres" }
+            ]
+          },
+          {
+            "reason": "ClickHouse specifically was chosen over other OLAP systems they evaluated (Druid, Pinot, Presto, TimescaleDB) because it was roughly an order of magnitude faster in their own benchmarks, was simpler for self-hosting users to operate (ships as a single binary rather than needing a separate coordination service), and exposed a standard SQL query interface.",
+            "evidence": "PostHog's 'How we turned ClickHouse into our event mansion' post (also given as a conference talk at Altinity's OSA Con 2021) walks through evaluating those alternatives against speed, operational complexity, and SQL-interface criteria, and describes ClickHouse repeatedly winning by roughly an order of magnitude; it also describes early growing pains such as mutation-related outages that led them to avoid excessive in-place mutations.",
+            "sources": [
+              { "type": "blog", "url": "https://posthog.com/blog/how-we-turned-clickhouse-into-our-eventmansion" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "PostgreSQL",
+            "to_database": "ClickHouse",
+            "date": "2021-08",
+            "reason": "PostgreSQL (originally Heroku Postgres) could not support the analytical query patterns PostHog needed and degraded as event volume grew, capping free/open-source usage at roughly 10,000 monthly active users' worth of events.",
+            "evidence": "Announced in the blog post 'We just made PostHog Open Source 1000x more scalable via ClickHouse' (posthog.com/blog/clickhouse-announcement, and covered in more technical depth in 'How we turned ClickHouse into our event mansion'), which describes running events through Postgres on Heroku until ingestion volume pushed it to its limit, then deploying ClickHouse alongside Postgres and cutting queries over gradually behind feature flags before fully migrating event storage.",
+            "sources": [
+              { "type": "blog", "url": "https://posthog.com/blog/clickhouse-announcement" },
+              { "type": "blog", "url": "https://posthog.com/blog/how-we-turned-clickhouse-into-our-eventmansion" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "posthog/" }
+        ]
+      },
+      {
+        "name": "Redis",
+        "description": "Caching layer used to avoid recomputing repeatedly-needed lookups during event processing (e.g. which organization/team an event belongs to), plus session/state caching for the app; PostHog's own architecture docs note it may run as Valkey (the Redis fork) instead of Redis itself.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Runs as part of PostHog Cloud's AWS-hosted infrastructure per PostHog's own architecture overview and subprocessor list."
+        },
+        "justifications": [
+          {
+            "reason": "Adopted as a cache/session store to keep frequently-needed, reusable lookups out of the hot event-processing path rather than recomputing them per event across billions of events.",
+            "evidence": "PostHog's architecture documentation lists Redis (or Valkey) as providing caching and session management alongside Kafka (message bus) and ClickHouse (analytics store) in its production stack.",
+            "sources": [
+              { "type": "official-docs", "url": "https://posthog.com/docs/how-posthog-works" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "PostHog/posthog", "path": "posthog/" }
+        ]
+      },
+      {
+        "name": "DuckDB",
+        "description": "Embedded, single-node SQL engine that powers ad-hoc querying in PostHog's managed data warehouse feature, letting customers query data imported from external sources (e.g. Stripe, Postgres, S3) without standing up separate infrastructure.",
+        "data_shape": "relational",
+        "justifications": [
+          {
+            "reason": "Chosen for the data-warehouse product alongside (not instead of) ClickHouse because it's a lightweight, embeddable, single-node engine well suited to ad-hoc queries over varied imported data sources, whereas ClickHouse remains dedicated to PostHog's own core, high-scale event analytics (funnels, trends, retention, paths).",
+            "evidence": "PostHog's 'DuckDB vs ClickHouse' post explains the two are complementary rather than competing: ClickHouse handles PostHog's own billions-of-events analytics via a horizontally-scaled server architecture, while DuckDB's embedded, minimal-setup model suits customer-facing ad-hoc queries; PostHog built an open-source Postgres-wire-protocol wrapper ('Duckgres') around DuckDB so BI tools and pipelines can connect to the warehouse as if it were Postgres.",
+            "sources": [
+              { "type": "blog", "url": "https://posthog.com/blog/duckdb-vs-clickhouse" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
