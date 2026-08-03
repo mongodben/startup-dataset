@@ -1,0 +1,172 @@
+{
+  "_id": "seed_metriport",
+  "yc_seed": {
+    "id": 27037,
+    "company_slug": "metriport",
+    "company_name": "Metriport",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/d4da680d3cdee4cc7ad6408d3177026092f04c75.png",
+    "website": "https://metriport.com/",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Metriport provides real-time access to comprehensive medical data for 300M+ individuals across the US. Our open-source intelligence platform helps organizations access, analyze, and exchange patient data while integrating with all major healthcare IT systems.\r\n\r\nIf you’ve been to doctors in the US, you may have encountered the problem: how does a healthcare provider get access to your up-to-date medical history to treat you properly? Reliance on archaic methods is still the norm: typically, you or your provider need to call the facilities where you’ve previously received treatment (assuming you remember them all), just to have them send your records via fax (yep, fax). This can take weeks, only then to have a provider sift through hundreds of pages of unstructured docs, just to figure out basic things like your active medication list, what conditions you may have, latest lab results, etc. This not only delays care—it can cause improper treatment, since the medical history is critical for informing treatment decisions. \r\n\r\nMetriport integrates fragmented medical data from thousands of sources—including both national and state/regional Health Information Exchanges (HIEs), ADTs, EHRs, pharmacies, and labs—through a single API connector. The platform then standardizes, deduplicates, and enriches this data to create a comprehensive longitudinal patient record, with AI-powered clinical summaries. \r\n\r\nAlong with a rich understanding of patient health history, healthcare providers also get realtime updates about their patients' health through Metriport. This includes getting notified when a patient is discharged from the hospital, picks up their prescription from the pharmacy, or has a new lab result available. Through this data, care teams get insights across their patient population, helping with 30-day readmissions prediction, care gap closure, risk adjustment, and more.\r\n\r\nOn top of all of this, Metriport enables healthcare organizations to share net-new clinical information back to all major healthcare IT systems, and to become interoperable with popular EHR systems such as Epic, Cerner, athena, eClinicalWorks, and many more—forming an internet for healthcare data.\r\n\r\nMetriport improves both patient and provider lives at the point-of-care, supporting use cases such as medication adherence, transitions of care management, chart prep, and much more. If you want to do work that matters, get in touch with us today.",
+    "one_liner": "Open-Source Platform for Healthcare Data Intelligence",
+    "team_size": 26,
+    "industry": "Healthcare",
+    "subindustry": "Healthcare -> Healthcare IT",
+    "launched_at": 1654554081,
+    "tags": ["B2B", "Digital Health", "Healthcare", "API", "AI"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Summer 2022",
+    "status": "Active",
+    "industries": ["Healthcare", "Healthcare IT"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/metriport",
+    "api": "https://yc-oss.github.io/api/batches/summer-2022/metriport.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "vertical-data-integration-api",
+    "description": "A B2B API and dashboard that connects to thousands of separate, fragmented data sources in a heavily regulated industry, then standardizes, deduplicates, and enriches everything into one consolidated record per end customer, with AI-generated summaries layered on top. Subscribers receive near-real-time push notifications for status-change events (e.g. a record becoming available at a partner source), and can also contribute new information back out to the same network of partner systems, aiming to make previously siloed institutional systems interoperable through one connector. Ships as both a hosted, usage-billed API/dashboard and a self-hostable open-source edition for organizations that need to run the software on their own infrastructure under a copyleft license."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780317045,
+    "confidence": "inferred",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2022/metriport.json",
+      "https://www.ycombinator.com/companies/metriport",
+      "https://github.com/metriport/metriport",
+      "https://raw.githubusercontent.com/metriport/metriport/master/README.md",
+      "https://raw.githubusercontent.com/metriport/metriport/master/LICENSE",
+      "https://raw.githubusercontent.com/metriport/metriport/master/LICENSE-APACHE",
+      "https://github.com/metriport/fhir-server",
+      "https://raw.githubusercontent.com/metriport/fhir-server/master/README.md",
+      "https://docs.metriport.com/"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "metriport/metriport",
+        "url": "https://github.com/metriport/metriport",
+        "description": "The company's primary monorepo: the public API server, a patient/account-linking web widget, shared server-side libraries, the FHIR-format document converter, developer documentation, and the AWS CDK infrastructure-as-code that deploys all of it.",
+        "readme": "Describes the project as an open-source, HIPAA- and SOC 2-compliant universal API for healthcare data, pulling records from clinical data networks covering 300+ million patients and standardizing them into the FHIR format. Lists the monorepo's main pieces: an API server (packages/api) backing api.metriport.com, a FHIR-format converter engine (packages/fhir-converter), AWS CDK infrastructure code (packages/infra), a Mintlify-powered docs site (docs/), and several published npm packages (an API client SDK plus SDKs for a partner health-data network). Includes contribution guidelines requesting a Developer Certificate of Origin sign-off.",
+        "license": "AGPL-3.0",
+        "license_notes": "The repository's root LICENSE file is the GNU AGPLv3, and the README's badge confirms AGPLv3 as the governing license for the codebase as displayed. That LICENSE file's preamble also references a since-unused clause reserving a 'pkgs/' directory for a separately-licensed 'Enterprise Edition,' but no such directory currently exists in the repository, so this reads as boilerplate carried over rather than an active dual-license split. A second file, LICENSE-APACHE, is also present at the repo root; its relationship to specific subdirectories isn't spelled out anywhere in the repo. Individual package.json files within the monorepo (e.g. packages/api, packages/core, packages/api-sdk) separately declare MIT or ISC as their `license` field, inconsistent with the root AGPLv3 grant — most likely an unmaintained npm metadata field rather than a deliberate per-package relicensing."
+      },
+      {
+        "name": "metriport/fhir-server",
+        "url": "https://github.com/metriport/fhir-server",
+        "description": "A separate, smaller repo housing the company's FHIR resource server: a customized fork of the open-source HAPI FHIR JPA Server used to store and serve standardized clinical data.",
+        "readme": "States that this is a fork of the hapifhir/hapi-fhir-jpaserver-starter project, modified mainly around authorization: it assumes it runs behind an API gateway that has already validated the caller's JWT, and only inspects the token's claims (via a custom Java authorization interceptor) to decide whether a request can access the requested resource, rather than re-validating the token itself. Documents running the server locally via Docker Compose, including a secondary disposable instance used for automated tests.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React (Create React App)",
+        "language": "TypeScript",
+        "description": "A web widget, styled with Chakra UI, that end users interact with to authorize and link their outside health-data accounts/devices; embedded by customer applications and also served standalone.",
+        "source": [
+          { "repository_name": "metriport/metriport", "path": "packages/connect-widget" }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Express",
+        "language": "TypeScript (Node.js)",
+        "description": "The main public API server: exposes the REST API, orchestrates retrieval and standardization of records from partner data sources, and dispatches webhook events to customers.",
+        "source": [
+          { "repository_name": "metriport/metriport", "path": "packages/api" }
+        ],
+        "hosting": {
+          "provider": "AWS",
+          "description": "Runs as containers on Amazon ECS Fargate behind an Application Load Balancer, provisioned through the company's own AWS CDK infrastructure-as-code."
+        }
+      },
+      {
+        "framework": "HAPI FHIR JPA Server (Spring)",
+        "language": "Java",
+        "description": "A customized fork of the open-source HAPI FHIR JPA Server that stores and serves standardized clinical resources, with a custom OAuth2 authorization interceptor layered on the upstream project's JWT-claim checks.",
+        "source": [
+          { "repository_name": "metriport/fhir-server" }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "The primary relational datastore. The main API service (packages/api) uses one PostgreSQL database, accessed through the Sequelize ORM, for its core structured application entities — connected-user records, org/customer-to-external-ID mappings, facility mappings, background job state, webhook delivery records, feedback, and settings. A second, separately-provisioned PostgreSQL database backs the HAPI FHIR JPA server component and stores the standardized clinical FHIR resources themselves.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS",
+          "description": "The main API's database is provisioned as an Aurora PostgreSQL Serverless v2 cluster via the company's AWS CDK infrastructure code (capacity is configured in Aurora Capacity Units); the FHIR server component runs against its own separate PostgreSQL instance."
+        },
+        "justifications": [
+          {
+            "reason": "Used as the relational system of record for the API's core structured entities, where the data is modeled as discrete rows with foreign-key-style relationships (e.g. mapping tables linking internal IDs to external partner IDs) and accessed through an ORM rather than a document or key-value store.",
+            "evidence": "The API package's model directory defines individual Sequelize models with explicit associations for entities such as connected-user, cx-mapping, facility-mapping, patient-mapping, patient-job, webhook-request, feedback, and settings. The local docker-compose configuration wires the app container to a Postgres container as its primary datastore (`DB_CREDS` pointing at engine `\"postgres\"`), and the production infrastructure code provisions an Aurora PostgreSQL Serverless v2 cluster with connection limits keyed to Aurora Capacity Units. No public blog post or docs page states this rationale explicitly — this is based on direct inspection of the repository's models, local dev configuration, and infrastructure-as-code.",
+            "sources": [
+              { "type": "source-code", "url": "https://github.com/metriport/metriport/tree/master/packages/api/src/models" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/api/docker-compose.dev.yml" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/infra/lib/shared/rds.ts" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/infra/config/aws/rds.ts" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Amazon DynamoDB",
+        "description": "A key-value store used alongside the main Postgres database for a small number of narrow, high-throughput lookups: a single versioned feature-flag configuration record, per-client API rate-limiting hit counters (via a custom store plugged into the express-rate-limit middleware), and OAuth/session token caching — rather than for the core relational application data.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Provisioned as DynamoDB tables through dedicated nested AWS CDK stacks (separate stacks exist for feature flags and for rate limiting); emulated locally in development using the amazon/dynamodb-local Docker image."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen for a handful of small, latency-sensitive, high-read-volume lookups (feature flags, rate-limit counters, auth tokens) that don't require relational joins, keeping that traffic off the primary Postgres database rather than adding it as extra tables there.",
+            "evidence": "The codebase implements a feature-flag datastore keyed by a fixed partition/sort key pair on a DynamoDB table (with an in-memory cache layer on top), and a custom DynamoDB-backed `Store` implementation for the express-rate-limit middleware that increments per-client hit counters. Both are provisioned as dedicated DynamoDB tables in separate nested CDK stacks (feature-flags and rate-limiting) rather than as columns in the Postgres schema, and the local docker-compose file runs a separate `amazon/dynamodb-local` container alongside Postgres specifically for auth-token management. No explicit statement of rationale was found in the company's public writing — this is inferred from the code and infrastructure definitions themselves.",
+            "sources": [
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/core/src/command/feature-flags/ffs-on-dynamodb.ts" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/core/src/command/rate-limiting/ddb-store.ts" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/api/docker-compose.dev.yml" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Amazon OpenSearch Service",
+        "description": "A search index, separate from Postgres, that serves both keyword (\"lexical\") and embedding-based (\"semantic\") search over a customer's consolidated clinical documents — e.g. letting a query search across a patient's entire longitudinal record rather than querying the relational database directly.",
+        "data_shape": "hybrid",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "AWS",
+          "description": "Provisioned as an Amazon OpenSearch Service domain through the company's AWS CDK infrastructure code; run locally in development via the repo's own OpenSearch Docker Compose file."
+        },
+        "justifications": [
+          {
+            "reason": "Used to offload full-text and embedding-based search over large, denormalized clinical document content away from the primary relational database, and to support semantic (vector) search across a patient's consolidated record in addition to exact/keyword matching.",
+            "evidence": "The repository has a dedicated OpenSearch integration layer with both a \"lexical\" FHIR-resource searcher and a separate utility script whose own description states it ingests a patient's consolidated resources into OpenSearch \"for semantic search.\" The shared OpenSearch query-building code defines a `content_embedding` field that is excluded from search results by default, indicating indexed documents carry a vector embedding alongside their text content. No explicit statement of rationale was found in the company's public writing — this is inferred from the code and infrastructure definitions themselves.",
+            "sources": [
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/utils/src/open-search/semantic-ingest.ts" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/core/src/external/opensearch/shared/query.ts" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/infra/lib/shared/open-search-construct.ts" },
+              { "type": "source-code", "url": "https://raw.githubusercontent.com/metriport/metriport/master/packages/api/docker-compose-opensearch.yml" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
