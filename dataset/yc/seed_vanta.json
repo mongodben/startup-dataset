@@ -1,0 +1,139 @@
+{
+  "_id": "seed_vanta",
+  "yc_seed": {
+    "id": 1781,
+    "company_slug": "vanta",
+    "company_name": "Vanta",
+    "former_names": ["Vanta"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/0660fb546ece5e50a895e790c299dcaaeeefad32.png",
+    "website": "https://vanta.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "About Vanta\nVanta (YC W18) is the leading automated compliance and trust management platform designed to simplify and centralize compliance and security workflows for organizations of all sizes.\n\nWhy YC Startups Need Vanta\nAs a YC company, proving your security compliance is crucial for hitting new milestones—from finding product market fit, to selling to bigger customers. We would know, we've been there—and we've helped over 10,000 customers do just that! Vanta's all-in-one solution, combined with expert service partners, helps you quickly and painlessly achieve and maintain compliance with top frameworks—like SOC 2 and ISO 27001—and build a strong security foundation, so you can close bigger deals and scale faster. Learn more at vanta.com.\n\nYC Companies get Exclusive Discounts on Vanta's packages:\nVanta's packages for startups are designed to make security and compliance easier, faster, and more cost-effective. Whether you're closing your first deal or gearing up for growth, our all-in-one solution provides the tools necessary to become compliant quickly, demonstrate your security posture, and build a strong security foundation.\n\nWhy Vanta?\n\nBuilt for startups: Vanta knows startups. We went through YC in 2018 and have since helped thousands of startups, including YC companies Supabase (YC S20), Fern (YC W23), and Newfront (YC W18) achieve and maintain compliance quickly. Startups like Charityvest (YC S20), BreachRX, and Flo Health have gone from zero to SOC 2 Type I or ISO 27001 certification in 10 days or less with Vanta.\n\nFuture-proof, feature-rich, automated platform: Vanta's modular platform is built for the needs of today and tomorrow, including:\n* 35+ frameworks spanning security, privacy, industry, geographic, and custom frameworks\n* 375+ integrations that automate evidence collection for these frameworks\n* 1,200+ automated, hourly tests to ensure real, continuous security—not just at audit time, but all the time\n* Pre-built policy templates, lightweight agent for security checks, background checks, cyber insurance, cookie consent management, auditor portal, user access reviews, security awareness training, risk assessments, vendor security reviews, managing vulnerabilities, and more\n* Tailored support for early-stage companies: Vanta offers internal, no-cost Customer Success and GRC (compliance) experts, robust technical support, detailed documentation, and a 24/7 chatbot for frequently asked questions.\n* (Optional) Purchase Vanta with auditors experienced in your framework and the Vanta platform, or choose from a range of MSP/consulting partners for additional services like penetration tests and virtual CISO support—some at no cost. We don't force vendor lock-in.\n* Transparent pricing and promises: Vanta strives to do what it says on the tin: we believe in setting and meeting customer expectations. We offer flexible contracts, fair and transparent pricing, and publish our support metrics. We prefer to focus on helping customers succeed and let them explain why they chose us over others—check out our G2 reviews and customer case studies!\n\nProven market leader and well-funded: Vanta was founded in 2018 and has raised $350M with over 700 employees. We've guided over 10,000 customers through their first or multiple audit cycles for various frameworks. These customer learnings and our funding help drive a fast pace of product development to delight customers and ensure Vanta will be there for you in the future.\n\nInterested in seeing why Upflow (YC W20), Tailor (YC S22), and hundreds of other YC companies trust Vanta to automate compliance so they can focus on scaling? Reach out to our team at yc@vanta.com to get started!",
+    "one_liner": "Vanta—the proven leader in automated compliance helping startups…",
+    "team_size": 700,
+    "industry": "B2B",
+    "subindustry": "B2B -> Security",
+    "launched_at": 1509678272,
+    "tags": ["B2B", "Compliance", "Security"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Winter 2018",
+    "status": "Active",
+    "industries": ["B2B", "Security"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/vanta",
+    "api": "https://yc-oss.github.io/api/batches/winter-2018/vanta.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "compliance-automation",
+    "description": "A B2B SaaS platform that continuously monitors a customer's cloud infrastructure, internal tooling, and HR/IT systems through hundreds of third-party integrations, then aggregates the results into evidence and audit trails that let the customer demonstrate ongoing adherence to industry security and privacy standards. Customers range from early-stage startups to large enterprises. The product must ingest highly heterogeneous, frequently-changing data describing many different kinds of monitored resources, retain a large volume of historical records for multi-year audit windows even after the underlying resources are deleted, and serve a fast, filterable dashboard and API on top of that data."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780114000,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2018/vanta.json",
+      "https://www.ycombinator.com/companies/vanta",
+      "https://www.vanta.com/resources/how-we-navigated-database-limits-with-a-growing-product",
+      "https://www.mongodb.com/company/blog/innovation/mongodb-vanta-automates-security-compliance-fast-growing-businesses",
+      "https://www.vanta.com/resources/3-graphql-pitfalls-and-steps-to-avoid-them",
+      "https://www.vanta.com/resources/speeding-up-the-slowest-page-by-7x",
+      "https://www.vanta.com/resources/engineering-at-vanta-how-we-imported-our-aws-environment-into-terraform",
+      "https://www.vanta.com/resources/how-we-built-authorization-as-a-platform-lessons-from-scaling-fine-grained-access-controls-at-vanta",
+      "https://www.vanta.com/all-categories/engineering",
+      "https://github.com/VantaInc/vanta-mcp-server",
+      "https://github.com/VantaInc/vanta-control-set"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "vanta-mcp-server",
+        "url": "https://github.com/VantaInc/vanta-mcp-server",
+        "description": "Vanta's own auxiliary/developer-tooling repo, not the core product: a now-deprecated open-source Model Context Protocol (MCP) server that exposed Vanta's compliance API to AI assistants. Vanta's core compliance-automation platform itself is closed-source.",
+        "readme": "A TypeScript MCP server that gave AI assistants roughly 40 tools for querying Vanta data: security controls and compliance framework status (e.g. SOC 2, ISO 27001, HIPAA, GDPR), automated test results and failing entities needing remediation, evidence documents, integration-connected resources, and risk/vulnerability records. It used an automated tool-registry to avoid hand-wiring each tool's configuration. The README notes the repo is deprecated in favor of Vanta's officially hosted MCP server.",
+        "license": "MIT"
+      },
+      {
+        "name": "vanta-control-set",
+        "url": "https://github.com/VantaInc/vanta-control-set",
+        "description": "Vanta's own auxiliary/developer-tooling repo, not the core product: a machine-readable mapping of common compliance framework requirements to the underlying controls Vanta tracks.",
+        "readme": "JSON dataset that maps requirements from standards such as SOC 2, HIPAA, and ISO 27001 to Vanta's internal control IDs, plus per-control detail objects and an accompanying JSON Schema describing the file format. Intended to let customers and partners see how a given standard's requirements correspond to controls inside Vanta's product.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React",
+        "language": "TypeScript",
+        "description": "Single-page web application (the customer-facing compliance dashboard) built with React and styled-components. GraphQL Code Generator derives TypeScript types directly from the backend GraphQL schema so client queries are checked at compile time."
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Apollo Server (GraphQL)",
+        "language": "TypeScript",
+        "description": "TypeScript backend services exposing a GraphQL API through Apollo Server. The team generates explicit default resolvers and TypeScript types from the GraphQL schema (rather than relying on Apollo's implicit resolvers) for stricter type safety, uses the Dataloader pattern to batch/deduplicate underlying database queries and avoid N+1 problems, and adopted Relay-style cursor pagination and query-cost tooling to keep GraphQL queries bounded. A separate, centralized authorization service (built on the Oso policy engine, with policies written in Polar) handles fine-grained organization- and resource-level permissions rather than embedding access checks in each resolver.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Runs on AWS; infrastructure is managed primarily as code with Terraform (including an effort to import previously hand-created AWS resources into Terraform and use driftctl to catch drift), with a CD pipeline that applies Terraform changes automatically."
+        }
+      }
+    ],
+    "databases": [
+      {
+        "name": "MongoDB Atlas",
+        "description": "Primary monolithic database powering the majority of Vanta's product workflows, including the continuous control monitoring (CCM) data collected from hundreds of third-party integrations (cloud infrastructure, SaaS tools, HR/IT systems, etc.) and the resulting compliance evidence and audit history.",
+        "data_shape": "document",
+        "hosting": {
+          "provider": "MongoDB Atlas",
+          "description": "Fully managed Atlas cluster hosted on AWS and connected to Vanta's AWS VPC via VPC peering rather than public endpoints. In early 2024, Vanta was on the second-largest Atlas cluster tier and already consuming about 80% of its disk capacity (the largest tier offers only 4TB); by the time they evaluated vertical scaling as a fix, they had moved up to M400, the largest available NVMe tier, so scaling vertically further would have required self-hosting."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen from inception for its flexible document schema, which fits a security/compliance product that continuously ingests structured-but-evolving data describing many different kinds of monitored third-party resources whose shape changes as new integrations are added.",
+            "evidence": "In a MongoDB customer-story post, Vanta engineers are quoted saying MongoDB's document model lets them model and access data flexibly as their understanding of monitored resources evolves, that MongoDB's JavaScript/JSON-like API fit their TypeScript-first codebase, and that it let them ship features and scale without downtime; Atlas's VPC peering was also cited as a security fit.",
+            "sources": [
+              { "type": "blog", "url": "https://www.mongodb.com/company/blog/innovation/mongodb-vanta-automates-security-compliance-fast-growing-businesses" }
+            ]
+          },
+          {
+            "reason": "When Vanta neared the storage ceiling of its largest available Atlas cluster tier, it deliberately chose to keep MongoDB as its primary database rather than migrate to a different database engine.",
+            "evidence": "Vanta's own engineering blog describes evaluating and rejecting several alternatives before staying on MongoDB: vertical scaling was already maxed out (M400 was the largest NVMe tier); vertical and horizontal partitioning of collections were rejected because they would limit cross-collection join queries and transactional writes; native sharding was rejected for the operational complexity and cross-shard querying constraints it would add; and switching to an entirely different database was rejected for its high upfront cost and the migration/data-quality risk it would introduce. Instead, they deduplicated redundant EC2 inventory records and built a custom archival system that moved roughly 1.5 billion inactive documents out of MongoDB into S3, freeing about 30% (over 1TB) of cluster disk space while remaining on MongoDB.",
+            "sources": [
+              { "type": "blog", "url": "https://www.vanta.com/resources/how-we-navigated-database-limits-with-a-growing-product" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Amazon S3 (custom archival layer)",
+        "description": "A custom cold-storage tier built on top of MongoDB rather than a separate primary database: aged/inactive documents from Vanta's largest MongoDB collections are compressed to JSON and exported to S3, behind a purpose-built read layer that supports the limited query patterns still needed for compliance/audit lookups on archived data.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS S3",
+          "description": "S3 with Intelligent-Tiering, storing compressed JSON exports of documents archived out of MongoDB."
+        },
+        "justifications": [
+          {
+            "reason": "Selected as the destination for cold/archived data because it was judged the most flexible option with the least migration and data-quality risk, compared with sharding MongoDB, partitioning collections, or migrating the primary database to a different engine.",
+            "evidence": "Vanta's engineering blog describes settling on S3 after weighing those alternatives, then building a deduplication step for redundant EC2 inventory records plus a compressed-JSON export pipeline and a limited read layer over the archived data, which freed roughly 30% of MongoDB disk space and halved the growth rate of its largest collections.",
+            "sources": [
+              { "type": "blog", "url": "https://www.vanta.com/resources/how-we-navigated-database-limits-with-a-growing-product" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
