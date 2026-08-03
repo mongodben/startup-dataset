@@ -1,0 +1,210 @@
+{
+  "_id": "seed_zep-ai",
+  "yc_seed": {
+    "id": 29425,
+    "company_slug": "zep-ai",
+    "company_name": "Zep AI",
+    "former_names": ["Zep Software", "Inc."],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/834036f2803ad1fb4cf8305e1be757592a8588a1.png",
+    "website": "https://www.getzep.com/",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Zep assembles the right context from chat history, business data, and user behavior so agents are personalized, accurate, and fast. Our open source project Graphiti hit 20k GitHub stars in under 12 months. Sub-200ms retrieval, SOC 2 Type 2/HIPAA certified, used by teams from startups to Fortune 500s.",
+    "one_liner": "Agent Context Is Hard. We Fixed It.",
+    "team_size": 5,
+    "industry": "B2B",
+    "subindustry": "B2B",
+    "launched_at": 1709681560,
+    "tags": ["Artificial Intelligence", "Developer Tools", "Infrastructure", "Conversational AI", "AI Assistant"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Winter 2024",
+    "status": "Active",
+    "industries": ["B2B"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Early",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/zep-ai",
+    "api": "https://yc-oss.github.io/api/batches/winter-2024/zep-ai.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "ai-agent",
+    "description": "A developer-infrastructure product that gives AI chat agents persistent, evolving memory: it assembles relevant context from past conversations, uploaded business documents, and observed user behavior so that follow-up interactions stay personalized and accurate without re-processing an entire conversation history or document set on every request. Delivered as an API/SDK layer that application developers call from their own chat or agent backend, with a managed cloud offering and a component of the stack open-sourced separately as a standalone library."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780266000,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2024/zep-ai.json",
+      "https://blog.getzep.com/introducing-the-zep-document-vector-store/",
+      "https://blog.getzep.com/announcing-a-new-direction-for-zeps-open-source-strategy/",
+      "https://github.com/getzep/zep",
+      "https://github.com/getzep/graphiti",
+      "https://raw.githubusercontent.com/getzep/zep/main/legacy/docker-compose.ce.yaml",
+      "https://pkg.go.dev/github.com/getzep/zep/pkg/store/postgres",
+      "https://github.com/getzep/graphiti/issues/779",
+      "https://blog.getzep.com/graphiti-knowledge-graphs-falkordb-support/",
+      "https://neo4j.com/blog/developer/graphiti-knowledge-graph-memory/",
+      "https://blog.getzep.com/agentic-development-in-go/",
+      "https://www.getzep.com/platform/context-graph-engine/",
+      "https://arxiv.org/abs/2501.13956"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "zep",
+        "url": "https://github.com/getzep/zep",
+        "description": "Originally the source for the self-hosted 'Zep Community Edition' memory server; now repurposed as the examples/integrations repo for the commercial Zep Cloud product.",
+        "readme": "Describes itself as not being Zep's product itself, but a companion repo of example apps, framework integrations (LangGraph, CrewAI, AutoGen, Google ADK, Vercel AI SDK, etc.), a bulk-ingestion pipeline, and SDKs (Python, TypeScript, Go) for the hosted Zep Cloud service. It notes that the original self-hosted 'Community Edition' server is no longer supported and its code has been moved into a legacy/ folder, pointing users instead to Graphiti as the actively maintained open-source project.",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "graphiti",
+        "url": "https://github.com/getzep/graphiti",
+        "description": "Open-source Python framework for building temporal, continuously-updated knowledge graphs for AI agents; now the company's primary open-source project and the engine underlying its commercial memory platform.",
+        "readme": "Describes a framework for building and querying temporal graphs that track how facts and relationships change over time, with full provenance back to the raw data ('episodes') that produced each fact. Positions itself against batch-oriented RAG/GraphRAG approaches, emphasizing incremental updates without full graph recomputation, bi-temporal fact validity windows, and hybrid retrieval that combines semantic embeddings, keyword (BM25) search, and graph traversal. Supports pluggable graph-database backends — Neo4j, FalkorDB, and Amazon Neptune are current options; Kuzu was supported for lightweight/embedded use but is marked deprecated in the current README since the upstream Kuzu project is no longer maintained. The README distinguishes the open-source library (bring-your-own graph database, self-hosted only) from the commercial Zep service, which runs its own proprietary graph database rather than a third-party one.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "backends": [
+      {
+        "framework": "none (custom services)",
+        "language": "Go",
+        "description": "Used for the bulk of Zep's production services — the company's own engineering blog states Go is used for the parts of the system needing high concurrency and simple deployment.",
+        "justifications": [
+          {
+            "reason": "Chosen for services that need high concurrency and straightforward deployment",
+            "evidence": "Zep's engineering blog states that Go 'runs the services and the parts that need high concurrency and simple deployment,' contrasting it with Rust for inference servers and Python for Graphiti.",
+            "sources": [
+              { "type": "blog", "url": "https://blog.getzep.com/agentic-development-in-go/" }
+            ]
+          }
+        ]
+      },
+      {
+        "framework": "none (custom inference servers)",
+        "language": "Rust",
+        "description": "Used for Zep's custom inference servers, where raw throughput/latency is the priority.",
+        "justifications": [
+          {
+            "reason": "Chosen for inference servers where the performance ceiling matters most",
+            "evidence": "The same engineering blog post states 'Rust runs the inference servers, where the performance ceiling matters,' as part of a deliberately polyglot stack (Go/Rust/Python).",
+            "sources": [
+              { "type": "blog", "url": "https://blog.getzep.com/agentic-development-in-go/" }
+            ]
+          }
+        ]
+      },
+      {
+        "framework": "Graphiti",
+        "language": "Python",
+        "description": "Graphiti, the open-source temporal knowledge graph library that underlies Zep's memory product, is implemented in Python.",
+        "justifications": [
+          {
+            "reason": "Python chosen for Graphiti specifically because the surrounding ML/LLM library ecosystem matters most there",
+            "evidence": "Zep's engineering blog: 'Python runs Graphiti, where the surrounding library ecosystem matters most.'",
+            "sources": [
+              { "type": "blog", "url": "https://blog.getzep.com/agentic-development-in-go/" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "graphiti" }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL (with pgvector)",
+        "description": "Original and, for a period, sole datastore for the self-hosted 'Zep Community Edition' memory server: sessions, chat messages, summaries, document collections, and their vector embeddings were all stored in Postgres using the pgvector extension for similarity search.",
+        "data_shape": "hybrid",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "self-hosted",
+          "description": "Shipped as a Docker Compose service (the 'db' container, image ankane/pgvector) alongside the Zep server in the Community Edition deployment."
+        },
+        "justifications": [
+          {
+            "reason": "Used to combine transactional/relational storage of sessions, messages, and summaries with vector similarity search in a single database, rather than adding a separate dedicated vector store",
+            "evidence": "Zep's 2023 'Introducing the Zep Document Vector Store' post states Zep uses Postgres and pgvector for database operations and vector search, and that Zep automatically selects index/query parameters on the developer's behalf because 'vector search can be complicated on Postgres, with careful configuration required at both index creation and query time.' The Go package documentation for pkg/store/postgres in the getzep/zep repo independently confirms this Postgres store implemented session, message, summary, and document-collection storage together with pgvector-based embeddings and ANN search.",
+            "sources": [
+              { "type": "blog", "url": "https://blog.getzep.com/introducing-the-zep-document-vector-store/" },
+              { "type": "official-docs", "url": "https://pkg.go.dev/github.com/getzep/zep/pkg/store/postgres" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "PostgreSQL (pgvector)",
+            "to_database": "Graphiti temporal knowledge graph (Neo4j / FalkorDB backends); proprietary graph engine in Zep's commercial cloud product",
+            "date": "2025-04",
+            "reason": "Zep discontinued its self-hosted, Postgres/pgvector-backed 'Community Edition' in April 2025, ending an open-core model split between that product and Graphiti, and redirected all open-source investment into Graphiti, a temporal knowledge graph framework. Graphiti's own docs/README frame this as a technical move away from batch-oriented, vector-based RAG (which requires periodic reprocessing/summarization to reflect changing data) toward a graph that updates incrementally as new data arrives, without full recomputation.",
+            "evidence": "A docker-compose file from the final version of Community Edition (now in the repo's legacy/ folder) shows the transitional architecture: the main Zep service depended on both a Postgres/pgvector container and a separate 'graphiti' service backed by a Neo4j container — i.e. Graphiti/Neo4j was added alongside Postgres before Postgres was dropped entirely. Zep's April 2025 blog post announces ending maintenance of the Postgres-backed Community Edition and consolidating open-source effort on Graphiti; the Graphiti README explains the underlying rationale (avoiding batch recomputation). A July 2025 GitHub issue on the Graphiti repo, where a user requests that Postgres/pgvector support be added (noting only Neo4j and FalkorDB are available), corroborates that the move away from Postgres was real and noticed by users.",
+            "sources": [
+              { "type": "blog", "url": "https://blog.getzep.com/announcing-a-new-direction-for-zeps-open-source-strategy/" },
+              { "type": "official-docs", "url": "https://raw.githubusercontent.com/getzep/zep/main/legacy/docker-compose.ce.yaml" },
+              { "type": "official-docs", "url": "https://github.com/getzep/graphiti" },
+              { "type": "community-forum", "url": "https://github.com/getzep/graphiti/issues/779" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "zep", "path": "legacy" }
+        ]
+      },
+      {
+        "name": "Neo4j",
+        "description": "Default/primary graph-database backend for Graphiti, the open-source library that replaced the Postgres-backed Community Edition as Zep's open-source focus. Stores the temporal knowledge graph of entities, relationships/facts, and episodes.",
+        "data_shape": "graph",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "self-hosted / bring-your-own",
+          "description": "Graphiti is a library, not a hosted service; users run or connect to their own Neo4j instance (self-hosted or a managed offering such as Neo4j Aura). Zep's own commercial cloud product instead runs a separate proprietary graph engine and does not require users to run Neo4j themselves."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen as Graphiti's primary backend for its mature, combined support for vector indexes and full-text (Lucene/BM25) indexes alongside native graph traversal, which Graphiti's hybrid retrieval (semantic + keyword + graph) depends on",
+            "evidence": "A Neo4j-authored blog post on Graphiti describes Neo4j's 'extensive support for both of these index types' as enabling Graphiti's hybrid search, and notes it gives near-constant-time access to nodes/edges regardless of graph size; it also describes how temporal validity intervals are stored on graph edges in Neo4j to support historical queries without full recomputation.",
+            "sources": [
+              { "type": "blog", "url": "https://neo4j.com/blog/developer/graphiti-knowledge-graph-memory/" },
+              { "type": "official-docs", "url": "https://github.com/getzep/graphiti" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "graphiti" }
+        ]
+      },
+      {
+        "name": "FalkorDB",
+        "description": "Alternative, performance/cost-optimized graph-database backend for Graphiti, added after Neo4j support; built by former Redis Graph developers on a Redis-based architecture.",
+        "data_shape": "graph",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "self-hosted / bring-your-own",
+          "description": "Like Neo4j, FalkorDB is run or connected to by the developer using Graphiti — self-hosted via Docker or a managed FalkorDB offering; not part of Zep's own hosted cloud infrastructure."
+        },
+        "justifications": [
+          {
+            "reason": "Added as a lower-latency, more memory-efficient alternative to Neo4j for high-frequency knowledge updates and real-time agent workloads, without requiring application code changes",
+            "evidence": "Zep's own blog post announcing FalkorDB support in Graphiti cites FalkorDB's claimed P99 latency and memory-efficiency advantages, frames it as suited to streaming/high-frequency updates and cost-sensitive deployments, and notes the same Graphiti API works across backends so switching doesn't require rewriting application code.",
+            "sources": [
+              { "type": "blog", "url": "https://blog.getzep.com/graphiti-knowledge-graphs-falkordb-support/" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "graphiti" }
+        ]
+      }
+    ]
+  }
+}
