@@ -1,0 +1,173 @@
+{
+  "_id": "seed_instacart",
+  "yc_seed": {
+    "id": 468,
+    "company_slug": "instacart",
+    "company_name": "Instacart",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/9750fca21baaee75e035f1baaf58df8e2f5dcc67.png",
+    "website": "https://www.instacart.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Instacart is the North American leader in online grocery and one of the fastest-growing companies in e-commerce. Instacart’s same-day delivery and pickup services bring fresh groceries and everyday essentials to busy people and families across the U.S. and Canada in as fast as an hour. Since its founding in 2012, Instacart has become an essential service for millions of families, while also serving as an immediate, flexible earnings opportunity for hundreds of thousands of shoppers across North America.  The company partners with more than 350 retailers and delivers from more than 25,000 stores across more than 5,500 cities in North America. Today, Instacart is accessible to more than 85% of households in the U.S. and more than 70% of households in Canada.",
+    "one_liner": "Marketplace for grocery delivery and pickup",
+    "team_size": 3000,
+    "industry": "Consumer",
+    "subindustry": "Consumer -> Food and Beverage",
+    "launched_at": 1340213784,
+    "tags": ["Grocery", "Delivery", "E-commerce"],
+    "tags_highlighted": [],
+    "top_company": true,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Summer 2012",
+    "status": "Public",
+    "industries": ["Consumer", "Food and Beverage"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/instacart",
+    "api": "https://yc-oss.github.io/api/batches/summer-2012/instacart.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "marketplace",
+    "description": "A multi-sided, on-demand delivery marketplace connecting end customers placing time-sensitive orders, independent gig workers who fulfill those orders, and business partners whose fast-changing inventory (pricing, availability, stock) is sold through the platform. The product includes a customer-facing ordering app, a separate fulfillment/logistics system for gig workers with strict uptime requirements, and a large-scale catalog and search system covering billions of frequently-updated items across many partner storefronts."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780187306,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2012/instacart.json",
+      "https://tech.instacart.com/scaling-at-instacart-distributing-data-across-multiple-postgres-databases-with-rails-13b1e4eba202",
+      "https://tech.instacart.com/adopting-pgcat-a-nextgen-postgres-proxy-3cf284e68c2f",
+      "https://tech.instacart.com/how-instacart-built-a-modern-search-infrastructure-on-postgres-c528fa601d54",
+      "https://company.instacart.com/tech-innovation/zero-downtime-postgresql-cutovers",
+      "https://www.infoq.com/news/2025/08/instacart-elasticsearch-postgres/",
+      "https://github.com/instacart/makara",
+      "https://github.com/instacart/redux-rails"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "makara",
+        "url": "https://github.com/instacart/makara",
+        "description": "Ruby gem providing a generic primary/replica connection proxy with an ActiveRecord adapter; used historically at Instacart to load-balance reads and fail over across Postgres replicas at the application layer, before the company moved this responsibility into a dedicated proxy layer (PgBouncer, then PgCat).",
+        "readme": "Describes Makara as a generic primary/replica proxy that handles choosing, blacklisting, and cycling through database connections, shipped with a Rails/ActiveRecord adapter. The current README states that Instacart is no longer using Makara internally and is looking for outside volunteers to take over maintenance, consistent with the company's later move to PgCat for Postgres connection handling.",
+        "license": "MIT",
+        "license_notes": "Not relicensed, but effectively handed off: the maintaining company (Instacart) states in-repo that it has stopped using the library internally and is seeking new maintainers."
+      },
+      {
+        "name": "redux-rails",
+        "url": "https://github.com/instacart/redux-rails",
+        "description": "Open-source Redux middleware, published by Instacart, that auto-generates actions and reducers for talking to a Rails-shaped REST backend. Corroborates a React/Redux front end calling Rails APIs, though it is a general-purpose library rather than Instacart's actual production app code.",
+        "readme": "Presents itself as removing boilerplate for connecting a Redux store to a RESTful (Rails-conventions) backend: it auto-generates per-resource actions and reducers, tracks loading/error state, supports optional optimistic updates, and lets consumers describe backend resources in a config object that mirrors typical Rails routes.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Ruby on Rails",
+        "language": "Ruby",
+        "description": "Primary application framework, structured as domain-oriented services/apps (e.g. Customers, Fulfillment) built with Rails and ActiveRecord, each owning its own Postgres database rather than sharing one monolithic schema.",
+        "justifications": [
+          {
+            "reason": "Rails/ActiveRecord was kept as the application layer while the underlying data was split into multiple domain-owned Postgres databases, using ActiveRecord's multi-database connection support to route models to the correct database per domain.",
+            "evidence": "Instacart's engineering blog shows ActiveRecord model classes explicitly establishing separate connections per domain (e.g. a FulfillmentRecord abstract class connecting to a dedicated Fulfillment database) as the mechanism for splitting a Rails monolith's data across databases.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/scaling-at-instacart-distributing-data-across-multiple-postgres-databases-with-rails-13b1e4eba202" }
+            ]
+          }
+        ]
+      },
+      {
+        "framework": "PgCat (Postgres connection proxy)",
+        "language": "Rust",
+        "description": "Rust-based, multi-threaded Postgres proxy sitting in front of Instacart's RDS/Aurora Postgres fleet, providing connection pooling, load balancing across read replicas, and replica failover. Instacart adopted it in production as a successor to PgBouncer (and to the earlier application-level Makara library), and contributed features such as multi-pool support and graceful shutdown upstream.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Deployed as containerized proxy instances in front of Instacart's Postgres primary/replica clusters on AWS."
+        },
+        "justifications": [
+          {
+            "reason": "Chose PgCat over continuing with PgBouncer because PgBouncer lacks built-in replica failover and has limited load-balancing support, and Instacart wanted a single, language-agnostic proxy layer (rather than per-language client libraries like Makara) to handle pooling, load balancing, and failover for its growing multi-replica Postgres fleet.",
+            "evidence": "Instacart's engineering blog describes evaluating PgBouncer, Pgpool, and PgCat; benchmarking PgCat against PgBouncer on ~1.5M production queries and finding comparable latency; and choosing PgCat for its Rust implementation, replica failover, and load-balancing support, then contributing fixes/features back to the (PostgresML-originated) PgCat project.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/adopting-pgcat-a-nextgen-postgres-proxy-3cf284e68c2f" }
+            ]
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "Instacart's primary datastore for essentially all transactional data and, since a later migration, its full-text and semantic search/retrieval workloads too. Run as one of the larger Postgres fleets on AWS RDS, split at the application level into multiple domain-owned databases (e.g. Customers, Fulfillment/Shopper, Catalog/Search) rather than being replaced by a different database engine as the company scaled.",
+        "data_shape": "hybrid",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "AWS",
+          "description": "Hosted on Amazon RDS (with Aurora PostgreSQL noted as a horizontally-scaling option); operated as a sharded fleet of domain-specific database clusters rather than a single instance, with a custom zero-downtime cutover tool (built in Python) for major-version upgrades and instance-class changes."
+        },
+        "justifications": [
+          {
+            "reason": "Deliberately stayed on Postgres under real scaling/capacity pressure (approaching Amazon RDS's multi-terabyte storage ceiling) rather than adopting a different database engine, citing strong performance and Postgres's broad range of native datatypes and query functions.",
+            "evidence": "In a 2018 engineering post about hitting RDS storage limits and needing better fault isolation between business domains, Instacart engineers stated they had seen great success with Postgres and no reason to depart from it, and explicitly chose to keep using it (with options like horizontally-scaling Aurora available) rather than switch engines.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/scaling-at-instacart-distributing-data-across-multiple-postgres-databases-with-rails-13b1e4eba202" }
+            ]
+          },
+          {
+            "reason": "Solved the space and blast-radius/isolation problems that were pushing them toward a different engine by sharding at the application level into domain-owned Postgres databases (e.g. a dedicated Fulfillment database), with shared tables copied between databases asynchronously via an application-level pub/sub 'data pump' rather than native Postgres replication mechanisms like foreign data wrappers/materialized views, which they found problematic at scale.",
+            "evidence": "The same post describes examining which of hundreds of tables were needed by multiple business domains, giving each shared table a single owning database, and copying read-only 'copied tables' into other domains' databases via an application-level publish/subscribe mechanism with a reconciliation sweeper job, plus a documented process for migrating live tables between databases without downtime.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/scaling-at-instacart-distributing-data-across-multiple-postgres-databases-with-rails-13b1e4eba202" }
+            ]
+          },
+          {
+            "reason": "Consolidated full-text search from Elasticsearch onto Postgres because Elasticsearch's denormalized document model required frequent partial-document rewrites to reflect Instacart's fast-changing grocery prices/availability, and the resulting indexing load degraded both write and read performance to the point that data-correctness fixes could take days.",
+            "evidence": "Instacart's search engineering blog reports that normalizing the data model on Postgres (using GIN indexes and a modified ts_rank function, with ML features stored in separate joinable tables) produced a 10x reduction in write workload versus the prior Elasticsearch setup, along with large storage/indexing cost savings and roughly 2x faster search by pushing computation down into the database instead of the application layer.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/how-instacart-built-a-modern-search-infrastructure-on-postgres-c528fa601d54" },
+              { "type": "press", "url": "https://www.infoq.com/news/2025/08/instacart-elasticsearch-postgres/" }
+            ]
+          },
+          {
+            "reason": "Adopted the pgvector extension for embedding-based (semantic) search instead of a standalone vector database or continuing to run FAISS as a separate service, in order to keep lexical and vector retrieval, plus real-time inventory filtering, inside the single Postgres cluster already serving full-text search.",
+            "evidence": "The search infrastructure post explains that Instacart evaluated standalone vector stores (e.g. Milvus, Pinecone, LanceDB) versus adding vector support to their existing text datastore, chose pgvector because it let them avoid duplicating data across systems, benchmarked it against their prior FAISS-based service on a prototype cluster, and after rollout saw a measurable drop in zero-result searches.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/how-instacart-built-a-modern-search-infrastructure-on-postgres-c528fa601d54" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "Elasticsearch",
+            "to_database": "PostgreSQL",
+            "date": "before 2021 (exact year not stated in source)",
+            "reason": "Elasticsearch's denormalized document model could not efficiently absorb the constant partial updates needed for fast-changing grocery prices and inventory availability; rising indexing load degraded both write and read performance to an unmanageable degree, and Instacart's Postgres cluster (already serving the catalog) offered a comparatively low-risk migration target.",
+            "evidence": "Instacart reports a 10x reduction in write workload and roughly 80% savings on storage/indexing costs after moving full-text search from Elasticsearch to a normalized schema on sharded Postgres instances using GIN indexes.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/how-instacart-built-a-modern-search-infrastructure-on-postgres-c528fa601d54" },
+              { "type": "press", "url": "https://www.infoq.com/news/2025/08/instacart-elasticsearch-postgres/" }
+            ]
+          },
+          {
+            "from_database": "FAISS (self-hosted approximate-nearest-neighbor service, introduced ~2021)",
+            "to_database": "PostgreSQL (pgvector extension)",
+            "reason": "Running full-text search (Postgres) and semantic/embedding search (a separate FAISS-based service) as two systems forced overfetching and application-layer post-filtering, gave no fine-grained control over precision/recall, and required maintaining hundreds of per-retailer FAISS indexes; moving semantic search into pgvector inside the existing Postgres cluster removed the data duplication and let both retrieval types share the same real-time inventory pre-filters.",
+            "evidence": "Instacart benchmarked pgvector against FAISS on a prototype cluster before cutover, then measured a 6% drop in zero-result searches in a production A/B test after the pgvector migration, alongside simplified operations from no longer running a separate ANN service.",
+            "sources": [
+              { "type": "blog", "url": "https://tech.instacart.com/how-instacart-built-a-modern-search-infrastructure-on-postgres-c528fa601d54" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
