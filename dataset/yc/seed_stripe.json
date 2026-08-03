@@ -1,0 +1,143 @@
+{
+  "_id": "seed_stripe",
+  "yc_seed": {
+    "id": 240,
+    "company_slug": "stripe",
+    "company_name": "Stripe",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/e5ccedd9995f6524b4a0379062eb67f7c991613e.png",
+    "website": "http://stripe.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Launched out of Y Combinator's 2009 Summer batch, Stripe is a global technology company that builds economic infrastructure for the internet. Businesses of every size—from new startups to public companies—use our software to accept payments and manage their businesses online Stripe is a proud partner of YC companies—from Airbnb (S09) to Defog (W23)—to help them grow their businesses and increase the GDP of the internet.",
+    "one_liner": "Economic infrastructure for the internet.",
+    "team_size": 7000,
+    "industry": "Fintech",
+    "subindustry": "Fintech",
+    "launched_at": 1326790584,
+    "tags": ["Banking as a Service", "Fintech", "SaaS"],
+    "tags_highlighted": [],
+    "top_company": true,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Summer 2009",
+    "status": "Active",
+    "industries": ["Fintech"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/stripe",
+    "api": "https://yc-oss.github.io/api/batches/summer-2009/stripe.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "fintech-ledger",
+    "description": "A payments and financial-infrastructure platform that lets a very large number of client businesses accept online payments and move money, and that must record every transaction with strict consistency and auditability. To keep up with enormous and constantly growing transaction volume, the company built its own database-as-a-service layer on top of an open-source document database rather than adopting a standard relational database, adding custom sharding, query routing, and a zero-downtime data-migration system so that database capacity can be split, merged, and upgraded without interrupting live traffic."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780320957,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2009/stripe.json",
+      "https://stripe.dev/blog/how-stripes-document-databases-supported-99.999-uptime-with-zero-downtime-data-migrations",
+      "https://qconsf.com/presentation/nov2025/stripes-docdb-how-zero-downtime-data-movement-powers-trillion-dollar-payment",
+      "https://www.infoq.com/presentations/docdb-online-database/",
+      "https://stripe.dev/blog/sorbet-stripes-type-checker-for-ruby",
+      "https://stripe.dev/blog/ledger-stripe-system-for-tracking-and-validating-money-movement",
+      "https://github.com/stripe/stripe-node",
+      "https://github.com/stripe/pg-schema-diff",
+      "https://stripe.com/blog/aws-reserved-instances"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "stripe-node",
+        "url": "https://github.com/stripe/stripe-node",
+        "description": "Official Node.js/TypeScript client library for calling the Stripe API from server-side applications. It is Stripe's most-starred public repository and is representative of the company's public developer-tooling footprint, not of its internal database infrastructure.",
+        "readme": "Wraps Stripe's HTTP API for use from Node.js servers, covering resources such as customers, charges, subscriptions, and webhooks. Documents which Node.js LTS versions are supported and points users to a separate browser-side Stripe.js library for collecting card details client-side.",
+        "license": "MIT"
+      },
+      {
+        "name": "pg-schema-diff",
+        "url": "https://github.com/stripe/pg-schema-diff",
+        "description": "A Go library and CLI, open-sourced by Stripe, that diffs a live Postgres schema against a target schema and generates low-lock migration SQL.",
+        "readme": "Computes the difference between a current Postgres schema and a desired schema defined in DDL, then generates the SQL statements to reconcile them, favoring lock-free/online techniques (e.g. concurrent index builds, phased NOT NULL constraint additions) and explicitly flagging any step that can't avoid a lock or downtime. Supports Postgres versions 14 through 17.",
+        "license": "MIT",
+        "license_notes": "This tool's existence shows Postgres is used somewhere inside Stripe's broader engineering org, but no public source found during this research specifies which internal service(s) use it. It does not describe Stripe's core transactional/financial data store: Stripe's own engineering blog identifies that system as DocDB, an in-house platform built on MongoDB Community, not Postgres. DocDB and its MongoDB patches are not themselves open-sourced."
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Monolithic Ruby application, statically typed with Sorbet (Stripe's in-house, open-sourced type checker)",
+        "language": "Ruby",
+        "description": "Much of Stripe's core API and product logic has historically run inside one large, shared Ruby codebase rather than being decomposed into microservices early on. As the codebase and engineering org grew (by 2017, hundreds of engineers had written millions of lines of Ruby), Stripe built and open-sourced Sorbet, a static type checker for Ruby, to keep the monolith navigable; as of Stripe's own account, Sorbet runs over more than 15 million lines of Ruby spread across roughly 150,000 files. Newer backend services are increasingly written in other languages such as Go and Java.",
+        "justifications": [
+          {
+            "reason": "Stripe kept a single shared Ruby codebase far longer than is typical, and built its own type checker rather than rewriting in a statically-typed language, to preserve Ruby's development speed while making a large codebase safer to change.",
+            "evidence": "Stripe's engineering blog post on Sorbet describes Ruby becoming a source of friction as the company and codebase grew past hundreds of engineers and millions of lines, and explains that Sorbet was built specifically to make the existing Ruby codebase easier to understand and safer to refactor rather than replacing it.",
+            "sources": [
+              { "type": "blog", "url": "https://stripe.dev/blog/sorbet-stripes-type-checker-for-ruby" }
+            ]
+          }
+        ],
+        "hosting": {
+          "provider": "AWS",
+          "description": "Stripe's infrastructure runs on Amazon Web Services; Stripe has published its own engineering posts about managing AWS compute costs (e.g. Reserved Instances) at fleet scale."
+        }
+      },
+      {
+        "framework": "In-house database proxy and control-plane services (part of the DocDB platform)",
+        "language": "Go",
+        "description": "A fleet of database proxy servers, built in-house in Go, sits between product applications and DocDB's sharded MongoDB-based storage layer. Proxies parse each query, route it to the correct shard(s) via a chunk-metadata service, and combine results; a separate control plane lets teams provision logical databases/collections, and a 'Data Movement Platform' coordinates shard splitting, merging, and zero-downtime chunk migrations across the fleet.",
+        "justifications": [
+          {
+            "reason": "Stripe built its own proxy and control-plane layer instead of adopting an off-the-shelf database-as-a-service, to get a minimal, hardened query surface, native horizontal sharding, first-class multitenancy with quotas, and strong authorization enforcement directly at the data layer.",
+            "evidence": "Stripe's engineering blog states no off-the-shelf DBaaS met its combined requirements for availability/durability/performance, a minimal safe set of exposed database functions, horizontal sharding, multitenancy with quotas, and authorization enforcement, which is why the database infrastructure team built this layer itself.",
+            "sources": [
+              { "type": "blog", "url": "https://stripe.dev/blog/how-stripes-document-databases-supported-99.999-uptime-with-zero-downtime-data-migrations" },
+              { "type": "conference-talk", "url": "https://www.infoq.com/presentations/docdb-online-database/" }
+            ]
+          }
+        ],
+        "hosting": {
+          "provider": "AWS",
+          "description": "Runs as a self-managed service on cloud infrastructure rather than on a third-party managed database offering."
+        }
+      }
+    ],
+    "databases": [
+      {
+        "name": "DocDB (Stripe's in-house document-database platform, built on MongoDB Community)",
+        "description": "DocDB is a database-as-a-service Stripe built in-house on top of MongoDB Community Edition, and is the foundation layer for Stripe's product APIs. Per Stripe's own engineering blog (read in full for this record), DocDB serves over five million queries per second from Stripe's product applications, across 10,000+ distinct query shapes, with petabytes of financial data held in 5,000+ collections distributed over 2,000+ database shards; Stripe reported 99.999% uptime in 2023 while processing $1 trillion in total payments volume that year. Stripe adopted MongoDB when it launched in 2011 (before MongoDB Atlas existed), running a self-managed cluster of MongoDB instances in the cloud, and layered its own proxy, control-plane, and 'Data Movement Platform' services on top for sharding, routing, and zero-downtime data migration; Stripe also applied a custom patch to MongoDB itself to support a version-gating protocol used during shard migrations. In a 2023 effort, Stripe used this platform to bin-pack underutilized shards, migrating 1.5 petabytes of data with no downtime and cutting the total shard count by roughly three quarters, and separately used it to upgrade MongoDB versions across its fleet in one step. DocDB and its MongoDB patches are internal infrastructure and have not been open-sourced.",
+        "data_shape": "document",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Self-managed fleet of MongoDB replica sets (primary plus secondaries, with automated failover) running on cloud infrastructure, rather than a managed offering such as MongoDB Atlas, which did not exist when Stripe first adopted MongoDB in 2011."
+        },
+        "justifications": [
+          {
+            "reason": "MongoDB's document model and its ability to handle high volumes of real-time data at scale, plus better developer productivity than standard relational databases at the time, were the stated reasons Stripe chose MongoDB in 2011 and later built DocDB on top of MongoDB Community.",
+            "evidence": "Stripe's engineering blog states directly that Stripe chose MongoDB as its online database when it launched in 2011 because it offered better developer productivity than standard relational databases, and that DocDB was built on top of MongoDB Community specifically for the flexibility of its document model and its ability to handle massive volumes of real-time data at scale. The QCon 2025 talk and InfoQ's coverage of it, given by Stripe staff engineer Jimmy Morzaria, independently corroborate this account and the same throughput/shard/collection figures.",
+            "sources": [
+              { "type": "blog", "url": "https://stripe.dev/blog/how-stripes-document-databases-supported-99.999-uptime-with-zero-downtime-data-migrations" },
+              { "type": "conference-talk", "url": "https://qconsf.com/presentation/nov2025/stripes-docdb-how-zero-downtime-data-movement-powers-trillion-dollar-payment" },
+              { "type": "conference-talk", "url": "https://www.infoq.com/presentations/docdb-online-database/" }
+            ]
+          },
+          {
+            "reason": "DocDB was built in-house, rather than bought as an off-the-shelf DBaaS, because Stripe needed capabilities—strict availability/durability/performance guarantees, a minimal safe query surface, native horizontal sharding, first-class multitenancy with enforced quotas, and strong authorization enforcement—that no available database-as-a-service met at the time.",
+            "evidence": "Stripe's own blog post lists these five requirements explicitly as the reason no off-the-shelf DBaaS was adopted, leading the database infrastructure team to build DocDB (with MongoDB as the underlying storage engine) themselves, with online data migration built in from the start.",
+            "sources": [
+              { "type": "blog", "url": "https://stripe.dev/blog/how-stripes-document-databases-supported-99.999-uptime-with-zero-downtime-data-migrations" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
