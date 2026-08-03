@@ -6,6 +6,7 @@
   "description": "A dataset of real Y Combinator companies' publicly documented technical stacks — databases, frameworks, hosting, and migration history — used as ground truth for evaluating why AI coding agents do or don't recommend a given database.",
   "scripts": {
     "validate": "tsx src/cli.ts validate",
+    "check-sources": "tsx src/cli.ts check-sources",
     "test": "vitest run"
   },
   "dependencies": {
