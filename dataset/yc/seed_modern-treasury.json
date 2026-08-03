@@ -1,0 +1,156 @@
+{
+  "_id": "seed_modern-treasury",
+  "yc_seed": {
+    "id": 1893,
+    "company_slug": "modern-treasury",
+    "company_name": "Modern Treasury",
+    "former_names": ["Turnkey Treasury"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/a530f58c560c991cc2b9487c24cfa90465e961d6.png",
+    "website": "http://www.moderntreasury.com/",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Modern Treasury offers tools that automate the full cycle of money movement—from payment initiation, through approvals, to reconciliation—and are accessible through web application or API.",
+    "one_liner": "Payment operations tools for money movement.",
+    "team_size": 160,
+    "industry": "B2B",
+    "subindustry": "B2B -> Finance and Accounting",
+    "launched_at": 1524539157,
+    "tags": ["Fintech", "API"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Summer 2018",
+    "status": "Active",
+    "industries": ["B2B", "Finance and Accounting"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/modern-treasury",
+    "api": "https://yc-oss.github.io/api/batches/summer-2018/modern-treasury.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "fintech-ledger",
+    "description": "A payment-operations platform that lets businesses initiate, approve, and reconcile money movement through a web dashboard or API. At its core is a double-entry ledger product: every payment is recorded as a transaction of matched debit/credit entries against accounts, with running balances that must stay correct under heavy concurrent writes (e.g. many simultaneous payouts hitting the same account) and support both real-time authorization checks and higher-throughput asynchronous recording of external bank/processor events."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785808000000,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2018/modern-treasury.json",
+      "https://www.moderntreasury.com/journal/behind-the-scenes-how-we-built-ledgers-for-high-throughput",
+      "https://www.moderntreasury.com/journal/designing-ledgers-with-optimistic-locking",
+      "https://www.moderntreasury.com/journal/how-to-scale-a-ledger-part-i",
+      "https://www.moderntreasury.com/journal/how-to-scale-a-ledger-part-ii",
+      "https://www.moderntreasury.com/journal/how-to-scale-a-ledger-part-iii",
+      "https://www.moderntreasury.com/journal/how-to-scale-a-ledger-part-iv",
+      "https://www.moderntreasury.com/journal/how-to-scale-a-ledger-part-v",
+      "https://www.moderntreasury.com/journal/how-to-scale-a-ledger-part-vi",
+      "https://docs.moderntreasury.com/ledgers/docs/handle-concurrency",
+      "https://www.paradedb.com/customers/case-study-modern-treasury",
+      "https://github.com/Modern-Treasury"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "modern-treasury-node",
+        "url": "https://github.com/Modern-Treasury/modern-treasury-node",
+        "description": "Official Node.js/TypeScript client library for the Modern Treasury REST API.",
+        "readme": "A generated TypeScript SDK wrapping Modern Treasury's REST API, distributed on npm. Supports browsers, Node.js 20+, Deno, Bun, and Cloudflare Workers, with typed request/response models for the company's payments, counterparty, and ledger resources.",
+        "license": "MIT"
+      },
+      {
+        "name": "modern-treasury-ruby",
+        "url": "https://github.com/Modern-Treasury/modern-treasury-ruby",
+        "description": "Official Ruby client library for the Modern Treasury REST API.",
+        "readme": "A generated Ruby gem providing typed access to the Modern Treasury API, built on the Ruby standard library's net/http with connection pooling. Targets Ruby 3.2+, mirroring the same resource surface as the other language SDKs.",
+        "license": "MIT"
+      },
+      {
+        "name": "modern-treasury-openapi",
+        "url": "https://github.com/Modern-Treasury/modern-treasury-openapi",
+        "description": "OpenAPI specification for the Modern Treasury API, published as a beta reference.",
+        "readme": "Holds the OpenAPI spec files that describe Modern Treasury's public API surface, with an interactively browsable version published via GitHub Pages. Serves as the shared source that the company's per-language SDKs (Node, Ruby, Python, Go, Java/Kotlin) are generated from.",
+        "license": "MIT"
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Ruby on Rails",
+        "language": "Ruby",
+        "description": "Core application backend for the payments and Ledgers products. Modern Treasury's own engineering writing describes their optimistic-locking implementation as built on 'Rails' ActiveRecord ORM', with a ledger-account version column incremented via a Rails callback, and their public GitHub org publishes several Rails/Sidekiq-specific internal tools (a Sidekiq throttling gem, a Rails logger replacement, a Rails schema-annotation tool), consistent with a Rails-based backend.",
+        "justifications": [
+          {
+            "reason": "Rails/ActiveRecord was used as the ORM layer directly on top of Postgres so that concurrency features like optimistic version locking could be implemented as ordinary ActiveRecord callbacks and columns rather than bespoke infrastructure.",
+            "evidence": "Modern Treasury's own 'Designing Ledgers with Optimistic Locking' article states the ledger-account version counter increments via a Rails callback and describes the implementation as leveraging Postgres together with Rails' ActiveRecord ORM.",
+            "sources": [
+              { "type": "blog", "url": "https://www.moderntreasury.com/journal/designing-ledgers-with-optimistic-locking" }
+            ]
+          }
+        ],
+        "hosting": {
+          "provider": "AWS",
+          "description": "Publicly visible tooling (a Buildkite CI security-scanning plugin using Trivy, an SQS-based async entry queue described in their engineering blog) indicates an AWS-hosted, containerized backend with Buildkite for CI/CD; exact compute layer (e.g. Fargate/ECS) is not explicitly confirmed in primary sources."
+        }
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "System of record for the Ledgers product: double-entry Accounts, Transactions, and Entries, plus balance-cache tables. Deployed in a 'cells'-based architecture — independent per-customer/per-shard Postgres deployments, each with a primary and auto-scaling read replicas serving list/read endpoints.",
+        "data_shape": "relational",
+        "justifications": [
+          {
+            "reason": "Postgres row-level (pessimistic) locking is used to guarantee serial writes to an Account when a balance-critical entry is present, so concurrent writes can't push a balance negative or otherwise violate balance assertions.",
+            "evidence": "Modern Treasury's 'Behind the Scenes: How We Built Ledgers for High Throughput' engineering post describes using Postgres row-level locking to guarantee serial writes to Accounts when balance locks are present, and reports load-testing at roughly 1,200 transactions (4,800 entries) per second with 3,600 concurrent reads per second, with p90 latencies around 297ms for writing transactions and 89ms for reading balances.",
+            "sources": [
+              { "type": "blog", "url": "https://www.moderntreasury.com/journal/behind-the-scenes-how-we-built-ledgers-for-high-throughput" }
+            ]
+          },
+          {
+            "reason": "Because most ledger traffic is reads with comparatively few writes, the team layered optimistic (version-based) locking on top of Postgres for the common case, reserving exclusive pessimistic row locks for the minority of writes that require strict balance ordering.",
+            "evidence": "Their 'Designing Ledgers with Optimistic Locking' post explains they rejected locking every ledger account on every write (which would unnecessarily block reads) in favor of an optional per-request lock_version parameter that, on mismatch, rolls back the database transaction and fails the request; their public docs describe the same mechanism (lock_version plus balance-amount fields) as what determines whether an entry is processed synchronously or queued asynchronously.",
+            "sources": [
+              { "type": "blog", "url": "https://www.moderntreasury.com/journal/designing-ledgers-with-optimistic-locking" },
+              { "type": "official-docs", "url": "https://docs.moderntreasury.com/ledgers/docs/handle-concurrency" }
+            ]
+          },
+          {
+            "reason": "Postgres read replicas, scaled independently per deployment 'cell', let list/read endpoints scale separately from the write path without weakening the write-side consistency guarantees balance locking depends on.",
+            "evidence": "The high-throughput engineering post describes auto-scaling Postgres read replicas dedicated to list endpoints and a per-cell configurable connection-pooling layer to bound connection counts, alongside an SQS-backed async queue that batches non-balance-critical entries away from the synchronous write path.",
+            "sources": [
+              { "type": "blog", "url": "https://www.moderntreasury.com/journal/behind-the-scenes-how-we-built-ledgers-for-high-throughput" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "ParadeDB (Postgres extension)",
+        "description": "A Postgres extension (BM25-style search/indexing) added on top of the same production Postgres, run as a logical replica across several dedicated clusters — an in-place evolution of the existing Postgres deployment for flexible, multi-attribute search and aggregation, not a separate database product or a migration away from Postgres.",
+        "data_shape": "hybrid",
+        "justifications": [
+          {
+            "reason": "ParadeDB was chosen over standing up a separate search engine (e.g. Elasticsearch) so the team could keep a single Postgres-native, SQL-queryable source of truth rather than syncing data into an external index and accepting its consistency lag and operational overhead.",
+            "evidence": "A ParadeDB customer case study describes Modern Treasury evaluating Elasticsearch but choosing ParadeDB because it runs as a Postgres extension on their existing replication and SQL infrastructure, requiring only minor query adjustments rather than new data pipelines.",
+            "sources": [
+              { "type": "press", "url": "https://www.paradedb.com/customers/case-study-modern-treasury" }
+            ]
+          },
+          {
+            "reason": "Flexible customer-facing search across dozens of filterable/sortable attributes on 100M+ record tables had accumulated so many B-tree/GIN indexes that write throughput degraded and roughly 5% of queries timed out; consolidating those indexes into a single ParadeDB index fixed both problems.",
+            "evidence": "The case study reports replacing 26 B-tree and GIN indexes on one table with a single ParadeDB index, deployed as a logical replica across 7 clusters handling 500M+ row tables and roughly 10TB of data at peak write rates around 50K rows/minute, yielding a 2-3x write-throughput improvement and turning previously timed-out queries into subsecond responses.",
+            "sources": [
+              { "type": "press", "url": "https://www.paradedb.com/customers/case-study-modern-treasury" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
