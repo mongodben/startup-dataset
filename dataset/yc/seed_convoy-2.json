@@ -1,0 +1,153 @@
+{
+  "_id": "seed_convoy-2",
+  "yc_seed": {
+    "id": 25720,
+    "company_slug": "convoy-2",
+    "company_name": "Convoy",
+    "former_names": ["Frain Technologies"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/2ef5e56e5aadbe1bd56567cef7d719b7f1e4c6b7.png",
+    "website": "https://getconvoy.io",
+    "all_locations": "London, England, United Kingdom; LA, Nigeria; Remote",
+    "long_description": "We are building Convoy for engineering teams that value efficiency, especially during this bear market. \r\n\r\nYou might already know about API Gateways. Convoy is exactly that for webhooks.\r\n\r\nEngineering teams today use Convoy to securely send, receive and manage millions of webhooks reliably with robust support for retries, rate limiting, static IPs, circuit breaking, rolling secrets and more.\r\n\r\nWe know both receiving and sending webhooks can become a lot of work to manage, we have built a product to enable engineers to build and ship highly scalable stripe-like webhooks infrastructure.",
+    "one_liner": "Webhooks Gateway for outgoing and incoming webhooks.",
+    "team_size": 8,
+    "industry": "B2B",
+    "subindustry": "B2B -> Engineering, Product and Design",
+    "launched_at": 1643184279,
+    "tags": ["Developer Tools", "B2B", "Open Source"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Winter 2022",
+    "status": "Active",
+    "industries": ["B2B", "Engineering, Product and Design"],
+    "regions": ["United Kingdom", "Nigeria", "Europe", "Africa", "Remote", "Fully Remote"],
+    "stage": "Early",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/convoy-2",
+    "api": "https://yc-oss.github.io/api/batches/winter-2022/convoy-2.json",
+    "is_open_source": true
+  },
+  "scenario": {
+    "archetype": "devtool",
+    "description": "A developer-infrastructure product that acts as a managed gateway for webhook events sitting between backend systems and their third-party integrations. It ingests incoming webhooks and reliably fans out outgoing ones, with retries and exponential backoff, per-endpoint rate limiting, static egress IPs, payload signing/verification, circuit breaking for failing endpoints, and a dashboard (including an embeddable customer-facing view) for inspecting, replaying, and debugging individual delivery attempts. It is offered both as a managed cloud service and as a self-hosted deployment for teams with compliance or data-residency requirements, and it can also ingest events directly from common message brokers rather than only over HTTP."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785771563678,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2022/convoy-2.json",
+      "https://github.com/frain-dev/convoy",
+      "https://github.com/frain-dev/migrate-to-postgres",
+      "https://github.com/frain-dev/convoy-go",
+      "https://www.getconvoy.io/blog/convoy-0.9",
+      "https://www.getconvoy.io/blog/why-we-are-adopting-the-elv-license",
+      "https://www.getconvoy.io/docs/deployment/architecture",
+      "https://www.getconvoy.io/blog/deploying-convoy-to-fly",
+      "https://getconvoy.io/docs/changelog/core-gateway"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "frain-dev/convoy",
+        "url": "https://github.com/frain-dev/convoy",
+        "description": "Primary monorepo containing the Go backend (API server, agent/worker, egress proxy, migration/CLI tooling) and the Angular-based web dashboard.",
+        "readme": "Describes Convoy as an open-source, cloud-native webhooks gateway for securely ingesting, persisting, debugging, and delivering webhook events at scale. Lists features including payload signing, bearer-token auth, retries with exponential backoff and jitter, batch retries, per-endpoint rate limiting, static-IP egress, circuit breaking, fan-out routing of a single event to multiple endpoints, embeddable customer-facing debug dashboards, and email/Slack failure notifications. Documents deployment via Docker, Docker Compose, or Kubernetes/Helm, as well as a managed Convoy Cloud offering.",
+        "license": "Elastic-2.0",
+        "license_notes": "Originally released under the Mozilla Public License 2.0; the company announced a relicense to the Elastic License v2.0 on September 2, 2024, stating the goal was to keep proprietary/enterprise features in the same single repository and binary (unlocked via a license key) rather than maintaining separate community and enterprise codebases, while keeping the core free and source-available."
+      },
+      {
+        "name": "frain-dev/migrate-to-postgres",
+        "url": "https://github.com/frain-dev/migrate-to-postgres",
+        "description": "Standalone Go CLI the company published to help self-hosted operators migrate an existing MongoDB-backed Convoy installation's data into the PostgreSQL schema introduced in v0.9.",
+        "readme": "Self-describes as a script to migrate a Convoy installation's MongoDB database to PostgreSQL, with version-specific migration logic scoped to the pre-v0.9 MongoDB data model.",
+        "license": "MIT"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "Angular",
+        "language": "TypeScript",
+        "description": "Web dashboard for configuring webhook sources/subscriptions/endpoints, inspecting and replaying individual delivery attempts, and managing projects, API keys, and team settings; also embeddable as an iframe for customer-facing debugging portals.",
+        "source": [
+          { "repository_name": "frain-dev/convoy", "path": "web/ui/dashboard" }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "chi (Go)",
+        "language": "Go",
+        "description": "Single Go codebase, built on the go-chi router, that runs as several independently-scalable process types from the same binary: a stateless API server backing the REST API, dashboard, and SDKs; an agent process that pulls from message-broker sources and a Redis-backed job queue to dispatch webhook deliveries and other async work (e.g. email notifications, retention cleanup); and an egress proxy mode that delivers webhooks to customer endpoints from static IPs with SSRF/URL-blocklist protections.",
+        "source": [
+          { "repository_name": "frain-dev/convoy", "path": "cmd" }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "Primary datastore for all application data (endpoints, event/webhook payloads, subscriptions, delivery attempts, projects, users) since v0.9 (March 2023), when it replaced MongoDB. Current deployment docs also describe it as the search backend for querying event payloads and recommend adding read replicas to offload dashboard/query traffic as volume grows.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "self-hosted",
+          "description": "Self-hosted deployments run their own PostgreSQL 15+ instance (Docker, Docker Compose, or Kubernetes/Helm); Convoy also offers a managed Convoy Cloud plan where the database is operated by Convoy."
+        },
+        "justifications": [
+          {
+            "reason": "Moved off MongoDB largely to simplify self-hosted operations: MongoDB only supports multi-document transactions when running as a replica set, so even single-node self-hosted installs needed one, which made first-run setup worse for self-hosting users.",
+            "evidence": "The v0.9 release announcement says that for self-hosted users to run Convoy successfully they needed a replica set because MongoDB doesn't support transactions on a single-node instance, and that bootstrapping a replica set was a poor experience for self-hosters.",
+            "sources": [{ "type": "blog", "url": "https://www.getconvoy.io/blog/convoy-0.9" }]
+          },
+          {
+            "reason": "The team also found MongoDB lacked a good schema/data-migration tool, which slowed their ability to ship changes without risking breaking self-hosted deployments, and found MongoDB queries harder to tune than the relational equivalent; they reported the API and dashboard became noticeably faster after switching to PostgreSQL.",
+            "evidence": "The same v0.9 post attributes reduced feature velocity to the lack of a good MongoDB schema/migration tool for self-hosted users, calls tweaking MongoDB queries hard, and states that even in the short time since migrating they'd already found the API and dashboard noticeably faster.",
+            "sources": [{ "type": "blog", "url": "https://www.getconvoy.io/blog/convoy-0.9" }]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "MongoDB",
+            "to_database": "PostgreSQL",
+            "date": "2023-03",
+            "reason": "Self-hosted operators needed a MongoDB replica set just to get transactions on a single node, which hurt first-run experience; the team also lacked good MongoDB schema/migration tooling, which slowed feature velocity, and found MongoDB query tuning difficult.",
+            "evidence": "Announced in the Convoy v0.9 blog post (published March 29, 2023), which made PostgreSQL the required datastore for new installs and pointed existing self-hosted users to a forthcoming migration script; the company separately published and open-sourced that script as a dedicated repository for migrating an existing Convoy MongoDB database to PostgreSQL.",
+            "sources": [
+              { "type": "blog", "url": "https://www.getconvoy.io/blog/convoy-0.9" },
+              { "type": "changelog", "url": "https://github.com/frain-dev/migrate-to-postgres" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "frain-dev/convoy", "path": "database" }
+        ]
+      },
+      {
+        "name": "Redis",
+        "description": "Backs the asynchronous job queue (webhook delivery attempts/retries, email notifications, retention jobs), response caching, per-endpoint rate limiting, and circuit breaking for endpoints that are repeatedly failing.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "self-hosted",
+          "description": "Self-hosted deployments run their own Redis 6+ instance; deployment docs recommend a highly-available cluster or Sentinel setup with at least 2-4GB RAM in production so queued/scheduled/retrying webhook payloads, cache, and rate-limit state have headroom."
+        },
+        "justifications": [
+          {
+            "reason": "Redis was adopted as the queueing/caching/rate-limiting layer, kept separate from the primary Postgres datastore, so asynchronous webhook delivery, retries, and circuit breaking don't contend with the API/dashboard's read and write path.",
+            "evidence": "Convoy's deployment architecture docs describe Redis 6+ as powering the job queue, caching, rate limiting, and circuit-breaking backends, and recommend provisioning it for high availability (cluster or Sentinel) separately from the Postgres tier.",
+            "sources": [{ "type": "official-docs", "url": "https://www.getconvoy.io/docs/deployment/architecture" }]
+          }
+        ],
+        "source": [
+          { "repository_name": "frain-dev/convoy", "path": "queue" }
+        ]
+      }
+    ]
+  }
+}
