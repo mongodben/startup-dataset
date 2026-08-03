@@ -1,0 +1,161 @@
+{
+  "_id": "seed_infisical",
+  "yc_seed": {
+    "id": 27664,
+    "company_slug": "infisical",
+    "company_name": "Infisical",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/e613a0916d0e99cf2fa52a3c8be726a00bd6c51a.png",
+    "website": "https://infisical.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Infisical is the all-in-one security infrastructure platform for secrets, certificates, and privileged access management.\r\n\r\nInfisical stores your secrets and injects them back into your development workflow, CI/CD pipelines, and cloud infrastructure. It comes with secrets versioning, point-in-time recovery, audit logging, automatic secret rotation capabilities, and more.",
+    "one_liner": "Unified platform for secrets, certs, and privileged access management",
+    "team_size": 50,
+    "industry": "B2B",
+    "subindustry": "B2B -> Security",
+    "launched_at": 1674066953,
+    "tags": ["Developer Tools", "SaaS", "B2B", "Security", "Open Source"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Winter 2023",
+    "status": "Active",
+    "industries": ["B2B", "Security"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/infisical",
+    "api": "https://yc-oss.github.io/api/batches/winter-2023/infisical.json",
+    "is_open_source": true
+  },
+  "scenario": {
+    "archetype": "devtool",
+    "description": "A developer infrastructure platform for centrally storing and distributing sensitive configuration values — credentials, API keys, connection strings, and certificates — across a team's applications, environments, and CI/CD pipelines. It supports versioning, point-in-time recovery, audit logging, and automatic rotation, and is offered both as a managed cloud service and as a self-hosted deployment for compliance-conscious customers who run it on their own infrastructure."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785770806764,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2023/infisical.json",
+      "https://github.com/Infisical/infisical",
+      "https://infisical.com/blog/postgresql-migration",
+      "https://infisical.com/blog/postgresql-migration-technical",
+      "https://infisical.com/docs/self-hosting/guides/mongo-to-postgres",
+      "https://infisical.com/docs/internals/architecture/cloud",
+      "https://infisical.com/docs/self-hosting/configuration/requirements"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "Infisical/infisical",
+        "url": "https://github.com/Infisical/infisical",
+        "description": "Primary monorepo containing the web dashboard, the main Node.js API backend, a newer partial Go backend rewrite, CLI, Helm charts, and Docker/Docker Compose deployment configs.",
+        "readme": "Describes Infisical as an open-source security infrastructure platform for secrets, certificate (PKI), and privileged access management. Covers a dashboard for managing secrets across environments with versioning and rotation, internal/external certificate authority support, a key management system, and just-in-time privileged access with session recording. Documents SDKs for Node, Python, Go, Ruby, Java, and .NET, a CLI, and a REST API, with both a managed cloud offering and self-hosted deployment via Docker/Docker Compose/Kubernetes. The README itself does not enumerate the internal database or backend framework choices, deferring to the deployment docs.",
+        "license": "MIT",
+        "license_notes": "Open-core licensing: the repository's root LICENSE file states that all content is MIT ('MIT Expat') except anything under an 'ee/' directory, which is covered by a separate proprietary 'Infisical Enterprise License' (found at backend/src/ee/LICENSE.md) that restricts production use of those enterprise features to paying subscribers, though modification for development/testing is permitted."
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React (Vite, TanStack Router/Query)",
+        "language": "TypeScript",
+        "description": "Web dashboard used to manage secrets, certificates, access policies, and privileged sessions. Built with React 18, Vite as the build tool, TanStack Query/Router for data fetching and routing, Zustand for state, Radix UI/Tailwind CSS for the component layer, and React Hook Form with Zod for form validation.",
+        "source": [
+          { "repository_name": "Infisical/infisical", "path": "frontend" }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Fastify",
+        "language": "TypeScript",
+        "description": "Primary API server handling secrets, certificate/PKI operations, privileged access management, auth, third-party integrations, and background jobs. Uses Knex.js as its SQL query builder against PostgreSQL, ioredis/BullMQ for Redis-backed sessions and job queues, and Zod for runtime validation.",
+        "source": [
+          { "repository_name": "Infisical/infisical", "path": "backend" }
+        ]
+      },
+      {
+        "framework": "chi (Go)",
+        "language": "Go",
+        "description": "Newer, partial rewrite of portions of the Node.js backend (auth, permissions, KMS/HSM crypto operations, and parts of the secrets-manager API) using the chi router, oapi-codegen, and raw pgx queries against the same PostgreSQL database, plus its own Redis client. The repository's own contributor-facing documentation for this directory describes it as an in-progress migration of parts of the Node backend to Go.",
+        "source": [
+          { "repository_name": "Infisical/infisical", "path": "backend-go" }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "Sole primary datastore for all application data — secrets, certificates, users, projects, access policies, and (by default) audit logs — queried via Knex.js from the Node backend and via pgx from the Go backend. Infisical's own self-hosting docs state PostgreSQL is the only database it supports, recommending version 16 and requiring 14+.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS RDS",
+          "description": "Infisical Cloud runs Multi-AZ, encrypted RDS PostgreSQL instances (one for core application data, a separate one for license management) per its published cloud architecture docs; self-hosted deployments run their own PostgreSQL 14+ instance."
+        },
+        "justifications": [
+          {
+            "reason": "Moved from MongoDB to PostgreSQL primarily to serve self-hosted, compliance-focused customers better: relational features like transactions and CASCADE deletes removed a class of orphaned-data bugs, and standard PostgreSQL is far easier for customers to deploy and operate on any cloud than a clustered MongoDB setup.",
+            "evidence": "Infisical's engineering blog post on the migration says the schemaless MongoDB design caused inconsistent versioning and cleanup issues, and that self-hosting customers struggled to deploy and scale MongoDB compared to SQL databases; a companion announcement post adds that MongoDB's post-SSPL relicensing left many cloud providers offering only outdated managed MongoDB versions, further complicating self-hosting.",
+            "sources": [
+              { "type": "blog", "url": "https://infisical.com/blog/postgresql-migration-technical" },
+              { "type": "blog", "url": "https://infisical.com/blog/postgresql-migration" }
+            ]
+          },
+          {
+            "reason": "PostgreSQL was chosen over MongoDB and over alternative ORMs/query builders (Drizzle, Prisma, TypeORM were evaluated) for its broad community support, universal availability as a managed service across cloud providers, and native relational modeling; Knex.js was selected as the query builder for fine-grained control paired with TypeScript and Zod validation.",
+            "evidence": "The technical migration write-up describes evaluating Drizzle, Prisma, TypeORM, and Knex.js before settling on Knex for granular control and TypeScript integration, and states the switch removed inefficient aggregation/$lookup simulations, contributing to roughly a 50% database cost reduction.",
+            "sources": [
+              { "type": "blog", "url": "https://infisical.com/blog/postgresql-migration-technical" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "MongoDB",
+            "to_database": "PostgreSQL",
+            "date": "2024-02",
+            "reason": "Growing self-hosted, compliance-driven adoption exposed MongoDB's lack of transactions/cascading cleanup (causing orphaned data), operational complexity for self-hosting customers versus SQL databases, and reduced availability of current managed MongoDB versions from cloud providers after its SSPL relicensing.",
+            "evidence": "The migration took roughly 3-4 months including planning and rewrite. Engineers used Knex.js as the new query builder and a temporary LevelDB key-value store to map MongoDB ObjectIds (including recursive folder hierarchies) to new PostgreSQL identifiers. Production cutover ran during a 6-hour read-only window covering millions of records with zero reported data loss, and the first PostgreSQL-backed release was tagged infisical/v0.46.11-postgres on Feb 29, 2024. A public migration guide walks self-hosted operators through the same process using MIGRATION_MODE, mongodump/mongorestore, and pg_dump/pg_restore; support for the MongoDB-backed releases ended entirely after a two-month grace period.",
+            "sources": [
+              { "type": "blog", "url": "https://infisical.com/blog/postgresql-migration-technical" },
+              { "type": "blog", "url": "https://infisical.com/blog/postgresql-migration" },
+              { "type": "official-docs", "url": "https://infisical.com/docs/self-hosting/guides/mongo-to-postgres" },
+              { "type": "changelog", "url": "https://github.com/Infisical/infisical/releases/tag/infisical%2Fv0.46.11-postgres" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "Infisical/infisical", "path": "backend/src" }
+        ]
+      },
+      {
+        "name": "Redis",
+        "description": "Used as more than a cache: it backs the background job queue (BullMQ in the Node backend), distributed locks, cross-instance coordination for scheduled jobs, session storage, and rate-limit counters. Infisical's own hardware-requirements docs warn operators to configure a non-evicting cache policy and enable persistence because losing this data means losing queued work, not just a cache miss.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS ElastiCache",
+          "description": "Infisical Cloud runs managed Redis 7 ElastiCache clusters (separate clusters for the core app and the license service) per its published cloud architecture docs; self-hosted deployments run their own standalone Redis 6.x/7.x instance (Redis Cluster mode is not supported)."
+        },
+        "justifications": [
+          {
+            "reason": "Redis was adopted as required infrastructure (not optional) because the backend relies on it for job-queue durability, distributed locking/coordination across instances, and rate limiting, in addition to session caching.",
+            "evidence": "The self-hosting hardware requirements page explains that Redis stores the background job queue, distributed locks, cross-instance coordination state for scheduled jobs, and rate-limit counters, and instructs operators to treat its availability requirements the same as Infisical's own instances since it is a single point of failure.",
+            "sources": [
+              { "type": "official-docs", "url": "https://infisical.com/docs/self-hosting/configuration/requirements" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "Infisical/infisical", "path": "backend/src" }
+        ]
+      }
+    ]
+  }
+}
