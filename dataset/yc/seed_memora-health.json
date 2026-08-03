@@ -1,0 +1,114 @@
+{
+  "_id": "seed_memora-health",
+  "yc_seed": {
+    "id": 1840,
+    "company_slug": "memora-health",
+    "company_name": "Memora Health",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/d4adcbb7670278fde1c3c6856a264e0cdcf8adf7.png",
+    "website": "https://memorahealth.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Memora Health helps healthcare organizations digitize and automate complex care workflows, making them simple for patients and clinicians to navigate. Memora ingests existing data on clinical workflows, converts them into cohesive messaging journeys that guide patients through their care episodes, and automates the completion of simple follow-up tasks in the EMR. Memora's platform reduces care team notifications by nearly 40%, has a >70 average NPS, and has improved clinical outcomes across various populations. Contact us at info@memorahealth.com",
+    "one_liner": "Digitize and Automate Complex Care Workflows",
+    "team_size": 115,
+    "industry": "Healthcare",
+    "subindustry": "Healthcare -> Healthcare IT",
+    "launched_at": 1510200190,
+    "tags": ["Health Tech", "Digital Health", "AI"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Winter 2018",
+    "status": "Acquired",
+    "industries": ["Healthcare", "Healthcare IT"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Early",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/memora-health",
+    "api": "https://yc-oss.github.io/api/batches/winter-2018/memora-health.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "healthtech-workflow-saas",
+    "description": "A B2B platform used by healthcare provider organizations to turn existing clinical care protocols into automated, two-way patient text-messaging programs that guide people through a multi-step care episode, and to auto-complete simple routine follow-up documentation in the organization's records system, reducing manual outreach and administrative work for clinical staff."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780147000,
+    "confidence": "inferred",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2018/memora-health.json",
+      "https://www.mongodb.com/blog/post/built-mongodb-memora-health",
+      "https://web.archive.org/web/20250619100457/https://www.mongodb.com/blog/post/built-mongodb-memora-health",
+      "https://github.com/Memora-Health",
+      "https://startup.jobs/software-engineer-memora-health-3331206",
+      "https://www.commure.com/press-releases/commure-acquires-memora-health-to-enhance-intelligent-care-navigation"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [],
+    "clients": [
+      {
+        "framework": "React (Redux)",
+        "language": "TypeScript",
+        "description": "Web application frontend for clinicians and staff, built with React and Redux and written in TypeScript, per a 2021 MongoDB-published case study on the company's stack."
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Node.js",
+        "language": "JavaScript",
+        "description": "Core application/API server built on Node.js. A separate job listing for the company also references Node.js with Express as part of the backend stack.",
+        "hosting": {
+          "provider": "Google Cloud Platform",
+          "description": "Runs on Google Kubernetes Engine (self-managed Kubernetes on GCP), per the case study."
+        }
+      },
+      {
+        "framework": "Python microservices",
+        "language": "Python",
+        "description": "Separate natural-language-processing engine implemented as Python microservices, used alongside the main Node.js backend; the specific Python web framework was not documented in available sources."
+      }
+    ],
+    "databases": [
+      {
+        "name": "MongoDB",
+        "description": "Primary datastore for the Node.js application, described in the case study as storing the operational/workflow data behind the company's patient messaging and care-task platform.",
+        "data_shape": "document",
+        "hosting": {
+          "provider": "Google Cloud Platform",
+          "description": "Described in the 2021 case study as running self-managed alongside the Node.js backend on Kubernetes on GCP; the case study does not say whether this was MongoDB Atlas or a self-hosted deployment, and no later source confirms whether this changed."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen at launch for how easily it paired with the Node.js backend, letting engineers get productive without first needing deep knowledge of relational schema design and indexing the way some SQL databases required.",
+            "evidence": "In a MongoDB-published case study, the company's co-founder/CTO is quoted contrasting MongoDB's ease of use with Node.js against SQL databases that require upfront knowledge of tables and indexing, and says this simplified onboarding and let engineers work across the full stack quickly.",
+            "sources": [
+              { "type": "blog", "url": "https://www.mongodb.com/blog/post/built-mongodb-memora-health" },
+              { "type": "blog", "url": "https://web.archive.org/web/20250619100457/https://www.mongodb.com/blog/post/built-mongodb-memora-health" }
+            ]
+          },
+          {
+            "reason": "Retained through growth because of built-in indexing/join support, straightforward replication management, and prebuilt backup infrastructure that reduced operational overhead as usage scaled, plus direct access to MongoDB consulting engineers for technical advice.",
+            "evidence": "The same case study quotes the CTO saying the team made a conscious decision to stick with MongoDB as adoption scaled, citing indexing/joins, replication management, and backup infrastructure, and mentions receiving advice from a named MongoDB consulting engineer.",
+            "sources": [
+              { "type": "blog", "url": "https://www.mongodb.com/blog/post/built-mongodb-memora-health" }
+            ]
+          },
+          {
+            "reason": "MongoDB's Backend-as-a-Service model and its contractual SLAs were viewed as helpful for meeting security and compliance requirements in a HIPAA-regulated industry.",
+            "evidence": "The CTO is quoted saying that because the company operates in a highly regulated industry, MongoDB's BaaS offering and SLAs were compelling for meeting customers' security requirements, and that MongoDB was described as instrumental to scalable, HIPAA-compliant data storage.",
+            "sources": [
+              { "type": "blog", "url": "https://www.mongodb.com/blog/post/built-mongodb-memora-health" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
