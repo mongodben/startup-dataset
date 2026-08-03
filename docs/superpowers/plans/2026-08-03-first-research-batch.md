@@ -814,11 +814,20 @@ Record the chosen five here before continuing, so later tasks are unambiguous:
 
 | # | company_name | company_slug | api URL | expected DB |
 |---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
+| 1 | Infisical | infisical | https://yc-oss.github.io/api/batches/winter-2023/infisical.json | MongoDB → PostgreSQL (documented migration) |
+| 2 | Convoy | convoy-2 | https://yc-oss.github.io/api/batches/winter-2022/convoy-2.json | MongoDB → PostgreSQL (documented migration) |
+| 3 | Payload | payload | https://yc-oss.github.io/api/batches/summer-2022/payload.json | MongoDB (current, via mongoose) + Postgres adapter |
+| 4 | PostHog | posthog | https://yc-oss.github.io/api/batches/winter-2020/posthog.json | PostgreSQL + ClickHouse hybrid |
+| 5 | Mattermost | mattermost | https://yc-oss.github.io/api/batches/summer-2012/mattermost.json | MySQL + PostgreSQL, official migration tooling |
+
+**Locator finding, recorded for context:** zero of the 167 open-source-tagged YC
+companies currently run primarily on MongoDB with strong public engineering
+writing about it. Rather than force a weak "current MongoDB user" candidate,
+the batch leans on the two best-evidenced MongoDB migration stories (Infisical,
+Convoy) plus Payload as the one company with a currently-shipping, actively
+maintained MongoDB adapter. GitLab had excellent MySQL→Postgres migration
+evidence but was excluded — too large/public a company to fit the dataset's
+startup-scenario framing.
 
 - [ ] **Step 3: If no credible MongoDB candidate exists, decide explicitly**
 
