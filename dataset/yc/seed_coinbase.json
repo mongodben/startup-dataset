@@ -1,0 +1,192 @@
+{
+  "_id": "seed_coinbase",
+  "yc_seed": {
+    "id": 439,
+    "company_slug": "coinbase",
+    "company_name": "Coinbase",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/1169cb0b69fa7b338b5d51c2d3805f8f988bdfa5.png",
+    "website": "https://www.coinbase.com",
+    "all_locations": "Los Angeles, CA, USA; Remote",
+    "long_description": "Founded in June of 2012, Coinbase is a digital currency wallet and platform where merchants and consumers can transact with new digital currencies like bitcoin, ethereum, and litecoin. Our vision is to bring more innovation, efficiency, and equality of opportunity to the world by building an open financial system. Our first step on that journey is making digital currency accessible and approachable for everyone. Two principles guide our efforts. First, be the most trusted company in our domain. Second, create user-focused products that are easier and more intuitive to use.",
+    "one_liner": "Buy, sell, and manage cryptocurrencies.",
+    "team_size": 6112,
+    "industry": "Fintech",
+    "subindustry": "Fintech -> Banking and Exchange",
+    "launched_at": 1336096943,
+    "tags": ["Crypto / Web3"],
+    "tags_highlighted": ["Crypto / Web3"],
+    "top_company": true,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Summer 2012",
+    "status": "Public",
+    "industries": ["Fintech", "Banking and Exchange"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Fully Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/coinbase",
+    "api": "https://yc-oss.github.io/api/batches/summer-2012/coinbase.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "fintech-ledger",
+    "description": "A consumer and institutional platform for buying, holding, and moving a class of tradeable assets that is notoriously volatile, so trading volume can spike enormously and unpredictably around market moves. The product spans an account/identity layer that must serve millions of profile lookups per second even during those spikes, and a central internal ledger service that every other product line depends on to record balances and every movement of funds with strict accuracy, no scheduled downtime, and no tolerance for a lost or duplicated transaction."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780370000,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2012/coinbase.json",
+      "https://github.com/coinbase/mongobetween",
+      "https://www.coinbase.com/blog/how-we-do-mongodb-migrations-at-coinbase",
+      "https://www.coinbase.com/blog/scaling-connections-with-ruby-and-mongodb",
+      "https://www.coinbase.com/blog/scaling-identity-how-coinbase-serves-1-5M-reads-second",
+      "https://www.coinbase.com/blog/the-art-of-a-seamless-migration-of-coinbases-internal-ledger",
+      "https://web.archive.org/web/20201204190835/https://blog.coinbase.com/seamless-mongodb-to-postgresql-migration-127735cc989c?gi=5c52c8dc48fb",
+      "https://www.coinbase.com/blog/real-time-reconciliation-with-overseer",
+      "https://www.coinbase.com/blog/hiring-for-the-coinbase-infrastructure-team",
+      "https://www.mongodb.com/solutions/customer-case-studies/coinbase"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "coinbase/mongobetween",
+        "url": "https://github.com/coinbase/mongobetween",
+        "description": "Go connection-pooling proxy that Coinbase built and open-sourced to sit between an application and one or more sharded MongoDB clusters.",
+        "readme": "Describes mongobetween as a lightweight MongoDB connection pooler written in Go: it accepts a large number of incoming client connections and multiplexes them across a much smaller pool of connections to one or more MongoDB clusters via the official MongoDB Go driver. It masquerades as a MongoDB shard router (intercepting `ismaster` calls) so an application always sees an available endpoint while the Go driver handles real connection issues and failovers underneath. The README states it runs in production at Coinbase today as a Docker sidecar in front of a Ruby on Rails application that talks to sharded MongoDB clusters through the Ruby Mongo driver, and documents CLI flags, a dynamic (file/URL-based) configuration mechanism for redirecting or disabling writes to a cluster (useful for low-downtime cluster migrations), and a set of statsd metrics for connection counts, round-trip latency, and cursor/transaction tracking.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Ruby on Rails",
+        "language": "Ruby",
+        "description": "Coinbase's original web application, referred to by its own engineers as 'the original Rails monolith,' running since close to the company's 2012 founding. Because CRuby's global VM lock limits each process to one core, Coinbase runs many CRuby worker processes per machine, each historically holding its own MongoDB connection pool; combined with auto-scaling and blue-green deploys, this could open tens of thousands of new MongoDB connections within a single minute ('connection storms') and exceed MongoDB's per-host connection ceiling. Coinbase's fix was mongobetween, a Go sidecar proxy that multiplexes those connections down to a couple hundred, cutting per-router connection counts roughly 20x.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Coinbase's engineering posts consistently describe its infrastructure as running on AWS (e.g. AWS RDS, AWS DynamoDB, AWS-managed ValKey, and — per MongoDB's own customer case study — MongoDB itself was self-hosted on AWS at launch before moving to MongoDB Atlas)."
+        },
+        "source": [{ "repository_name": "coinbase/mongobetween" }]
+      },
+      {
+        "framework": "Go services in a Bazel monorepo",
+        "language": "Go",
+        "description": "Newer platform and product services built predominantly in Go (alongside the legacy Ruby codebase) inside a single Bazel-based monorepo, per Coinbase's own infrastructure-hiring post. Coinbase's engineering posts describe a landscape of many interlocking microservices of this kind — e.g. the rebuilt internal ledger, 'Fragment API' services backing the Users/Identity product, and Overseer, a cross-service reconciliation system that tails database write-ahead logs from both MongoDB and Postgres to catch state discrepancies between services.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Same AWS-based infrastructure described across Coinbase's ledger, identity, and infrastructure-hiring blog posts."
+        }
+      }
+    ],
+    "databases": [
+      {
+        "name": "MongoDB",
+        "description": "Coinbase's original primary datastore, in production since at or near the company's 2012 launch and still used today for large parts of the product surface (including, historically, the entire Rails monolith and the Users/Identity service), now fronted by the company-built mongobetween proxy to control connection counts.",
+        "data_shape": "document",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Per MongoDB's own customer case study, Coinbase initially self-hosted MongoDB on AWS at its 2012 launch, later migrating to fully managed MongoDB Atlas clusters to cut cluster-scaling time during the highly volatile traffic spikes that follow crypto price moves."
+        },
+        "justifications": [
+          {
+            "reason": "Originally adopted for the Users/Identity service (and, more broadly, the early Rails monolith) for its schema flexibility and low read/write latency.",
+            "evidence": "Coinbase's own 'Scaling Identity' engineering post states the Users Service 'originally relied on MongoDB, which offered great flexibility and low latency,' before describing the connection-handling problems that led them to add DynamoDB alongside it.",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/scaling-identity-how-coinbase-serves-1-5M-reads-second" }]
+          },
+          {
+            "reason": "Coinbase deliberately runs MongoDB alongside Postgres and Redis rather than standardizing on a single datastore, and built internal tooling specifically to make MongoDB's own data-migration process (schema/data changes to existing MongoDB collections) safe to run at engineering-org scale.",
+            "evidence": "Coinbase's 'How We Do MongoDB Migrations at Coinbase' post states plainly that Coinbase 'uses a wide variety of datastores, including MongoDB, Postgres, and Redis,' and describes a self-service admin panel with class whitelisting, rate-limiting, and a killswitch that Coinbase built so any engineer (not just those with production database access) could safely run a MongoDB migration.",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/how-we-do-mongodb-migrations-at-coinbase" }]
+          }
+        ],
+        "source": [{ "repository_name": "coinbase/mongobetween" }]
+      },
+      {
+        "name": "PostgreSQL",
+        "description": "AWS RDS PostgreSQL, adopted in 2019 as Coinbase's standard relational database. It became the backing store for a rebuilt, company-wide internal ledger service that tracks corporate and customer balances and every fund movement across all of Coinbase's product lines, replacing a set of per-product legacy systems.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Runs on AWS RDS, per Coinbase's own ledger-migration engineering post."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen in 2019 as the company's standard relational datastore so that balance-tracking and fund-movement logic could live in one reliable, purpose-built ledger service instead of each product team maintaining its own ad hoc, tech-debt-laden solution.",
+            "evidence": "Coinbase's ledger-migration post explains that in 2019 the company 'decided to adopt AWS RDS PostgreSQL as our database of choice for relational workloads,' after finding that each product had built its own balance/fund-movement logic and some of those legacy systems were 'plagued by tech debt and performance issues.'",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/the-art-of-a-seamless-migration-of-coinbases-internal-ledger" }]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "MongoDB",
+            "to_database": "PostgreSQL (AWS RDS)",
+            "date": "2019-2020",
+            "reason": "Coinbase rebuilt its internal ledger — the system of record for corporate and customer balances and fund movements across every product — on Postgres/DynamoDB as part of a 2019 infrastructure push, replacing legacy per-product systems weighed down by tech debt and performance issues.",
+            "evidence": "Coinbase's own December 2020 blog post on the migration says the team moved 'over 1 billion rows' of corporate and customer transaction/balance data into the new Postgres-based ledger using a phased dual-write/dual-read cutover plus an ETL-based backfill, with no scheduled downtime. The currently-live version of that post on coinbase.com describes the source system only as 'the previous data storage,' but the Wayback Machine's archived copy of the same URL from the day it was published (Dec 4, 2020, byline Alex Ghise, Staff Software Engineer) shows the original wording explicitly said the rows moved 'from MongoDB to our new PostgreSQL-based solution' — Coinbase's site appears to have later edited that specific phrase out of the live post.",
+            "sources": [
+              { "type": "blog", "url": "https://www.coinbase.com/blog/the-art-of-a-seamless-migration-of-coinbases-internal-ledger" },
+              { "type": "blog", "url": "https://web.archive.org/web/20201204190835/https://blog.coinbase.com/seamless-mongodb-to-postgresql-migration-127735cc989c?gi=5c52c8dc48fb" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "DynamoDB",
+        "description": "AWS DynamoDB, adopted alongside Postgres in 2019 as Coinbase's key-value store. Used both in the internal-ledger rebuild and, separately, for the most frequently-accessed key-value lookups in the Users/Identity service, moved there specifically because DynamoDB survives traffic spikes that used to overwhelm MongoDB.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Fully managed AWS DynamoDB, per Coinbase's ledger and identity-scaling engineering posts."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen for latency-sensitive, high-traffic key-value lookups because, unlike a connection-based database, DynamoDB doesn't require the client to hold active connections — making it inherently resistant to the traffic-surge 'connection storms' that previously overwhelmed MongoDB.",
+            "evidence": "Coinbase's 'Scaling Identity' post explains that after analyzing access patterns, the team moved its most frequently accessed key-value lookup datasets to DynamoDB because it is 'stateless and doesn't require active connections,' and describes building an auxiliary-table-plus-multi-item-transaction framework to work around DynamoDB's lack of native unique constraints.",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/scaling-identity-how-coinbase-serves-1-5M-reads-second" }]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "MongoDB",
+            "to_database": "DynamoDB",
+            "reason": "The Users/Identity service originally ran on MongoDB behind a cache, but unpredictable traffic surges from crypto-market volatility could bypass the cache and cause 'connection storms' that overwhelmed the MongoDB cluster; Coinbase moved its most frequently-accessed key-value lookup datasets to DynamoDB specifically because it doesn't require active client connections, giving it a 'federated,' or polyglot, persistence model across MongoDB and DynamoDB.",
+            "evidence": "Coinbase's own 'Scaling Identity' post (published Dec 2025) walks through this move under the heading 'Database: MongoDB + DynamoDB,' but does not give a specific date for when the migration itself took place.",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/scaling-identity-how-coinbase-serves-1-5M-reads-second" }]
+          }
+        ]
+      },
+      {
+        "name": "ValKey (Redis-compatible cache)",
+        "description": "AWS-managed ValKey (the open-source Redis fork) used as the caching layer for the Users/Identity service. It replaced an internal Go sidecar Coinbase had built, called Cache Router, which handled replication, jitter, and connection pooling in front of a Memcache cluster.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS",
+          "description": "AWS-managed ValKey, accessed via native client connections from API pods with no sidecar in front of it."
+        },
+        "justifications": [
+          {
+            "reason": "Moved off the self-built Cache Router/Memcache sidecar model onto AWS-managed ValKey to simplify the architecture and remove the operational burden of a custom sidecar handling replication, jitter, and connection pooling.",
+            "evidence": "Coinbase's 'Scaling Identity' post describes Cache Router as 'a Go application that runs as a sidecar attached to every Kubernetes pod' fronting a Memcache cluster, and states the team has 'since migrated to ValKey ... managed by AWS,' now using native connections from API pods 'without any sidecars,' which 'simplified our architecture, removed a layer of operational overhead, and eliminated the fine-tuning a custom sidecar required.'",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/scaling-identity-how-coinbase-serves-1-5M-reads-second" }]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "Memcache (via an internal Go sidecar, Cache Router)",
+            "to_database": "ValKey (AWS-managed)",
+            "reason": "Simplify the caching architecture and remove the operational overhead of a custom sidecar handling replication, jitter, and connection pooling.",
+            "evidence": "Described in Coinbase's 'Scaling Identity' post under 'Caching: From Sidecar to Native'; no specific date is given for when the switch happened.",
+            "sources": [{ "type": "blog", "url": "https://www.coinbase.com/blog/scaling-identity-how-coinbase-serves-1-5M-reads-second" }]
+          }
+        ]
+      }
+    ]
+  }
+}
