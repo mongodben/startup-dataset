@@ -1,0 +1,162 @@
+{
+  "_id": "seed_credal-ai",
+  "yc_seed": {
+    "id": 27690,
+    "company_slug": "credal-ai",
+    "company_name": "Credal.ai",
+    "former_names": ["Credal.AI"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/67584a441ac14e21e59b84f0e3760e5308aaf4dc.png",
+    "website": "https://credal.ai",
+    "all_locations": "New York City, NY, USA",
+    "long_description": "Build, govern, and deploy enterprise AI agents and MCP servers \r\nPowered by your data, subject to enterprise controls",
+    "one_liner": "The Control Plane for Enterprise Agents",
+    "team_size": 14,
+    "industry": "B2B",
+    "subindustry": "B2B -> Productivity",
+    "launched_at": 1669993072,
+    "tags": ["Artificial Intelligence", "Generative AI", "Cybersecurity", "Enterprise"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Winter 2023",
+    "status": "Active",
+    "industries": ["B2B", "Productivity"],
+    "regions": ["United States of America", "America / Canada"],
+    "stage": "Early",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/credal-ai",
+    "api": "https://yc-oss.github.io/api/batches/winter-2023/credal-ai.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "ai-agent",
+    "description": "An enterprise platform that lets large-language-model copilots and agents work over a company's internal knowledge (chat history, wikis, shared drives, and CRM records) while mirroring each source system's original access permissions, redacting sensitive fields, and logging every model interaction for audit and compliance review. IT and security teams configure which agents can read which data and which actions those agents may take, and end users get retrieval-augmented search and copilots built on top of that governed data."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780259000,
+    "confidence": "inferred",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2023/credal-ai.json",
+      "https://github.com/credal-ai",
+      "https://github.com/Credal-ai/actions-sdk",
+      "https://www.geldata.com/blog/speedrunning-our-ai-startup-with-edgedb",
+      "https://zilliz.com/blog/how-milvus-powers-credal-mission-for-useful-ai-made-safe",
+      "https://zilliz.com/customers/credal-ai",
+      "https://www.credal.ai/blog/build-your-own-rag-enterprise-search-in-10-minutes-with-credal-mongodb",
+      "https://builtin.com/company/credalai",
+      "https://techcrunch.com/2023/10/26/credal-aims-to-connect-company-data-to-llms-securely/"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "Credal-ai/actions-sdk",
+        "url": "https://github.com/Credal-ai/actions-sdk",
+        "description": "Credal's open-source \"actions\" framework: a TypeScript library of pre-built, callable integrations (Slack, Jira, Salesforce, GitHub, Google Workspace, MongoDB, Snowflake, and dozens more) that Credal's agents/copilots invoke to read or act on third-party systems.",
+        "readme": "Describes the repo as Credal's open-source actions framework for adding custom actions to Credal copilots. Each action lives under a provider directory and is defined by a schema plus a TypeScript handler; the README stresses writing OAuth-based (rather than API-key) credential flows where possible so an action respects the permissions of the underlying system, and gives detailed conventions for writing action/parameter descriptions so that an LLM agent calling the action doesn't hallucinate or misuse arguments (e.g. avoid pronouns, name entities explicitly, state required formats). It also documents a secret-scanning CI check (TruffleHog) run on every non-trivial pull request.",
+        "license": "MIT",
+        "license_notes": "Repository's LICENSE file is a standard MIT license copyright Credal.ai; the package.json's own `license` field inconsistently says \"ISC\" but the actual LICENSE file at the repo root is MIT."
+      }
+    ],
+    "clients": [
+      {
+        "framework": "Next.js (React)",
+        "language": "TypeScript",
+        "description": "Web application frontend built with React inside a Next.js app, consuming typed API calls through tRPC-generated React hooks rather than hand-written fetch/serialization code.",
+        "justifications": [
+          {
+            "reason": "tRPC hooks were adopted so that types inferred from the database schema and API queries flow automatically into frontend components, so a schema or query change immediately surfaces as a compile-time error in UI code instead of a runtime bug.",
+            "evidence": "Credal's co-founder/CTO wrote in a guest post on the Gel (formerly EdgeDB) blog that the company runs on Next.js with tRPC for typed API endpoints, and that because EdgeDB's native TypeScript client infers types straight from queries, those inferred types propagate through the tRPC endpoint into the React components that call it.",
+            "sources": [
+              { "type": "blog", "url": "https://www.geldata.com/blog/speedrunning-our-ai-startup-with-edgedb" }
+            ]
+          }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Next.js API routes with tRPC",
+        "language": "TypeScript",
+        "description": "Application backend implemented as tRPC endpoints within the same Next.js codebase as the frontend, calling into the primary Gel (EdgeDB) database and, per a separate open-source repo, invoking a library of third-party-integration \"actions\" (Slack, Google Workspace, Salesforce, MongoDB, Snowflake, etc.) on behalf of agents/copilots.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Company-reported technology profile lists AWS as its cloud provider (alongside Docker, Kubernetes, and Terraform); a vendor case study separately confirms Credal's self-hosted vector database specifically runs on Amazon EKS."
+        },
+        "justifications": [
+          {
+            "reason": "EdgeDB/Gel access policies (encoding RBAC, discretionary access controls, per-source permission mirroring, and multitenancy directly in the database schema) were used to shrink how much manual authorization logic backend developers have to write and reason about, since a permissions mistake in an enterprise-data product like Credal's carries real security consequences.",
+            "evidence": "The CTO's post states that access policies handle roughly 90% of authorization concerns automatically once encoded in the schema, that a bad or malicious query fails with a runtime error rather than leaking data, and that a custom ESLint rule flags every place in the codebase where access policies are deliberately disabled so those queries get extra scrutiny.",
+            "sources": [
+              { "type": "blog", "url": "https://www.geldata.com/blog/speedrunning-our-ai-startup-with-edgedb" }
+            ]
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "Gel (formerly EdgeDB)",
+        "description": "Primary application database for Credal's own product data (conversations, messages, permissions/access-control state, multitenancy). Gel is a graph-relational database built on top of PostgreSQL, queried through its native TypeScript client rather than a traditional ORM.",
+        "data_shape": "hybrid",
+        "justifications": [
+          {
+            "reason": "Chosen (as EdgeDB, in 2019/2023) to maximize iteration speed for a small, fast-moving startup: its native TypeScript client gives full-stack type inference from the database schema through tRPC endpoints into React components, so schema or query changes immediately surface as compile errors instead of latent bugs, and its schema-embedded access policies remove most manual authorization code.",
+            "evidence": "Credal's co-founder/CTO, writing under his own name on the Gel company blog, said he had been frustrated by ORM boilerplate in past projects, saw EdgeDB on Hacker News in 2019, and adopted it when founding Credal because 'speed of iteration' is existential for a startup in a fast-moving, competitive market; he credits it with both productivity and safety (fewer permission-check bugs) improvements.",
+            "sources": [
+              { "type": "blog", "url": "https://www.geldata.com/blog/speedrunning-our-ai-startup-with-edgedb" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Milvus",
+        "description": "Self-hosted open-source vector database used for semantic/embedding search and custom retrieval workflows over customers' ingested content.",
+        "data_shape": "vector",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "AWS",
+          "description": "Self-hosted on Amazon EKS (Elastic Kubernetes Service), deployed using Milvus's official Helm chart, per a Zilliz (Milvus's commercial vendor) case study quoting Credal's co-founder/CTO."
+        },
+        "justifications": [
+          {
+            "reason": "Milvus was selected after evaluating several vector databases against a set of roughly eight must-have criteria (self-hosting support, active open-source development and community, scalability via separated storage/compute, an official Kubernetes Helm chart, and hybrid vector-plus-metadata-filter search among them); Credal's CTO is quoted saying Milvus was the only option that satisfied all of them simultaneously, whereas competitors each hit only some.",
+            "evidence": "In a Zilliz-published case study and companion blog post, Credal's co-founder/CTO Jack Fischer describes the evaluation as an 'eight-circle Venn diagram' where only Milvus sat at the intersection of every criterion, and separately emphasizes that Milvus's storage/compute separation gave confidence to scale without knowing in advance what their access patterns would look like as the product evolved. Diverse hosting needs (cloud and on-prem customer deployments) also required a database that itself could be self-hosted.",
+            "sources": [
+              { "type": "blog", "url": "https://zilliz.com/blog/how-milvus-powers-credal-mission-for-useful-ai-made-safe" },
+              { "type": "press", "url": "https://zilliz.com/customers/credal-ai" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MongoDB (customer-managed, via Atlas)",
+        "description": "Not Credal's own internal datastore — a customer-provisioned MongoDB Atlas cluster that Credal's product can write RAG data (document chunks, embeddings, and metadata) into and query, as an alternative to storing that data in Credal's own vector store, for customers who want the data to stay inside their own MongoDB environment. Credal's open-source actions-sdk repo includes a dedicated MongoDB action provider and depends on the official MongoDB Node.js driver.",
+        "data_shape": "hybrid",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "customer-managed (MongoDB Atlas)",
+          "description": "Provisioned and owned by the customer, not by Credal; Credal connects to the customer's own Atlas cluster."
+        },
+        "justifications": [
+          {
+            "reason": "Offered so enterprises that already run MongoDB Atlas can keep retrieval-augmented-generation data inside their own environment, using Atlas's unified query API to combine vector search with text search and other filters (e.g. metadata, geo) on the same collection rather than maintaining a separate vector store.",
+            "evidence": "Credal's own blog post walks through connecting a customer's MongoDB Atlas cluster to Credal to build a RAG search pipeline, citing Atlas's free tier for getting started cheaply and its ability to combine vector search with additional structured filters via one query API.",
+            "sources": [
+              { "type": "blog", "url": "https://www.credal.ai/blog/build-your-own-rag-enterprise-search-in-10-minutes-with-credal-mongodb" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "Credal-ai/actions-sdk", "path": "src/actions/providers/mongodb" }
+        ]
+      }
+    ]
+  }
+}
