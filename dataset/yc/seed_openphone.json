@@ -1,0 +1,169 @@
+{
+  "_id": "seed_openphone",
+  "yc_seed": {
+    "id": 1924,
+    "company_slug": "openphone",
+    "company_name": "Quo (fka OpenPhone)",
+    "former_names": ["OpenPhone"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/d5da55606d5f202069f25f751e50c9e13902ff3a.png",
+    "website": "https://www.quo.com",
+    "all_locations": "San Francisco, CA, USA; Remote",
+    "long_description": "OpenPhone is the modern business phone system. It comes with powerful calling, messaging, and a lightweight CRM. Works great for individuals and teams. It allows you to share a phone number with teammates, like an inbox. Available on Mac, Windows, Web, iOS, and Android.",
+    "one_liner": "The all-in-one business phone for teams.",
+    "team_size": 125,
+    "industry": "B2B",
+    "subindustry": "B2B -> Operations",
+    "launched_at": 1524715378,
+    "tags": ["SaaS"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Summer 2018",
+    "status": "Active",
+    "industries": ["B2B", "Operations"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Fully Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/openphone",
+    "api": "https://yc-oss.github.io/api/batches/summer-2018/openphone.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "b2b-communications-saas",
+    "description": "A cloud-based, multi-platform business phone and messaging system for small and midsize teams. Lets a company assign one or more shared phone numbers to teammates so calls, texts, and voicemail land in a shared team inbox, paired with a lightweight built-in CRM, contact history, and workflow-automation rules. Recently added an AI voice agent that can answer and handle live calls on the business's behalf. Ships native apps for desktop and mobile alongside a web client, backed by a services-oriented backend."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780434128,
+    "confidence": "inferred",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2018/openphone.json",
+      "https://github.com/OpenPhone",
+      "https://github.com/OpenPhone/audioswitch",
+      "https://www.quo.com/blog/postgres-to-cassandra/",
+      "https://www.quo.com/blog/scaling-graphql/",
+      "https://www.quo.com/blog/how-we-built-a-real-time-ai-voice-agent-with-temporal/",
+      "https://builtin.com/job/backend-engineer/4336845",
+      "https://startup.jobs/backend-software-engineer-openphone-1881765",
+      "https://arc.dev/remote-jobs/j/openphone-sr-frontend-engineer-b6phw9lzqd",
+      "https://peerlist.io/company/openphone/careers/senior-ios-software-engineer/jobhok77qa78pgeoqh8oreq8mloqqg"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [],
+    "clients": [
+      {
+        "framework": "React (web SPA with MobX for state management) packaged with Electron for desktop",
+        "language": "TypeScript",
+        "description": "The web client is a single-page React app using hooks and an internal design-system component library, with MobX handling state management and data binding. The same web codebase is wrapped in Electron to produce the Mac and Windows desktop apps mentioned in the company's YC listing.",
+        "hosting": {
+          "provider": "Client-side",
+          "description": "Distributed as a web app plus Electron-packaged desktop builds for Mac and Windows; not server-hosted infrastructure."
+        }
+      },
+      {
+        "framework": "Native iOS (Swift, transitioning from UIKit to SwiftUI, MVVMC + Command-pattern architecture, RxSwift for reactive bindings); native Android (Kotlin)",
+        "language": "Swift, Kotlin",
+        "description": "Native mobile clients for iOS and Android referenced in the company's own YC listing. A Senior iOS Engineer job posting describes Swift as the primary language, SwiftUI used for new work while legacy screens remain on UIKit, RxSwift for reactive bindings, and an MVVMC architecture combined with the Command design pattern. Android is native Kotlin; the company's GitHub org maintains a fork of Twilio's Kotlin `audioswitch` library (Android audio-routing for real-time calls), consistent with a native Kotlin Android app that also integrates Twilio for telephony/media."
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Event-driven Node.js/TypeScript microservices behind a Kong API gateway, connected via RabbitMQ, moving to a GraphQL Federation layer",
+        "language": "TypeScript",
+        "description": "Backend engineering job postings consistently describe an event-driven microservices architecture (Node.js/TypeScript), Kong as the public API gateway, RabbitMQ as a message broker, and Kubernetes on AWS for orchestration. The company's own engineering blog describes the backend's evolution from an original monolith into what it calls a 'distributed monolith' of interconnected microservices, and its move to GraphQL Federation (a per-service subgraph composed by a lightweight gateway) to address strain from offline-first client sync, undocumented cross-team API contracts, and services calling each other for both reads and writes. The company's GitHub org also maintains a fork of WunderGraph's open-source Cosmo GraphQL Federation router and of its graphql-go-tools library, consistent with (but not an explicit confirmation of) Cosmo being used as that federation gateway.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Kubernetes on AWS (the company's own blog states it runs 'a sizable EKS footprint')."
+        },
+        "justifications": [
+          {
+            "reason": "Adopted GraphQL Federation to fix problems created by an increasingly interconnected microservices backend: heavy REST polling to keep offline-first mobile/desktop caches in sync, API fields that teams discovered by inspecting network responses rather than from documented contracts, and microservices calling each other for reads and writes that forced clients to aggregate data from multiple services.",
+            "evidence": "The company's engineering blog post on scaling GraphQL describes the backend as having grown from a monolith into a 'distributed monolith,' and frames Federation's per-service subgraph ownership plus a unifying gateway as the fix for offline-sync strain, undocumented API contracts, and service-to-service coupling.",
+            "sources": [{ "type": "blog", "url": "https://www.quo.com/blog/scaling-graphql/" }]
+          }
+        ]
+      },
+      {
+        "framework": "Temporal (self-hosted workflow orchestration engine)",
+        "language": "Go (Temporal server); TypeScript (workflow/activity code via the Temporal Node SDK)",
+        "description": "A self-hosted Temporal cluster orchestrates long-running, stateful internal workflows. The company's engineering blog describes using it as the backbone of an AI voice agent (each phone call becomes an individual Temporal workflow using signals for live transcriptions/DTMF, updates for synchronous commands, and queries for inspecting in-progress call state) and states more generally that 'the workloads we run on Temporal are core to the product.'",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Self-hosted on Kubernetes (Amazon EKS), split into two Temporal clusters: a general cluster and a separate 'realtime' cluster dedicated to latency-sensitive workflows."
+        },
+        "justifications": [
+          {
+            "reason": "Chose to self-host Temporal rather than use Temporal Cloud because Temporal Cloud's per-action pricing becomes prohibitive at their volume, and the company already operates a large EKS footprint with SRE practices suited to running it themselves.",
+            "evidence": "The migration blog post's 'Why we self-host' section states Temporal Cloud is good for getting started but its per-action pricing becomes prohibitive at a certain volume, and that self-hosting trades a financial burden for an operational one the company judges worth it given its existing EKS footprint and SRE experience.",
+            "sources": [{ "type": "blog", "url": "https://www.quo.com/blog/postgres-to-cassandra/" }]
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "PostgreSQL appears in multiple backend-engineering job postings alongside MongoDB, Elasticsearch, and Redis as part of the company's general application data stack; no public source explains which application data specifically lives in Postgres versus the other stores. Separately, and independently confirmed by the company's own engineering blog, self-hosted Amazon Aurora PostgreSQL served for an extended period as the persistence layer for the company's self-hosted Temporal workflow engine (storing workflow/event history), a role it has since been migrated away from — see migration_history. The blog does not state whether this Aurora cluster was shared with, or separate from, the company's general application database use of Postgres.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Amazon Aurora PostgreSQL was used specifically for the self-hosted Temporal deployment, per the engineering blog. General application use of Postgres (per job postings) is not further specified."
+        },
+        "justifications": [
+          {
+            "reason": "Before migrating away, the company tuned Aurora Postgres specifically for Temporal's write-heavy, append-only workflow-history workload (short transactions, indexed point lookups by shard, idempotent writes, high churn on a small set of tables), which let Postgres carry the workload further than default settings would allow.",
+            "evidence": "The migration blog post describes four non-default Postgres parameters applied for Temporal specifically: synchronous_commit=off (accepting a small bounded window of possible data loss in exchange for a higher commit rate, judged safe because Temporal's activity scheduling/completion and timer events are idempotent), random_page_cost=1.1 (matching the query planner to Aurora's storage, which has no physical disk-seek penalty, so indexed point lookups aren't mistakenly deprioritized versus sequential scans), idle_in_transaction_session_timeout=30s (killing stuck connections that hold locks and block vacuum), and a lowered autovacuum_vacuum_scale_factor of 0.06 (running autovacuum more often against Temporal's high-churn insert/update/delete shard tables).",
+            "sources": [{ "type": "blog", "url": "https://www.quo.com/blog/postgres-to-cassandra/" }]
+          }
+        ]
+      },
+      {
+        "name": "Cassandra",
+        "description": "Wide-column/key-value store now serving as the persistence layer for the company's self-hosted Temporal workflow engine (workflow history and event state), reached via the k8ssandra Kubernetes operator, replacing Aurora PostgreSQL for this specific workload. As of the source blog post's publication (July 2026), the company was mid-migration onto this cluster.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Self-hosted on Kubernetes (Amazon EKS) via the k8ssandra operator, run at replication factor 3, alongside the company's existing self-hosted Temporal-on-EKS footprint."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen because it is Temporal's own reference persistence backend: sharded by design, write-optimized, and horizontally scalable by adding nodes, which structurally matches Temporal's internally-sharded, write-heavy workflow-history model, whereas Postgres's single-writer design had hit a throughput ceiling. The lack of ad-hoc query flexibility (a normal downside of Cassandra) wasn't a real cost here because Temporal always knows exactly which key/keyspace it needs.",
+            "evidence": "The blog post states Cassandra 'is Temporal's reference backend... the one the core team tests against at scale and the one most large self-hosted deployments use,' and that it is 'sharded by design, is write-optimized, and scales horizontally.' Load testing showed Cassandra CPU as the only real bottleneck component in the stack (OpenSearch, Temporal's frontend/history/matching tiers were comfortably under-utilized), that RF=3 outperformed an initial RF=5 by nearly 3x once excess replication overhead was removed, and that the RF=3 configuration sustained roughly 3x the company's peak production write rate with CPU headroom to spare.",
+            "sources": [{ "type": "blog", "url": "https://www.quo.com/blog/postgres-to-cassandra/" }]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "PostgreSQL (Amazon Aurora)",
+            "to_database": "Cassandra",
+            "date": "2026",
+            "reason": "Scoped specifically to the persistence layer behind the company's self-hosted Temporal workflow engine, not stated to be a company-wide/core-product database migration. See the matching migration_history entry under the PostgreSQL database for the full account.",
+            "evidence": "See the PostgreSQL entry's migration_history evidence for the detailed quotes and load-test figures from the same source.",
+            "sources": [{ "type": "blog", "url": "https://www.quo.com/blog/postgres-to-cassandra/" }]
+          }
+        ]
+      },
+      {
+        "name": "MongoDB",
+        "description": "Document database listed in multiple backend-engineering job postings (alongside PostgreSQL, Elasticsearch, and Redis) as part of the company's application data stack. No public engineering blog post, doc, or talk was found explaining what specific data lives in MongoDB or why it was chosen alongside the other stores in the stack, so this entry reflects job-posting evidence only.",
+        "data_shape": "document"
+      },
+      {
+        "name": "Elasticsearch",
+        "description": "Search/indexing store listed in backend-engineering job postings as part of the general application stack. Separately, the company's own engineering blog names OpenSearch (an Elasticsearch fork) specifically as part of its self-hosted Temporal deployment, monitored as one of the components sized for the Cassandra load test (and reported to stay at low CPU utilization throughout). The blog does not say whether that OpenSearch instance is the same one referenced in the general job postings' stack list.",
+        "data_shape": "document"
+      },
+      {
+        "name": "Redis",
+        "description": "Key-value store listed in backend-engineering job postings as part of the general application stack, alongside PostgreSQL, MongoDB, and Elasticsearch. No public engineering writing was found describing its specific use (e.g. caching, sessions, queues) or the reasoning behind it.",
+        "data_shape": "key-value"
+      }
+    ]
+  }
+}
