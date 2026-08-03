@@ -1,0 +1,175 @@
+{
+  "_id": "seed_payload",
+  "yc_seed": {
+    "id": 26811,
+    "company_slug": "payload",
+    "company_name": "Payload",
+    "former_names": ["Payload CMS"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/0f0a550c10525505849576c534b00a71c9d71c7e.png",
+    "website": "https://payloadcms.com",
+    "all_locations": "Grand Rapids, MI, USA",
+    "long_description": "Payload is a developer-first headless CMS and application framework built to finally give developers a better choice in the world of CMS. From documentation to design, Payload is crafted from the ground-up to save engineers time and effort while building the backend and admin panel for websites, native apps, ecommerce, SaaS, and any other product that needs to manage content. Payload is changing the CMS status quo—working to give developers the tools they want to build the CMS they need, all in clean and well-structured code.\r\n\r\nLearn more at https://payloadcms.com.",
+    "one_liner": "Developer-First Headless CMS and Application Framework",
+    "team_size": 3,
+    "industry": "B2B",
+    "subindustry": "B2B -> Engineering, Product and Design",
+    "launched_at": 1652737017,
+    "tags": ["Developer Tools", "Open Source", "API"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Summer 2022",
+    "status": "Acquired",
+    "industries": ["B2B", "Engineering, Product and Design"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Early",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/payload",
+    "api": "https://yc-oss.github.io/api/batches/summer-2022/payload.json",
+    "is_open_source": true
+  },
+  "scenario": {
+    "archetype": "devtool",
+    "description": "A code-first backend framework and admin-panel generator for engineering teams: developers describe their data model in a single config file, and the tool auto-generates a customizable admin UI along with REST, GraphQL, and type-safe APIs on top of a database of the team's choosing. Commonly used to build content-managed websites, e-commerce backends, and internal tools for teams that want to own their backend and admin UI in code rather than adopt a hosted SaaS CMS."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785771322433,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2022/payload.json",
+      "https://github.com/payloadcms/payload",
+      "https://raw.githubusercontent.com/payloadcms/payload/main/README.md",
+      "https://raw.githubusercontent.com/payloadcms/payload/main/packages/db-mongodb/package.json",
+      "https://raw.githubusercontent.com/payloadcms/payload/main/packages/db-postgres/package.json",
+      "https://payloadcms.com/docs/database/overview",
+      "https://payloadcms.com/docs/database/mongodb",
+      "https://payloadcms.com/posts/blog/payload-2-0",
+      "https://payloadcms.com/docs/database/migrations",
+      "https://github.com/payloadcms/payload/discussions/9711",
+      "https://payloadcms.com/docs/getting-started/what-is-payload",
+      "https://www.figma.com/blog/payload-joins-figma/"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "payloadcms/payload",
+        "url": "https://github.com/payloadcms/payload",
+        "description": "The company's core monorepo: an open-source, TypeScript full-stack framework and headless CMS that runs natively inside a Next.js app, including its database adapters, admin UI, and official project templates.",
+        "readme": "Describes itself as the first Next.js-native CMS/application framework, installable directly inside an existing /app directory. It positions itself as both an app framework and a headless CMS: deployable anywhere including serverless on Vercel or Cloudflare Workers, queryable directly from React Server Components, and fully extensible on both the admin UI and backend sides. It ships one-click deploy templates for Vercel (paired with a Neon Postgres database) and Cloudflare (paired with D1 and R2), plus starter templates for websites and ecommerce. Listed core features include built-in authentication, versioning/drafts, localization, a block-based layout builder, a Lexical rich-text editor, granular access control, and document/field-level hooks.",
+        "license": "MIT"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React (rendered via Next.js App Router)",
+        "language": "TypeScript",
+        "description": "An auto-generated admin panel that is derived from the same config file as the backend, rendered largely as React Server Components mounted inside the consuming app's own Next.js project rather than served as a separate hosted product. Every default view and component can be swapped for a custom one.",
+        "source": [
+          { "repository_name": "payloadcms/payload", "path": "packages/ui" },
+          { "repository_name": "payloadcms/payload", "path": "packages/next" }
+        ],
+        "hosting": {
+          "provider": "Vercel, Cloudflare Workers, or self-hosted",
+          "description": "Ships as part of the same Next.js application that serves the rest of the site; the repo provides one-click deploy buttons for Vercel and Cloudflare Workers, or it can be self-hosted anywhere Next.js runs."
+        }
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Payload (Next.js route handlers / Node.js)",
+        "language": "TypeScript",
+        "description": "A code-first CMS/application framework that generates REST, GraphQL, and a type-safe Local API directly from a single TypeScript config file, running as route handlers inside the same Next.js server process rather than a separate service.",
+        "source": [
+          { "repository_name": "payloadcms/payload", "path": "packages/payload" },
+          { "repository_name": "payloadcms/payload", "path": "packages/next" }
+        ],
+        "hosting": {
+          "provider": "Vercel, Cloudflare Workers, or self-hosted",
+          "description": "Runs wherever the consuming Next.js app is deployed; officially documented one-click paths are Vercel and Cloudflare Workers."
+        }
+      }
+    ],
+    "databases": [
+      {
+        "name": "MongoDB",
+        "description": "The original, officially supported database adapter (@payloadcms/db-mongodb), built on Mongoose. Stores collections, globals, and document versions as native MongoDB documents.",
+        "data_shape": "document",
+        "hosting": {
+          "provider": "MongoDB Atlas or self-hosted MongoDB",
+          "description": "Connects to any standard MongoDB deployment via a connection string. The adapter also documents unofficial compatibility options for MongoDB-API-compatible services such as Amazon DocumentDB, Azure Cosmos DB, and Firestore, noting these are not officially supported and can hit limitations (e.g. Cosmos DB restricting cross-collection transactions)."
+        },
+        "justifications": [
+          {
+            "reason": "Recommended as the default/simplest choice for projects with dynamic or deeply nested content shapes (localization, arrays, blocks) because its flexible schema avoids the need to run database migrations as the content model evolves.",
+            "evidence": "Payload's own database-adapter documentation advises choosing MongoDB if you prefer simplicity and flexible schemas, have dynamic fields or heavy use of localization/arrays/blocks, or want to avoid managing migrations. The Payload 2.0 announcement post similarly states that MongoDB remains 'the best choice for most Payload projects' because it handles nested configs and blocks more elegantly than a relational adapter, due to lower technical complexity.",
+            "sources": [
+              { "type": "official-docs", "url": "https://payloadcms.com/docs/database/overview" },
+              { "type": "blog", "url": "https://payloadcms.com/posts/blog/payload-2-0" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "payloadcms/payload", "path": "packages/db-mongodb" }
+        ]
+      },
+      {
+        "name": "PostgreSQL",
+        "description": "A second officially supported database adapter (@payloadcms/db-postgres), added in Payload 2.0 and built on the Drizzle ORM. Payload's config remains the source of truth and generates a relational schema plus migrations; developers can also reach the underlying Drizzle instance directly.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "Any standard Postgres, including Vercel Postgres/Neon and Supabase",
+          "description": "Works with any Postgres connection string. The repo's one-click Vercel deploy template provisions a Neon-backed Postgres database automatically alongside the app."
+        },
+        "justifications": [
+          {
+            "reason": "Added because Postgres support was the single most-requested item on the company's public roadmap, for teams wanting enforced relational constraints and a flatter, more stable schema rather than MongoDB's document flexibility.",
+            "evidence": "The Payload 2.0 announcement states Postgres support was 'the most upvoted roadmap item by far' and describes building a general adapter-pattern architecture so Payload could support multiple databases without major breaking changes; the team chose Drizzle ORM specifically for its low overhead, strong TypeScript support, and ability to keep Payload's config as the schema source of truth. The database-adapter docs recommend Postgres for teams comfortable with migrations who need database-enforced consistency and have many relationships between collections.",
+            "sources": [
+              { "type": "blog", "url": "https://payloadcms.com/posts/blog/payload-2-0" },
+              { "type": "official-docs", "url": "https://payloadcms.com/docs/database/overview" }
+            ]
+          },
+          {
+            "reason": "Some self-hosted users have chosen to move an existing project from the MongoDB adapter to the Postgres adapter after it left beta, primarily to cut hosting costs and reduce the number of distinct technologies in their stack, rather than following any official migration path.",
+            "evidence": "In a GitHub discussion, a user asked about moving from MongoDB to Postgres now that the Postgres adapter was out of beta, citing cost savings and stack simplification; a community member (not a Payload maintainer) proposed an unofficial script-based approach of paginating through MongoDB data and re-inserting it via a second Payload instance connected to Postgres. Payload's own migrations documentation covers only schema evolution within a single database type and does not document or endorse a cross-database migration path.",
+            "sources": [
+              { "type": "community-forum", "url": "https://github.com/payloadcms/payload/discussions/9711" },
+              { "type": "official-docs", "url": "https://payloadcms.com/docs/database/migrations" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "payloadcms/payload", "path": "packages/db-postgres" }
+        ]
+      },
+      {
+        "name": "SQLite",
+        "description": "A third officially supported database adapter (@payloadcms/db-sqlite), also built on Drizzle ORM, plus a dedicated Cloudflare D1 variant (@payloadcms/db-d1-sqlite) used in the repo's one-click Cloudflare Workers deploy template.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "Local SQLite file, or Cloudflare D1 for the Workers deploy path",
+          "description": "The repo's one-click Cloudflare Workers deploy template pairs Workers with a D1 database and R2 for uploads."
+        },
+        "justifications": [
+          {
+            "reason": "Offered alongside Postgres as a relational option for teams with stable, flat schemas who are comfortable managing migrations, sharing the same selection guidance as Postgres versus MongoDB.",
+            "evidence": "Payload's database-adapter overview groups SQLite with Postgres in its guidance (choose it if comfortable with migrations, need enforced consistency, or have many inter-collection relationships), and notes SQLite is functionally at parity with the other adapters except that it does not yet support the Point field type.",
+            "sources": [
+              { "type": "official-docs", "url": "https://payloadcms.com/docs/database/overview" }
+            ]
+          }
+        ],
+        "source": [
+          { "repository_name": "payloadcms/payload", "path": "packages/db-sqlite" }
+        ]
+      }
+    ]
+  }
+}
