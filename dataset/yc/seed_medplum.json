@@ -1,0 +1,160 @@
+{
+  "_id": "seed_medplum",
+  "yc_seed": {
+    "id": 26413,
+    "company_slug": "medplum",
+    "company_name": "Medplum",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/4229dd6804f5d73a29c33ab5b98b1cf482e0ea34.png",
+    "website": "https://www.medplum.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Medplum makes it easy to build healthcare webapps that are compliant and interoperability ready.  Our open source toolkit allows healthcare providers write apps that are HIPAA compliant, SOC2 certified and FHIR native - streamlining payor connections, health system integrations and more. ",
+    "one_liner": "API first electronic health record (EHR) that is open source",
+    "team_size": 20,
+    "industry": "Healthcare",
+    "subindustry": "Healthcare -> Healthcare IT",
+    "launched_at": 1659548315,
+    "tags": ["Developer Tools", "Open Source", "Healthcare"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Summer 2022",
+    "status": "Active",
+    "industries": ["Healthcare", "Healthcare IT"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Early",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/medplum",
+    "api": "https://yc-oss.github.io/api/batches/summer-2022/medplum.json",
+    "is_open_source": true
+  },
+  "scenario": {
+    "archetype": "devtool",
+    "description": "A developer platform for building applications in a heavily regulated data domain, where the core records are semi-structured, deeply-nested documents defined by an external, standardized interoperability schema covering dozens of record types. Each record type carries its own standardized set of queryable fields defined by that schema, and the platform must support ad hoc structured queries across those fields, strong transactional guarantees, growing multi-tenant scale, and strict compliance/auditability requirements."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780234007,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2022/medplum.json",
+      "https://github.com/medplum/medplum",
+      "https://github.com/medplum/medplum/blob/main/README.md",
+      "https://www.medplum.com/docs/contributing/search-architecture",
+      "https://www.medplum.com/docs/self-hosting",
+      "https://www.medplum.com/blog/zero-downtime-postgres-major-version-upgrade",
+      "https://github.com/medplum/medplum-postgres-upgrade",
+      "https://github.com/medplum/medplum/discussions/6026",
+      "https://github.com/medplum/medplum/discussions/1635",
+      "https://github.com/medplum/medplum/blob/main/packages/server/src/migrations/schema/v111.ts",
+      "https://github.com/medplum/medplum/blob/main/packages/cdk/src/backend.ts",
+      "https://github.com/medplum/medplum/blob/main/packages/cdk/src/frontend.ts"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "medplum/medplum",
+        "url": "https://github.com/medplum/medplum",
+        "description": "Primary monorepo containing Medplum's entire product: the FHIR-based clinical data repository/API server, the web app, a React UI component library, client SDKs, a CLI, an on-premise connectivity agent, an HL7 client/server, and the AWS CDK infrastructure code used to deploy Medplum's own hosted service.",
+        "readme": "Describes Medplum as a developer platform for building healthcare applications, made up of an end-to-end auth solution (Medplum Auth), a FHIR-based clinical data repository and API (Medplum CDR), client SDKs, a web app for viewing and editing records (Medplum App), serverless custom-logic hooks (Medplum Bots), and a React component library for building custom healthcare UIs. States explicitly that this repository is the company's entire product rather than a narrowly-scoped library, and lists PostgreSQL (data storage), Redis (background jobs and caching), Express, TypeScript, and React as the core technologies of its full-stack TypeScript monorepo.",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "medplum/medplum-postgres-upgrade",
+        "url": "https://github.com/medplum/medplum-postgres-upgrade",
+        "description": "Standalone companion repo publishing the runbook, scripts, and load-testing tooling Medplum used internally to perform a zero-downtime major-version upgrade of its production Postgres database, shared publicly as a reference for other teams facing the same operation.",
+        "readme": "Documents a step-by-step runbook, supporting configuration/scripts, and k6-based load-testing tools for upgrading a live AWS RDS Aurora PostgreSQL cluster to a new major version without taking the service down, alongside a companion engineering blog post explaining the rationale and execution in more depth.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React",
+        "language": "TypeScript",
+        "description": "'Medplum App', the primary web application patients, providers, and administrators use to view and edit FHIR records and manage basic clinical/administrative workflows. Built with React, TypeScript, Vite as the build tool, and the Mantine component library.",
+        "source": [{ "repository_name": "medplum/medplum", "path": "packages/app" }]
+      },
+      {
+        "framework": "React component library (@medplum/react)",
+        "language": "TypeScript",
+        "description": "Publicly published library of React components (forms, resource tables/editors, scheduling widgets, etc.) that customers use to build their own custom healthcare UIs on top of the Medplum API rather than building FHIR-aware widgets from scratch.",
+        "source": [{ "repository_name": "medplum/medplum", "path": "packages/react" }]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Express",
+        "language": "TypeScript",
+        "description": "Core API server: implements the FHIR REST API and search engine, GraphQL endpoint, OAuth/OpenID/SMART-on-FHIR authentication and authorization, and background job processing (via BullMQ on Redis) for subscriptions, webhooks, and async tasks. Uses node-postgres ('pg') to talk to PostgreSQL and ioredis for Redis.",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Deployed as containers on AWS ECS Fargate behind a load balancer, per Medplum's own AWS CDK infrastructure code, which is the same infrastructure-as-code Medplum uses to run its own hosted service."
+        },
+        "source": [{ "repository_name": "medplum/medplum", "path": "packages/server" }]
+      },
+      {
+        "framework": "Node.js single-executable agent",
+        "language": "TypeScript",
+        "description": "On-premise connectivity agent that customers install inside their own network to bridge local devices and protocols (e.g. HL7 interfaces, DICOM over dcmjs-dimse) to the cloud-hosted Medplum API, for cases where clinical devices can't be reached directly from the internet.",
+        "source": [{ "repository_name": "medplum/medplum", "path": "packages/agent" }]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "System of record for all clinical and administrative data. Every FHIR resource type (e.g. Patient, Observation, Encounter) is stored in its own dedicated Postgres table with an id (UUID) column and a content column holding the resource's full JSON payload as TEXT, plus one additional column per FHIR search parameter defined for that resource type. Search-parameter values are extracted from the JSON via FHIRPath expressions and written transactionally alongside the resource content, so resources can be queried relationally on their standardized fields rather than only via in-place JSON queries; some parameter types (e.g. token) are instead backed by separate per-resource-type lookup tables to support more complex matching semantics.",
+        "data_shape": "hybrid",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Runs as an AWS RDS Aurora PostgreSQL cluster (self-managed upgrade from major version 12.16 to 16.4 completed in November 2024); Medplum's own AWS CDK code provisions the Aurora Postgres cluster, an RDS Proxy, and associated parameter groups for both its own hosted service and self-hosted deployments that choose the AWS option."
+        },
+        "justifications": [
+          {
+            "reason": "Deliberately keeps document-shaped FHIR resources in Postgres rather than a document database by storing the raw resource JSON alongside relational, indexable columns extracted for each of that resource type's standardized FHIR search parameters, giving Postgres-native relational search over data that is natively deeply-nested and document-shaped.",
+            "evidence": "Medplum's own 'Search Architecture' contributing docs describe a per-resource-type table schema of id + content (raw JSON) plus one column per SearchParameter, with FHIR SearchParameter types mapped to concrete Postgres column types (number to double precision, date to date/timestamp with time zone, string/token/reference/uri largely to text, quantity to double precision), with some parameter types additionally backed by dedicated lookup tables for complex matching. This matches the project's own database migration files, which define each resource table's content column as `TEXT NOT NULL` (not JSONB) as of the most recent schema migration in the repository.",
+            "sources": [
+              { "type": "official-docs", "url": "https://www.medplum.com/docs/contributing/search-architecture" },
+              { "type": "source-code", "url": "https://github.com/medplum/medplum/blob/main/packages/server/src/migrations/schema/v111.ts" }
+            ]
+          },
+          {
+            "reason": "Rather than moving off Postgres as data volume and customer count grow, has invested engineering effort into scaling Postgres itself: a documented zero-downtime major-version upgrade of its production database, and a public proposal to horizontally shard Postgres by customer/project as the longer-term scaling strategy, rather than switching to a different database engine.",
+            "evidence": "A November 2024 blog post and companion public runbook repo describe Medplum self-managing a blue/green upgrade of its AWS RDS Aurora Postgres cluster from v12.16 to v16.4 using Postgres logical replication, PgBouncer as a connection proxy, and a custom switchover script, with well under a second of measured cutover impact. Separately, a February 2025 GitHub Discussion proposes horizontally sharding the Postgres database by Medplum 'Project' (with a control-plane database tracking project-to-shard mappings and routing), framed purely as a way to scale Postgres further rather than as a move away from it. An earlier March 2023 'Long Term Architecture Vision' discussion had listed non-Postgres options (DynamoDB, Cassandra, ScyllaDB, Typesense, ElasticSearch) as things to evaluate for the long term, but no decision or migration away from Postgres has followed as of the more recent, concrete scaling work.",
+            "sources": [
+              { "type": "blog", "url": "https://www.medplum.com/blog/zero-downtime-postgres-major-version-upgrade" },
+              { "type": "changelog", "url": "https://github.com/medplum/medplum-postgres-upgrade" },
+              { "type": "community-forum", "url": "https://github.com/medplum/medplum/discussions/6026" },
+              { "type": "community-forum", "url": "https://github.com/medplum/medplum/discussions/1635" }
+            ]
+          }
+        ],
+        "source": [{ "repository_name": "medplum/medplum", "path": "packages/server" }]
+      },
+      {
+        "name": "Redis",
+        "description": "Used for background job queues (via BullMQ) and caching rather than for storing FHIR resource data itself — e.g. processing async tasks, subscriptions, and webhook delivery outside the request path.",
+        "data_shape": "key-value",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Provisioned as an AWS ElastiCache Redis replication group by Medplum's own AWS CDK infrastructure code."
+        },
+        "justifications": [
+          {
+            "reason": "Adopted for background job processing and caching, kept separate from the Postgres system of record.",
+            "evidence": "Medplum's own README lists Redis as one of the project's core technologies with the stated purpose 'Background jobs and caching,' and the server package depends on ioredis and BullMQ (a Redis-backed job queue) rather than using Postgres for this purpose.",
+            "sources": [
+              { "type": "official-docs", "url": "https://github.com/medplum/medplum/blob/main/README.md" }
+            ]
+          }
+        ],
+        "source": [{ "repository_name": "medplum/medplum", "path": "packages/server" }]
+      }
+    ]
+  }
+}
