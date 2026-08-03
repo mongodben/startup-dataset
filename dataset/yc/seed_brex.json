@@ -1,0 +1,168 @@
+{
+  "_id": "seed_brex",
+  "yc_seed": {
+    "id": 1556,
+    "company_slug": "brex",
+    "company_name": "Brex",
+    "former_names": ["Veyond"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/72237ca3782563f0b12ffe1fe9869d878c153ab6.png",
+    "website": "https://www.brex.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Brex is the AI-powered spend platform for modern companies, from startups to enterprises. Combining corporate cards, expense management, travel, business accounts, and bill pay, Brex makes it easy to control spend before it happens with unprecedented efficiency and accuracy. Our mission is to empower employees anywhere to make better financial decisions, so we designed our platform to make expenses almost effortless with unrivaled automation of manual expense work and real-time tracking. Brex supports more countries and currencies than any other spend solution. Brex has tens of thousands of customers, including some of the most successful, high-growth companies, such as DoorDash, SeatGeek, Coinbase, ScaleAI, MasterClass, Indeed, Allbirds, and Superhuman.\n\nBrex offers:\n- Corporate cards with 10-20x higher limits\n- Business accounts with easy wires, same-day liquidity, fast global payments, and $6M in FDIC insurance\n- Reward options that include billboards, offsites, and coaching\n- Founder-friendly financial modeling tools\n- Special events and masterclasses for founders\n- Advanced spend management software as startups grow that includes global capabilities, travel, bill pay and more.\n\n",
+    "one_liner": "Business accounts, corporate cards, and spend management software.",
+    "team_size": 1000,
+    "industry": "Fintech",
+    "subindustry": "Fintech -> Banking and Exchange",
+    "launched_at": 1481770830,
+    "tags": ["Fintech"],
+    "tags_highlighted": [],
+    "top_company": true,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Winter 2017",
+    "status": "Acquired",
+    "industries": ["Fintech", "Banking and Exchange"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Partly Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": true,
+    "url": "https://www.ycombinator.com/companies/brex",
+    "api": "https://yc-oss.github.io/api/batches/winter-2017/brex.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "fintech-ledger",
+    "description": "A B2B spend-management platform combining corporate charge cards, bill pay, and interest-bearing business deposit accounts for growth-stage companies, positioned as offering higher limits and more automation than a traditional bank. Every money movement -- card transactions settling, internal transfers, bill payments -- is recorded through an internal ledger service using balanced double-entry journal entries against per-customer subaccounts, structured as an append-only, event-sourced log so that historical balances can always be reconstructed by replay rather than trusted as directly-mutated state. The product exposes an accounting/reporting API so customers' finance teams and third-party accounting software can reconcile spend, and the backend is built as a fleet of independently deployable microservices communicating via synchronous RPC calls and an asynchronous event-streaming bus, with a web dashboard for administrators to manage cards, approvals, and payments."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780473498,
+    "confidence": "inferred",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/winter-2017/brex.json",
+      "https://yc-oss.github.io/api/companies/all.json",
+      "https://github.com/brexhq",
+      "https://github.com/brexhq/prompt-engineering",
+      "https://github.com/brexhq/substation",
+      "https://medium.com/brexeng/how-brex-cash-moves-your-money-edb15982c2",
+      "https://medium.com/brexeng/change-data-capture-at-brex-c71263616dd7",
+      "https://medium.com/brexeng/why-brex-chose-elixir-fe1a4f313195",
+      "https://aws.amazon.com/blogs/startups/why-brex-chose-elixir/",
+      "https://medium.com/brexeng/building-the-brex-accounting-api-7984f570aac1",
+      "https://medium.com/brexeng/migration-from-self-managed-kafka-cluster-to-amazon-msk-8b7dbc27bf00",
+      "https://thenewstack.io/brexs-web-dev-revamp-makes-code-llm-friendly-by-design/",
+      "https://www.bigeye.com/blog/data-in-practice-building-out-a-data-quality-infrastructure-with-brex"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "brexhq/prompt-engineering",
+        "url": "https://github.com/brexhq/prompt-engineering",
+        "description": "A public guide Brex's engineering org released on working with large language models in production; it is a documentation repo, not part of Brex's product codebase, and is the most visible open-source artifact under the brexhq GitHub org.",
+        "readme": "Describes itself as an internally-developed, publicly-released guide covering LLM fundamentals (what a prompt/token/context limit is, a brief history of language models), prompt-engineering strategies (embedding data as lists, tables, or JSON; citations; chain-of-thought reasoning; delimiters), prompt-injection and jailbreak safety considerations, and notes on fine-tuning, aimed at engineers building systems on top of models like GPT-4.",
+        "license": "MIT"
+      },
+      {
+        "name": "brexhq/substation",
+        "url": "https://github.com/brexhq/substation",
+        "description": "An open-source Go toolkit maintained by Brex's security engineering team for processing security event and audit logs; unrelated to Brex's core banking/card/ledger product, but the most substantial actively-maintained non-fork repo under the brexhq org.",
+        "readme": "Presents Substation as a data-pipeline toolkit for security teams, inspired by tools like Logstash and Fluentd, offering 100+ built-in (or custom Go) data-transformation functions to route data across AWS services (S3, Kinesis, SQS, Lambda) or arbitrary HTTP endpoints, normalize event logs into schemas such as the Elastic Common Schema or OCSF, enrich events via external threat-intelligence APIs, and deploy serverlessly through Terraform without ongoing server maintenance.",
+        "license": "MIT"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React (with Relay + GraphQL)",
+        "language": "TypeScript",
+        "description": "Customer-facing web dashboard and internal tools built with React and TypeScript against a GraphQL API. The frontend platform team rebuilt its GraphQL data-fetching layer around Meta's Relay client (replacing Apollo) so that each component declares its own colocated GraphQL data requirements, and maintains a shared design system reused across web surfaces.",
+        "justifications": [
+          {
+            "reason": "Switched the GraphQL client from Apollo to Relay to enforce architectural discipline -- Relay requires each component to colocate its own GraphQL data requirements as fragments, rather than letting components fetch/compute data ad hoc through hooks.",
+            "evidence": "A March 2025 piece quotes a Brex senior frontend engineer explaining that the prior Apollo/hooks-based setup let engineers fire arbitrary queries and compute derived values inside components, which discouraged frontend/backend collaboration on the shared GraphQL schema and produced redundant queries. Relay, built around Meta's stricter data-fetching assumptions (fragment colocation, preloaded queries), enforced consistency instead, with an incidental benefit that the more self-contained components were easier for LLM coding tools to reason about.",
+            "sources": [{ "type": "press", "url": "https://thenewstack.io/brexs-web-dev-revamp-makes-code-llm-friendly-by-design/" }]
+          }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Phoenix (Elixir), plus gRPC services in Kotlin and Go",
+        "language": "Elixir, Kotlin, Go",
+        "description": "Brex's backend is a fleet of independently-deployable microservices, historically written mostly in Elixir on the Phoenix web framework, with newer services and infrastructure tooling in Kotlin and Go. Public-facing HTTP/GraphQL requests are handled by Phoenix controllers that call into internal services over gRPC; asynchronous, decoupled communication runs through an internal Kafka-backed event-publishing system with retry and dead-lettering support. Services are containerized and orchestrated on Kubernetes (images built into AWS ECR, workloads on AWS EC2, external traffic through AWS ALB), with infrastructure defined as Terraform in a monorepo.",
+        "justifications": [
+          {
+            "reason": "Elixir/Erlang was chosen specifically because the Erlang VM (OTP) provides distributed-systems primitives -- node discovery/clustering, RPC, hot code reloading, lightweight concurrency -- out of the box, which the founders had previously had to build by hand at an earlier payments company; Elixir's more approachable, Ruby-like syntax was also seen as easier to hire and ramp engineers on.",
+            "evidence": "In a Brex engineering blog post, co-founder Pedro Franceschi writes that at his prior startup (Pagar.me) the team spent roughly 30% of engineering time building distributed-systems infrastructure from scratch, and that Brex picked Elixir so this tooling would come from the Erlang/OTP ecosystem instead; he also reposted the same account as a guest post on the AWS Startups blog, which additionally describes Brex's production Elixir workloads running on Kubernetes/EC2 with images in ECR and traffic through ALB.",
+            "sources": [
+              { "type": "blog", "url": "https://medium.com/brexeng/why-brex-chose-elixir-fe1a4f313195" },
+              { "type": "blog", "url": "https://aws.amazon.com/blogs/startups/why-brex-chose-elixir/" }
+            ]
+          },
+          {
+            "reason": "Synchronous inter-service calls use gRPC and asynchronous/decoupled communication runs through a centralized Kafka-backed event system (with retry and dead-letter handling), rather than services calling each other directly or sharing a database.",
+            "evidence": "A Brex engineering post about migrating its self-managed Kafka cluster to Amazon MSK describes the two communication primitives underlying Brex's microservices -- synchronous gRPC calls and an asynchronous Kafka-backed Events system -- and gives the scale involved (roughly 940 Kafka topics, ~70 consumers, tens of messages/second on average with brief spikes into the hundreds), attributing the move to Amazon MSK to reduce the operational burden of running Kafka/ZooKeeper themselves as that footprint grew.",
+            "sources": [{ "type": "blog", "url": "https://medium.com/brexeng/migration-from-self-managed-kafka-cluster-to-amazon-msk-8b7dbc27bf00" }]
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "Relational datastore used by most of Brex's Elixir-based backend microservices, run as managed instances on AWS RDS. A separate change-data-capture pipeline reads each service's Postgres write-ahead log (via Debezium's logical-decoding connector) to publish change events onto Kafka. Brex's Core Ledger -- the double-entry accounting system underlying Brex Cash -- is documented separately as an event-sourced, immutable, append-only log of balanced journal entries; Brex's own writing confirms Postgres backs 'most Elixir applications' and that 'Brex microservices' generally are backed by PostgreSQL, but no source found explicitly names Postgres as the Core Ledger's specific storage engine, so that particular link is an inference from combining those two separate statements, not a directly confirmed fact.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Managed via AWS RDS; the Elixir/Kotlin/Go application code that talks to it runs as containers on Kubernetes across AWS EC2."
+        },
+        "justifications": [
+          {
+            "reason": "Postgres was adopted as the default relational store for Brex's Elixir microservices, run as managed AWS RDS instances rather than self-hosted.",
+            "evidence": "In a guest post on the AWS Startups blog, Brex co-founder Pedro Franceschi states that Brex runs its Elixir workloads on Kubernetes/EC2 and that 'Brex uses AWS RDS as the database host for Postgres, which is used by most Elixir applications.'",
+            "sources": [{ "type": "blog", "url": "https://aws.amazon.com/blogs/startups/why-brex-chose-elixir/" }]
+          },
+          {
+            "reason": "Change-data-capture off each service's Postgres write-ahead log, combined with a transactional outbox table, is Brex's standard pattern for keeping downstream systems and its Kafka event bus consistent with a service's own Postgres writes, without dual-write bugs between the database and the message bus.",
+            "evidence": "A Brex engineering post on change-data-capture states plainly that 'Brex microservices are backed by PostgreSQL databases, and we use Kafka as the asynchronous messaging infrastructure,' and describes running Debezium's PostgreSQL connector against the write-ahead log (via the pgoutput logical-decoding plugin) so that rows inserted into an outbox table within the same database transaction as a service's primary write are captured and turned into Kafka events, giving a strong consistency guarantee between the database update and the published event.",
+            "sources": [{ "type": "blog", "url": "https://medium.com/brexeng/change-data-capture-at-brex-c71263616dd7" }]
+          },
+          {
+            "reason": "Separately, and not directly tied to Postgres in any single source: the Core Ledger backing Brex Cash is deliberately modeled as an event-sourced, immutable, append-only log of balanced journal entries rather than as mutable balance rows, so a subaccount's balance is always derived by aggregating its full history instead of being trusted as directly-mutated state.",
+            "evidence": "Brex's engineering blog describes writing to the Core Ledger as posting an atomic 'journal entry' -- a grouping of subaccount balance changes that 'must sum to 0, since we never want to artificially create or destroy assets' -- built on the event-sourcing paradigm as 'an immutable, append-only log that we aggregate over for reads.' This post does not name the underlying storage engine, so whether the Core Ledger specifically runs on the same Postgres/RDS infrastructure described for 'most Elixir applications' elsewhere is an inference, not a fact stated in this source.",
+            "sources": [{ "type": "blog", "url": "https://medium.com/brexeng/how-brex-cash-moves-your-money-edb15982c2" }]
+          }
+        ]
+      },
+      {
+        "name": "Snowflake",
+        "description": "Cloud data warehouse used by Brex's data platform team for company-wide analytics, business intelligence (via Looker), and data-science workloads (fraud detection, underwriting, and other product features), fed by Airflow/dbt pipelines; replaced an earlier ad hoc MySQL-based warehouse.",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "Snowflake (managed SaaS)",
+          "description": "Fully managed Snowflake cloud data warehouse rather than a self-hosted database."
+        },
+        "justifications": [
+          {
+            "reason": "Adopted to replace an ad hoc MySQL-based data warehouse once Brex built a dedicated data platform team, as hypergrowth-era data-science use cases (fraud detection, underwriting, and other product features relying on data science) outgrew what the original setup could support.",
+            "evidence": "In a January 2023 case-study interview, a Brex data platform engineer of roughly four years describes joining when Brex's 'data warehouse' was just a MySQL instance kept in sync via AWS Data Migration Service replication off the production database, with analysts running manual SQL queries; over his tenure the team built out a modern stack centered on Snowflake for warehousing, plus Airflow for orchestration, dbt for transformation, Looker for BI, and Databricks for data-science notebooks.",
+            "sources": [{ "type": "blog", "url": "https://www.bigeye.com/blog/data-in-practice-building-out-a-data-quality-infrastructure-with-brex" }]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "MySQL",
+            "to_database": "Snowflake",
+            "date": "circa 2019-2022 (during the data platform team's early build-out)",
+            "reason": "The original MySQL-based warehouse, populated via AWS DMS replication from the production database and queried manually, couldn't support Brex's hypergrowth or its need for dedicated data-science workflows (fraud detection, underwriting, ML-driven product features), prompting a move to a Snowflake-centered stack.",
+            "evidence": "A former Brex data platform engineer's account (published as a case-study interview) describes the MySQL-plus-DMS starting point and the eventual modern stack built around Snowflake, Airflow, dbt, Looker, and Databricks over his roughly four-year tenure at the company; no exact migration date is given.",
+            "sources": [{ "type": "blog", "url": "https://www.bigeye.com/blog/data-in-practice-building-out-a-data-quality-infrastructure-with-brex" }]
+          }
+        ]
+      }
+    ]
+  }
+}
