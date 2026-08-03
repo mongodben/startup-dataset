@@ -2,7 +2,7 @@
 
 ## Objective
 
-You will populate a dataset of real Y Combinator companies against the `StartupDatasetSchema` TypeScript schema provided alongside this prompt. Each document describes one real company's actual, publicly documented technical stack — the database(s) it uses, why, and what it migrated from if anything. This dataset is ground truth for a separate evaluation of why AI coding agents do or don't recommend MongoDB; your job is only to produce accurate, well-sourced records of real companies, not to write or reason about that evaluation.
+You will populate a dataset of real Y Combinator companies against `startupDatasetSchema` in `src/schema.ts` — the zod schema that is this project's single source of truth, where each field's `.describe()` explains what it's for. Each document describes one real company's actual, publicly documented technical stack — the database(s) it uses, why, and what it migrated from if anything. This dataset is ground truth for a separate evaluation of why AI coding agents do or don't recommend MongoDB; your job is only to produce accurate, well-sourced records of real companies, not to write or reason about that evaluation.
 
 **The single most important rule: never fabricate.** If you can't find a fact, omit the field or array entry rather than guessing. A missing field is fine. A wrong field poisons the dataset in a way that's hard to detect later. When in doubt, mark it `unconfirmed` rather than `verified`.
 
@@ -46,11 +46,11 @@ If a company as a whole is thin on public information, it's fine for the whole r
 
 ## Output format
 
-- Return a single JSON array, one object per company, each conforming exactly to `StartupDatasetSchema`.
+- Write one JSON file per company to `dataset/yc/seed_<company_slug>.json`, each a single JSON object (not wrapped in an array) conforming exactly to `startupDatasetSchema` in `src/schema.ts`.
 - `_id` should be a stable slug, e.g. `"seed_{company_slug}"`.
 - Leave `scenario` fields present but don't over-invest in them — they're a placeholder for the downstream prompt-experiment mapping, not the research focus.
 - Leave `prompt_variants` as an empty object `{}` — populating it is a separate downstream step, not part of this research task.
-- Before returning, validate that every object matches the schema's types exactly (e.g. `launched_at` and `provenance.created_at` are numbers, not date strings; `team_size` is `number | null`, never omitted).
+- Before returning, validate each file with the project CLI — `npm run validate -- dataset/yc/seed_<company_slug>.json` — and fix anything it reports. It checks types exactly (e.g. `launched_at` and `provenance.created_at` are numbers, not date strings; `team_size` is `number | null`, never omitted) and rejects unrecognized keys, so a misspelled field name fails rather than silently dropping the data.
 
 ## Before you submit, check
 
@@ -59,4 +59,4 @@ If a company as a whole is thin on public information, it's fine for the whole r
 - [ ] `confidence` reflects what you actually found, not what would look best
 - [ ] `scenario.description` doesn't leak the company's identity
 - [ ] The company set isn't 100% Postgres — you actively looked for MongoDB/MySQL/SQLite/hybrid cases
-- [ ] JSON is valid and matches the schema's field names and types exactly
+- [ ] `npm run validate` passes for every file you wrote
