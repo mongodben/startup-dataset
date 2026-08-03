@@ -1,0 +1,260 @@
+{
+  "_id": "seed_doordash",
+  "yc_seed": {
+    "id": 531,
+    "company_slug": "doordash",
+    "company_name": "DoorDash",
+    "former_names": [],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/d13287c52acc96909f32342e85c26a33cfdac310.png",
+    "website": "http://doordash.com",
+    "all_locations": "San Francisco, CA, USA",
+    "long_description": "Founded in 2013, DoorDash is a San Francisco-based technology company passionate about transforming local businesses and dedicated to enabling new ways of working, earning, and living. Today, DoorDash connects customers with their favorite local and national restaurants in more than 600 cities across the United States and Canada. By building intelligent, last-mile delivery technology for local cities, DoorDash aims to connect people with the things they care about — one dash at a time. \r\n\r\nRead more at blog.doordash.com, and find us on Glassdoor.",
+    "one_liner": "Restaurant delivery.",
+    "team_size": 8600,
+    "industry": "Consumer",
+    "subindustry": "Consumer -> Food and Beverage",
+    "launched_at": 1367523459,
+    "tags": ["Marketplace", "E-commerce"],
+    "tags_highlighted": [],
+    "top_company": true,
+    "isHiring": true,
+    "nonprofit": false,
+    "batch": "Summer 2013",
+    "status": "Public",
+    "industries": ["Consumer", "Food and Beverage"],
+    "regions": ["United States of America", "America / Canada"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/doordash",
+    "api": "https://yc-oss.github.io/api/batches/summer-2013/doordash.json",
+    "is_open_source": false
+  },
+  "scenario": {
+    "archetype": "marketplace",
+    "description": "A three-sided, on-demand local delivery marketplace connecting end consumers, local merchants (initially restaurants, later expanded into adjacent retail categories like convenience and grocery items), and a large pool of independent gig-economy couriers who fulfill orders. The core product includes a consumer ordering app with live order tracking, a real-time dispatch/matching system pairing orders with nearby couriers, and a merchant-facing catalog/inventory/pricing system that must stay in sync with fast-changing real-world stock. Order volume follows a bursty weekly cycle (heaviest on weekend evenings) and has, at least once, been hit by a sudden, unplanned demand shock tied to an external macro event, which strained the transactional backend far more than steady average growth would have."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785780387000,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2013/doordash.json",
+      "https://careersatdoordash.com/blog/how-we-scaled-new-verticals-fulfillment-backend-with-cockroachdb/",
+      "https://www.cockroachlabs.com/blog/aurora-postgres-to-cockroachdb/",
+      "https://www.cockroachlabs.com/blog/doordash-cockroachdb-massive-scale/",
+      "https://careersatdoordash.com/blog/how-doordash-transitioned-from-a-monolith-to-microservices/",
+      "https://careersatdoordash.com/blog/how-doordash-standardized-and-improved-microservices-caching/",
+      "https://careersatdoordash.com/blog/migrating-from-python-to-kotlin-for-our-backend-services/",
+      "https://careersatdoordash.com/blog/our-tech-stack-in-the-android-dasher-app/",
+      "https://careersatdoordash.com/blog/adopting-swiftui-with-a-bottom-up-approach-to-minimize-risk/",
+      "https://careersatdoordash.com/blog/integrating-a-map-feature-to-a-web-app/",
+      "https://github.com/doordash-oss"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "causal-platform",
+        "url": "https://github.com/doordash-oss/causal-platform",
+        "description": "DoorDash's open-source experimentation/causal-inference library, published under the doordash-oss GitHub org. Note: DoorDash's actual production monolith/microservices code is closed-source — this and the other doordash-oss repos are auxiliary tools the company chose to publish, not the core marketplace application.",
+        "readme": "The README is almost entirely a contributor setup guide (installing a pinned Python 3.8 version via pyenv, using Poetry for dependency management, Make targets for installing dependencies/tests/building a container-based dev shell) rather than a description of how the library is used inside DoorDash's production experimentation pipeline.",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "agentic-orchestrator",
+        "url": "https://github.com/doordash-oss/agentic-orchestrator",
+        "description": "A CLI ('agentico') DoorDash open-sourced for orchestrating AI coding agents through a multi-phase feature-development workflow. Like causal-platform, this is a published tooling repo rather than DoorDash's closed-source core product code.",
+        "readme": "Presents the tool as turning a single high-level feature request into a structured, mostly autonomous engineering workflow: building per-repo context, running research/inquiry/design phases, decomposing work into phased implementation plans, then having an agent implement, test, review, and open a pull request, so a human engineer supervises checkpoints rather than manually driving every step of an AI coding session.",
+        "license": "Apache-2.0"
+      }
+    ],
+    "clients": [
+      {
+        "framework": "UIKit, with an incremental, module-by-module adoption of SwiftUI",
+        "language": "Swift",
+        "description": "Native iOS consumer app, historically built on UIKit using a VIPER-style architecture (per-feature View/Interactor/Presenter modules enforcing one-way data flow); SwiftUI is being layered onto existing VIPER module boundaries feature-by-feature rather than via a full rewrite.",
+        "justifications": [
+          {
+            "reason": "Adopted SwiftUI incrementally, on top of existing VIPER module boundaries, specifically to preserve the isolation between features that VIPER already provided and to limit the risk of a big-bang rewrite.",
+            "evidence": "An engineering blog post on SwiftUI adoption describes the app's prior UIKit architecture as relying on one-way data flow (VIPER/MVVM-C: Views calling Interactors, which retrieve Entities and hand them to Presenters), and frames the SwiftUI rollout as a deliberately bottom-up, risk-minimizing approach.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/adopting-swiftui-with-a-bottom-up-approach-to-minimize-risk/" }
+            ]
+          }
+        ]
+      },
+      {
+        "framework": "Native Android, layered CLEAN-style architecture with MVVM",
+        "language": "Kotlin, Java",
+        "description": "Native Android apps (consumer and courier-facing) built with a layered UI/domain/data architecture using MVVM, Dagger for dependency injection, Retrofit for networking, and Room for local on-device storage/caching.",
+        "justifications": [
+          {
+            "reason": "Standardized new Android development on Kotlin rather than Java, mirroring the same platform-wide language shift happening on the backend, while leaving already-working legacy Java code in place instead of a full rewrite.",
+            "evidence": "A 2019 engineering post on the Android courier app's tech stack states the app was about two-thirds Kotlin and one-third legacy Java at the time, with a policy requiring all new code to be written in Kotlin, and describes Room as the local database layer used for on-device caching.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/our-tech-stack-in-the-android-dasher-app/" }
+            ]
+          }
+        ]
+      },
+      {
+        "framework": "React",
+        "language": "TypeScript, JavaScript",
+        "description": "Consumer-facing web ordering app built on React, DoorDash's stated frontend framework, with a shared internal component/design system reused across web surfaces.",
+        "justifications": [
+          {
+            "reason": "React is DoorDash's chosen frontend framework for its web app.",
+            "evidence": "An engineering blog post about integrating a maps feature into the web app explicitly refers to 'React, our chosen frontend framework' while weighing library options for the integration.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/integrating-a-map-feature-to-a-web-app/" }
+            ]
+          }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Django",
+        "language": "Python",
+        "description": "The original web application and business logic ran as a single Django monolith. As the company grew, the monolith caused increasing developer ramp-up time, slower test suites, and stability problems, motivating a shift to microservices starting around 2018.",
+        "justifications": [
+          {
+            "reason": "Django was chosen at the outset because it let a small early team reach a minimum viable product quickly and iterate fast on rapidly-changing business logic, not for long-term scalability.",
+            "evidence": "DoorDash's own account of the monolith-to-microservices transition describes Django as a good fit for fast MVP delivery and iteration in the company's early days, before describing the brittleness and scaling problems that eventually motivated decomposing it.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-doordash-transitioned-from-a-monolith-to-microservices/" }
+            ]
+          }
+        ]
+      },
+      {
+        "framework": "Kotlin microservices over gRPC (backend-for-frontend + internal service layers, built on Guice/Armeria)",
+        "language": "Kotlin",
+        "description": "Following the 2018–2020 monolith decomposition, most backend logic runs as roughly 50 Kotlin microservices (about 20 on the critical path) organized across frontend, backend-for-frontend (BFF), backend, platform, and infrastructure layers, communicating over gRPC. An internal service framework built on Guice and Armeria provides shared monitoring, tracing, and configuration tooling out of the box.",
+        "justifications": [
+          {
+            "reason": "Chose Kotlin over Java, Go, Rust, and Python 3 as the common backend language because it kept the existing JVM/Java ecosystem while reducing boilerplate, adding null-safety, and offering coroutines for more approachable concurrency than Java callbacks or Go's goroutine model, alongside first-class support for the gRPC/Kafka/Cassandra/SQL stack the company was standardizing on.",
+            "evidence": "DoorDash's own migration write-up compares Kotlin against the alternatives on verbosity, null safety, and concurrency ergonomics, and highlights Kotlin's compatibility with the existing Java library ecosystem and the company's chosen infrastructure (gRPC, Kafka, Cassandra, relational databases) as deciding factors, while acknowledging drawbacks like a smaller server-side Kotlin community.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/migrating-from-python-to-kotlin-for-our-backend-services/" }
+            ]
+          }
+        ]
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "The original monolith's single relational database, and later the shared/main production database (running as Amazon Aurora PostgreSQL) underlying most of the marketplace even after the shift to microservices. A separate, self-managed PostgreSQL instance also hosted at least one large materialized view (catalog/inventory/pricing data for the convenience/grocery business). Both were eventually migrated to CockroachDB after each hit its own scaling ceiling (see migration history under CockroachDB and Cassandra below).",
+        "data_shape": "relational",
+        "hosting": {
+          "provider": "AWS",
+          "description": "Ran on Amazon Aurora PostgreSQL in a single-writer/multiple-read-replica topology, with the primary cluster's writer instance located in a single availability zone."
+        },
+        "justifications": [
+          {
+            "reason": "Originally adopted via Django's ORM to support fast MVP delivery and iteration by a small early engineering team, not chosen for long-term write scalability.",
+            "evidence": "DoorDash's account of its early architecture ties the choice of Postgres to the choice of Django as the original monolith's framework, both selected for speed of early iteration.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-doordash-transitioned-from-a-monolith-to-microservices/" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Cassandra",
+        "description": "Wide-column NoSQL store adopted for specific latency- and scalability-sensitive services during DoorDash's 2018–2020 shift from the Django/PostgreSQL monolith to Kotlin microservices; remains one of the storage systems DoorDash's storage/database platform team operates in production alongside CockroachDB and Redis.",
+        "data_shape": "key-value",
+        "justifications": [
+          {
+            "reason": "Some engineering teams moved specific services off the single shared PostgreSQL database onto Cassandra specifically to relieve scalability bottlenecks uncovered while decomposing the monolith.",
+            "evidence": "DoorDash's monolith-to-microservices post states there were efforts to move off PostgreSQL in favor of Cassandra to address scalability issues, carried out by a dedicated task force during the broader re-architecture. A separate post on the Kotlin migration lists Cassandra alongside gRPC and Kafka as part of the infrastructure stack the choice of Kotlin was meant to support.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-doordash-transitioned-from-a-monolith-to-microservices/" },
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/migrating-from-python-to-kotlin-for-our-backend-services/" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "PostgreSQL",
+            "to_database": "Cassandra",
+            "date": "~2018–2020 (during the monolith-to-microservices decomposition; publicly described in a December 2020 post)",
+            "reason": "Certain services were moved off the shared PostgreSQL monolith database to Cassandra to address scalability issues that were emerging as the company grew, as part of the broader effort to decompose the Django monolith into microservices.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-doordash-transitioned-from-a-monolith-to-microservices/" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Redis",
+        "description": "Distributed caching layer (using the Lettuce client from Kotlin/Java) sitting alongside an in-process Caffeine cache, standardized into a shared internal Kotlin caching library after independently-implemented, per-team caching led to staleness bugs and outage risk whenever the shared Redis cluster had problems.",
+        "data_shape": "key-value",
+        "justifications": [
+          {
+            "reason": "Used as a distributed cache to reduce read load on shared backend databases, notably the shared Postgres database that, at the time, almost all of DoorDash's services still relied on.",
+            "evidence": "A caching-standardization post describes Redis (via Lettuce) as one of the two most common caching layers at DoorDash, piloted first for a product (DashPass-like subscription billing) described as one of the heaviest users of the shared Postgres database, and explains that inconsistent per-team Redis usage previously caused staleness and reliability problems that the standardization effort addressed.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-doordash-standardized-and-improved-microservices-caching/" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "CockroachDB",
+        "description": "Current primary distributed SQL database for core transactional/OLTP workloads, run by DoorDash's storage infrastructure team as a company-wide, fully abstracted storage service (reported in 2024 at roughly 1.2 million queries per second at peak, spread across 300+ clusters totaling about 1.9 petabytes of data, with the single largest cluster around 280 TB). Adopted first to replace the main Aurora PostgreSQL cluster after a 2020 outage, then separately adopted to replace a self-managed PostgreSQL materialized view backing the convenience/grocery catalog business.",
+        "data_shape": "relational",
+        "justifications": [
+          {
+            "reason": "Chosen over continuing to scale Aurora Postgres because CockroachDB's shared-nothing architecture lets every node serve writes simultaneously, directly removing the single-writer bottleneck that caused Aurora Postgres's primary instance to become a scaling and availability chokepoint, and letting write capacity scale by adding nodes instead of vertically scaling one primary.",
+            "evidence": "Cockroach Labs' account of the migration quotes a DoorDash principal engineer explaining that, in Aurora Postgres, only a single primary instance can serve writes, whereas in CockroachDB all nodes can serve writes simultaneously — described as the key architectural difference that motivated the switch.",
+            "sources": [
+              { "type": "blog", "url": "https://www.cockroachlabs.com/blog/aurora-postgres-to-cockroachdb/" }
+            ]
+          },
+          {
+            "reason": "Separately, for the convenience/grocery catalog service, CockroachDB was chosen over re-sharding or archiving data within PostgreSQL because its shared-nothing, distributed design removed both the single-table size ceiling and the availability-zone-level single point of failure that the legacy Postgres setup had, while its built-in changefeeds (CDC) also enabled an event-driven architecture the team wanted.",
+            "evidence": "DoorDash's own post on migrating the store_items materialized view explains they considered splitting the table or offloading data to S3 before settling on CockroachDB specifically for its shared-nothing architecture (independent nodes, no single point of failure) and native change-data-capture support.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-we-scaled-new-verticals-fulfillment-backend-with-cockroachdb/" }
+            ]
+          },
+          {
+            "reason": "CockroachDB adoption grew from a targeted fix for two troubled clusters into a company-wide, self-serve storage platform, reflecting sustained internal confidence in it beyond the original crash-driven migration.",
+            "evidence": "A 2024 Cockroach Labs write-up describes DoorDash's storage infrastructure team running CockroachDB as a fully abstracted service for the whole engineering organization, with usage (data stored, cluster size, and changefeed count) more than doubling year-over-year.",
+            "sources": [
+              { "type": "blog", "url": "https://www.cockroachlabs.com/blog/doordash-cockroachdb-massive-scale/" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "Aurora PostgreSQL",
+            "to_database": "CockroachDB",
+            "date": "2020–2023 (triggered by an outage on April 17, 2020; publicly detailed in a case study published November 2023)",
+            "reason": "Aurora Postgres's single-writer-instance limitation became an acute, repeated bottleneck as order volume grew; on April 17, 2020, a Friday demand peak compounded by pandemic-driven lockdown ordering pushed the main database cluster past roughly 1.6 million queries per second, and it went down for hours. DoorDash then built tooling to extract tables to CockroachDB with a reversible, lossless migration path, moving core transactional workloads off the single-primary Aurora architecture.",
+            "evidence": "A Cockroach Labs case study, based on a DoorDash principal engineer's own account (including a RoachFest 2023 conference talk), describes the April 17, 2020 crash in these terms and frames the multi-year migration to CockroachDB as the resulting fix for the single-writer bottleneck.",
+            "sources": [
+              { "type": "blog", "url": "https://www.cockroachlabs.com/blog/aurora-postgres-to-cockroachdb/" }
+            ]
+          },
+          {
+            "from_database": "PostgreSQL (self-managed materialized view, store_items)",
+            "to_database": "CockroachDB",
+            "date": "~2022 (published February 2023)",
+            "reason": "A materialized view holding catalog, inventory, and pricing data for the convenience/grocery ('new verticals') business grew past DoorDash's internally recommended ~500GB single-table limit, causing slower inserts through its single writer instance, latency that doubled during peak non-batched upserts, and database CPU usage above 80%; the team needed 10x more headroom than the legacy setup could provide.",
+            "evidence": "DoorDash's engineering blog reports that after the migration, select-query performance on the affected table's primary lookup column improved by about 38% and composite-key lookups became roughly 10x faster online, attributing the gains to CockroachDB's distributed, shared-nothing design and its handling of composite primary keys.",
+            "sources": [
+              { "type": "blog", "url": "https://careersatdoordash.com/blog/how-we-scaled-new-verticals-fulfillment-backend-with-cockroachdb/" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
