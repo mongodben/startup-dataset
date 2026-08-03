@@ -1,0 +1,219 @@
+{
+  "_id": "seed_mattermost",
+  "yc_seed": {
+    "id": 407,
+    "company_slug": "mattermost",
+    "company_name": "Mattermost",
+    "former_names": ["SpinPunch"],
+    "small_logo_thumb_url": "https://bookface-images.s3.amazonaws.com/small_logos/1828c07e7e0127350a2a1ce95943239d48691aaa.png",
+    "website": "http://mattermost.com",
+    "all_locations": "San Francisco, CA, USA; Palo Alto, CA, USA; Remote",
+    "long_description": "Mattermost provides secure collaboration for technical and operational teams that work in environments with complex nation-state level security and trust requirements. We serve technology, public sector, national defense and financial services industries with customers ranging from tech giants, to the world's largest banks, to the U.S. Department of Defense and governmental agencies around the world. \r\n\r\nOur self-hosted and cloud offerings provide team messaging, file sharing, integrations, audio and screen share, workflow automation and project management on an open source platform deployed by the world's most secure and mission critical organizations. We co-build the future of collaboration with over 4,000 open source project contributors who've provided over 30,000 code improvements towards our shared product vision, which is translated into 20 languages. ",
+    "one_liner": "Secure Collaboration for Technical Teams",
+    "team_size": 120,
+    "industry": "B2B",
+    "subindustry": "B2B -> Productivity",
+    "launched_at": 1695156681,
+    "tags": ["DevSecOps", "Collaboration", "Security", "Open Source"],
+    "tags_highlighted": [],
+    "top_company": false,
+    "isHiring": false,
+    "nonprofit": false,
+    "batch": "Summer 2012",
+    "status": "Active",
+    "industries": ["B2B", "Productivity"],
+    "regions": ["United States of America", "America / Canada", "Remote", "Fully Remote"],
+    "stage": "Growth",
+    "app_video_public": false,
+    "demo_day_video_public": false,
+    "app_answers": null,
+    "question_answers": false,
+    "url": "https://www.ycombinator.com/companies/mattermost",
+    "api": "https://yc-oss.github.io/api/batches/summer-2012/mattermost.json",
+    "is_open_source": true
+  },
+  "scenario": {
+    "archetype": "collaboration",
+    "description": "A self-hosted, open-source team messaging and collaboration platform aimed at security-conscious organizations (regulated enterprises, government agencies, defense contractors) that cannot rely on a public multi-tenant SaaS chat product. Ships native web, desktop, and mobile clients on top of a single backend service, with real-time messaging, file sharing, and workflow-automation add-ons. Offered both as software the customer runs entirely on its own infrastructure and as a single-tenant, dedicated-per-customer hosted option for organizations that don't want to operate it themselves."
+  },
+  "prompt_variants": {},
+  "provenance": {
+    "created_at": 1785771608199,
+    "confidence": "verified",
+    "researched_by": "agent",
+    "sources": [
+      "https://yc-oss.github.io/api/batches/summer-2012/mattermost.json",
+      "https://github.com/mattermost/mattermost",
+      "https://raw.githubusercontent.com/mattermost/mattermost/master/LICENSE.txt",
+      "https://github.com/mattermost/mattermost-mobile",
+      "https://github.com/mattermost/desktop",
+      "https://github.com/mattermost/migration-assist",
+      "https://docs.mattermost.com/deployment-guide/reference-architecture/application-architecture.html",
+      "https://docs.mattermost.com/deployment-guide/postgres-migration.html",
+      "https://docs.mattermost.com/deployment-guide/postgres-migration-assist-tool.html",
+      "https://mattermost.com/blog/mattermost-postgresql-support-policy/",
+      "https://docs.mattermost.com/product-overview/deprecated-features.html",
+      "https://github.com/mattermost/mattermost/issues/18351",
+      "https://forum.mattermost.com/t/migrating-mattermost-database-from-mysql-to-postgresql-using-pgloader/25419",
+      "https://docs.mattermost.com/administration-guide/configure/agents-admin-guide.html",
+      "https://docs.mattermost.com/administration-guide/scale/redis.html",
+      "https://mattermost.com/blog/lessons-learned-running-redis-at-scale/",
+      "https://docs.mattermost.com/administration-guide/scale/elasticsearch-setup.html",
+      "https://docs.mattermost.com/administration-guide/scale/enterprise-search.html",
+      "https://mattermost.com/blog/building-a-saas-architecture-with-a-single-tenant-application/",
+      "https://endoflife.date/mattermost"
+    ]
+  },
+  "technical_architecture": {
+    "repository": [
+      {
+        "name": "mattermost/mattermost",
+        "url": "https://github.com/mattermost/mattermost",
+        "description": "The company's core monorepo: an open-core, self-hosted collaboration platform (chat, file sharing, voice calling, screen sharing, workflow automation, and AI integration) shipped as a single compiled server binary plus a web app, with monthly releases.",
+        "readme": "Describes the project as an open-core, self-hosted collaboration platform used across the software development lifecycle, combining messaging with voice/video calls, workflow automation (Playbooks), project boards, and AI-agent integration. The monorepo holds the Go server under /server and the React/TypeScript web client under /webapp, alongside API specs, end-to-end tests, and internal tooling. Points to LICENSE.txt for the project's multi-part licensing terms rather than a single SPDX license.",
+        "license": "AGPL-3.0",
+        "license_notes": "Licensing is tiered rather than a single license: compiled server binaries produced by Mattermost, Inc. are licensed to end users under MIT; the uncompiled server source code itself is licensed under AGPLv3 (with a commercial-license alternative available from Mattermost, Inc.); and the 'Admin Tools and Configuration Files' portions (server/templates, server/i18n, server/public, and the entire webapp/ tree) are separately licensed under Apache-2.0. Enterprise-only features live in a server/enterprise directory gated behind a separate source-available license and are excluded from default open-source builds."
+      },
+      {
+        "name": "mattermost/mattermost-mobile",
+        "url": "https://github.com/mattermost/mattermost-mobile",
+        "description": "The official iOS and Android mobile client, built in React Native.",
+        "readme": "Describes the repo as the next-generation Mattermost mobile app for iOS and Android, built with React Native so web-app frontend developers can also contribute to mobile. Notes a minimum supported server version tracking the current Extended Support Release, and documents building/testing with Node.js, Ruby, and Jest.",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "mattermost/desktop",
+        "url": "https://github.com/mattermost/desktop",
+        "description": "The official desktop client for Windows, macOS, and Linux, built as an Electron wrapper around the web app.",
+        "readme": "Describes an Electron-based desktop app that can connect to multiple Mattermost servers simultaneously, each in its own tab/window, with native OS notifications, unread badges, and deep linking. Built with Node.js tooling (webpack, Babel, TypeScript) around Electron's main/renderer process model.",
+        "license": "Apache-2.0"
+      },
+      {
+        "name": "mattermost/migration-assist",
+        "url": "https://github.com/mattermost/migration-assist",
+        "description": "A standalone Go CLI tool that automates the steps of the documented MySQL-to-PostgreSQL migration path for self-hosted Mattermost deployments.",
+        "readme": "Describes a command-line tool that automates the tasks in Mattermost's official MySQL-to-PostgreSQL migration guide: it checks MySQL schema readiness and can auto-fix common issues (leftover artifacts from old versions, unsupported Unicode, oversized varchar columns), sets up and validates the target PostgreSQL schema, generates a pgloader configuration from the two databases' connection strings, and supports an offline/air-gapped mode for environments where the two databases can't be directly connected. Installed via `go install` or downloaded as a prebuilt binary from GitHub releases.",
+        "license_notes": "No LICENSE file was found in the repository as of this research; GitHub's own license detection reports none, unlike the company's other repos which are explicitly Apache-2.0 or AGPL-3.0."
+      }
+    ],
+    "clients": [
+      {
+        "framework": "React",
+        "language": "TypeScript",
+        "description": "The primary web client, served by the Mattermost server and also embedded inside the desktop app; renders channels, messaging, and plugin UI (e.g. Playbooks, Boards, Agents).",
+        "source": [
+          { "repository_name": "mattermost/mattermost", "path": "webapp" }
+        ]
+      },
+      {
+        "framework": "Electron",
+        "language": "TypeScript/JavaScript",
+        "description": "Native desktop wrapper for Windows, macOS, and Linux that loads the web app and adds OS-level integration (native notifications, multi-server tabs, deep linking).",
+        "source": [
+          { "repository_name": "mattermost/desktop" }
+        ]
+      },
+      {
+        "framework": "React Native",
+        "language": "TypeScript",
+        "description": "Native iOS and Android app. Originally used Redux for state management; the team later moved to WatermelonDB to support multi-server switching and offline-first behavior on mobile.",
+        "source": [
+          { "repository_name": "mattermost/mattermost-mobile" }
+        ]
+      }
+    ],
+    "backends": [
+      {
+        "framework": "Mattermost Server",
+        "language": "Go",
+        "description": "A single compiled binary exposing a RESTful JSON API plus a WebSocket (WSS) connection for real-time events; handles auth, notifications, plugins, and all reads/writes to the underlying database. Can be run clustered behind a load balancer/reverse proxy (e.g. NGINX, HAProxy) for high availability.",
+        "source": [
+          { "repository_name": "mattermost/mattermost", "path": "server" }
+        ],
+        "hosting": {
+          "provider": "Self-hosted (on-prem or private cloud), plus a single-tenant AWS-hosted Mattermost Cloud offering",
+          "description": "Self-hosted deployments run the server binary directly on the customer's own infrastructure. Mattermost Cloud instead gives each customer a dedicated, single-tenant Kubernetes deployment inside AWS, provisioned by a separate command-and-control control plane, rather than a shared multi-tenant service."
+        }
+      }
+    ],
+    "databases": [
+      {
+        "name": "PostgreSQL",
+        "description": "The primary relational datastore for all persistent application data: messages/posts, channels, users, teams, sessions, and configuration/metadata. Since server v11 (October 2025) it is the only supported database backend.",
+        "data_shape": "relational",
+        "vector_capable": true,
+        "hosting": {
+          "provider": "Self-hosted PostgreSQL, or AWS RDS/Aurora PostgreSQL for Mattermost Cloud",
+          "description": "Self-hosted customers point the server at their own PostgreSQL instance. Mattermost Cloud provisions a dedicated RDS database per customer and uses PgBouncer to manage connection pooling across the fleet."
+        },
+        "justifications": [
+          {
+            "reason": "Chosen as the sole supported database going forward to reduce engineering and testing complexity from maintaining two database drivers, and because the team considers PostgreSQL better suited to enterprise-scale deployments than MySQL.",
+            "evidence": "Mattermost's own migration-guidelines FAQ ('Why is Mattermost dropping support for MySQL?') states the company decided to drop MySQL support to streamline development and focus resources on fewer, more optimized code paths, and that supporting only PostgreSQL — which it considers more advanced and better suited to enterprise environments — reduces complexity and yields more consistent, robust, and scalable database interactions.",
+            "sources": [
+              { "type": "official-docs", "url": "https://docs.mattermost.com/deployment-guide/postgres-migration.html" },
+              { "type": "blog", "url": "https://mattermost.com/blog/mattermost-postgresql-support-policy/" }
+            ]
+          },
+          {
+            "reason": "PostgreSQL's pgvector extension is used to add semantic/embedding search to Mattermost's AI 'Agents' plugin, rather than introducing a separate vector database.",
+            "evidence": "The Agents admin guide instructs administrators to enable the pgvector extension on their existing PostgreSQL database and configure an embeddings provider, model, and vector dimensions to turn on semantic search; this is documented as an experimental, license-gated feature.",
+            "sources": [
+              { "type": "official-docs", "url": "https://docs.mattermost.com/administration-guide/configure/agents-admin-guide.html" }
+            ]
+          }
+        ],
+        "migration_history": [
+          {
+            "from_database": "MySQL",
+            "to_database": "PostgreSQL",
+            "date": "2023-2025 (server v8.0 to v11.0)",
+            "reason": "Mattermost supported MySQL and PostgreSQL as interchangeable pluggable backends from early in the product's history, but made PostgreSQL the recommended 'database of choice' starting with server v8.0 (July 2023), stopped supporting new MySQL installations in v10.0 (September 2024), and fully removed MySQL support in v11.0 (October 2025) so it could concentrate development and testing on a single database engine.",
+            "evidence": "Mattermost's deprecated-features log records the v10.0 change ('no longer support new installations using MySQL... end of support for MySQL is targeted for Mattermost v11') and the v11.0 removal ('Support for MySQL has ended'). The company built and published a dedicated `migration-assist` Go CLI plus an official `mattermost/pgloader` Docker image specifically to help self-hosted customers move existing MySQL data to PostgreSQL, and a real customer's forum thread from October 2025 documents them running that pgloader-based migration against a production instance and troubleshooting data-transfer issues.",
+            "sources": [
+              { "type": "official-docs", "url": "https://docs.mattermost.com/product-overview/deprecated-features.html" },
+              { "type": "official-docs", "url": "https://docs.mattermost.com/deployment-guide/postgres-migration-assist-tool.html" },
+              { "type": "community-forum", "url": "https://forum.mattermost.com/t/migrating-mattermost-database-from-mysql-to-postgresql-using-pgloader/25419" },
+              { "type": "community-forum", "url": "https://github.com/mattermost/mattermost/issues/18351" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "MySQL",
+        "description": "The other originally-supported relational backend, offered as a pluggable alternative to PostgreSQL from early in the product's history through server v10.x. New MySQL installs were blocked starting in v10.0 (September 2024), and the driver was removed entirely in v11.0 (October 2025). See the PostgreSQL entry's migration_history for the full account of the switch away from MySQL.",
+        "data_shape": "relational"
+      },
+      {
+        "name": "Elasticsearch",
+        "description": "Optional Enterprise-tier search index (AWS OpenSearch Service is offered as an alternative) that replaces the database's own full-text search for large deployments, indexing posts separately from the primary PostgreSQL/MySQL store. An older embedded pure-Go alternative called Bleve Search has since been retired.",
+        "data_shape": "document",
+        "justifications": [
+          {
+            "reason": "Recommended once an install approaches a few million posts, because searching the primary database directly starts to degrade at that scale; Elasticsearch/OpenSearch keep search fast by querying a separate maintained index instead of the live transactional tables.",
+            "evidence": "Mattermost's enterprise-search documentation states that database search starts to show performance degradation at around 2 million posts, and recommends enabling Elasticsearch or AWS OpenSearch before an install reaches roughly 2.5-3 million posts, with the server falling back to database search only if the search cluster is unavailable.",
+            "sources": [
+              { "type": "official-docs", "url": "https://docs.mattermost.com/administration-guide/scale/enterprise-search.html" },
+              { "type": "official-docs", "url": "https://docs.mattermost.com/administration-guide/scale/elasticsearch-setup.html" }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Redis",
+        "description": "Optional Enterprise-tier external cache (available from server v10.4) that replaces Mattermost's original per-node in-memory cache for very large, clustered deployments.",
+        "data_shape": "key-value",
+        "justifications": [
+          {
+            "reason": "Introduced to fix a scaling bottleneck in the original per-node in-memory cache, where invalidating one cache entry forced every node in a cluster to independently re-query the database; a centralized Redis cache turns that into a single database read shared across the cluster.",
+            "evidence": "A Mattermost engineering blog post on running Redis at scale explains that the prior architecture gave every app node its own cache, so a single invalidation triggered a cluster-wide message and redundant per-node database calls; centralizing the cache in Redis (using the rueidis client for automatic pipelining and client-side caching, plus batched MGET/MDELETE calls) reduced that database load. The admin docs describe Redis as recommended specifically for installations above roughly 100,000 users.",
+            "sources": [
+              { "type": "blog", "url": "https://mattermost.com/blog/lessons-learned-running-redis-at-scale/" },
+              { "type": "official-docs", "url": "https://docs.mattermost.com/administration-guide/scale/redis.html" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
