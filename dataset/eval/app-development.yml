@@ -1,0 +1,326 @@
+- name: "[advanced] A B2B spend-management platform combining corporate charge cards, bill pay, and ..."
+  messages:
+    - role: user
+      content: "Build me this app: A B2B spend-management platform combining corporate charge cards, bill pay, and
+        interest-bearing business deposit accounts for growth-stage companies, positioned as offering higher limits and
+        more automation than a traditional bank. Every money movement -- card transactions settling, internal transfers,
+        bill payments -- is recorded through an internal ledger service using balanced double-entry journal entries
+        against per-customer subaccounts, structured as an append-only, event-sourced log so that historical balances
+        can always be reconstructed by replay rather than trusted as directly-mutated state. The product exposes an
+        accounting/reporting API so customers' finance teams and third-party accounting software can reconcile spend,
+        and the backend is built as a fleet of independently deployable microservices communicating via synchronous RPC
+        calls and an asynchronous event-streaming bus, with a web dashboard for administrators to manage cards,
+        approvals, and payments."
+  tags:
+    - app-development
+    - advanced
+    - fintech-ledger
+  metadata:
+    difficulty: advanced
+    category: Fintech ledger
+    archetype: fintech-ledger
+    seed_id: seed_brex
+- name: "[advanced] A consumer and institutional platform for buying, holding, and moving a class of..."
+  messages:
+    - role: user
+      content: "Build me this app: A consumer and institutional platform for buying, holding, and moving a class of tradeable
+        assets that is notoriously volatile, so trading volume can spike enormously and unpredictably around market
+        moves. The product spans an account/identity layer that must serve millions of profile lookups per second even
+        during those spikes, and a central internal ledger service that every other product line depends on to record
+        balances and every movement of funds with strict accuracy, no scheduled downtime, and no tolerance for a lost or
+        duplicated transaction."
+  tags:
+    - app-development
+    - advanced
+    - fintech-ledger
+  metadata:
+    difficulty: advanced
+    category: Fintech ledger
+    archetype: fintech-ledger
+    seed_id: seed_coinbase
+- name: "[advanced] A developer-infrastructure product that acts as a managed gateway for webhook ev..."
+  messages:
+    - role: user
+      content: "Build me this app: A developer-infrastructure product that acts as a managed gateway for webhook events
+        sitting between backend systems and their third-party integrations. It ingests incoming webhooks and reliably
+        fans out outgoing ones, with retries and exponential backoff, per-endpoint rate limiting, static egress IPs,
+        payload signing/verification, circuit breaking for failing endpoints, and a dashboard (including an embeddable
+        customer-facing view) for inspecting, replaying, and debugging individual delivery attempts. It is offered both
+        as a managed cloud service and as a self-hosted deployment for teams with compliance or data-residency
+        requirements, and it can also ingest events directly from common message brokers rather than only over HTTP."
+  tags:
+    - app-development
+    - advanced
+    - devtool
+  metadata:
+    difficulty: advanced
+    category: Devtool
+    archetype: devtool
+    seed_id: seed_convoy-2
+- name: "[advanced] An enterprise platform that lets large-language-model copilots and agents work o..."
+  messages:
+    - role: user
+      content: "Build me this app: An enterprise platform that lets large-language-model copilots and agents work over a
+        company's internal knowledge (chat history, wikis, shared drives, and CRM records) while mirroring each source
+        system's original access permissions, redacting sensitive fields, and logging every model interaction for audit
+        and compliance review. IT and security teams configure which agents can read which data and which actions those
+        agents may take, and end users get retrieval-augmented search and copilots built on top of that governed data."
+  tags:
+    - app-development
+    - advanced
+    - ai-agent
+  metadata:
+    difficulty: advanced
+    category: Ai agent
+    archetype: ai-agent
+    seed_id: seed_credal-ai
+- name: "[advanced] A three-sided, on-demand local delivery marketplace connecting end consumers, lo..."
+  messages:
+    - role: user
+      content: "Build me this app: A three-sided, on-demand local delivery marketplace connecting end consumers, local
+        merchants (initially restaurants, later expanded into adjacent retail categories like convenience and grocery
+        items), and a large pool of independent gig-economy couriers who fulfill orders. The core product includes a
+        consumer ordering app with live order tracking, a real-time dispatch/matching system pairing orders with nearby
+        couriers, and a merchant-facing catalog/inventory/pricing system that must stay in sync with fast-changing
+        real-world stock. Order volume follows a bursty weekly cycle (heaviest on weekend evenings) and has, at least
+        once, been hit by a sudden, unplanned demand shock tied to an external macro event, which strained the
+        transactional backend far more than steady average growth would have."
+  tags:
+    - app-development
+    - advanced
+    - marketplace
+  metadata:
+    difficulty: advanced
+    category: Marketplace
+    archetype: marketplace
+    seed_id: seed_doordash
+- name: "[advanced] A developer infrastructure platform for centrally storing and distributing sensi..."
+  messages:
+    - role: user
+      content: "Build me this app: A developer infrastructure platform for centrally storing and distributing sensitive
+        configuration values — credentials, API keys, connection strings, and certificates — across a team's
+        applications, environments, and CI/CD pipelines. It supports versioning, point-in-time recovery, audit logging,
+        and automatic rotation, and is offered both as a managed cloud service and as a self-hosted deployment for
+        compliance-conscious customers who run it on their own infrastructure."
+  tags:
+    - app-development
+    - advanced
+    - devtool
+  metadata:
+    difficulty: advanced
+    category: Devtool
+    archetype: devtool
+    seed_id: seed_infisical
+- name: "[advanced] A multi-sided, on-demand delivery marketplace connecting end customers placing t..."
+  messages:
+    - role: user
+      content: "Build me this app: A multi-sided, on-demand delivery marketplace connecting end customers placing
+        time-sensitive orders, independent gig workers who fulfill those orders, and business partners whose
+        fast-changing inventory (pricing, availability, stock) is sold through the platform. The product includes a
+        customer-facing ordering app, a separate fulfillment/logistics system for gig workers with strict uptime
+        requirements, and a large-scale catalog and search system covering billions of frequently-updated items across
+        many partner storefronts."
+  tags:
+    - app-development
+    - advanced
+    - marketplace
+  metadata:
+    difficulty: advanced
+    category: Marketplace
+    archetype: marketplace
+    seed_id: seed_instacart
+- name: "[advanced] A self-hosted, open-source team messaging and collaboration platform aimed at se..."
+  messages:
+    - role: user
+      content: "Build me this app: A self-hosted, open-source team messaging and collaboration platform aimed at
+        security-conscious organizations (regulated enterprises, government agencies, defense contractors) that cannot
+        rely on a public multi-tenant SaaS chat product. Ships native web, desktop, and mobile clients on top of a
+        single backend service, with real-time messaging, file sharing, and workflow-automation add-ons. Offered both as
+        software the customer runs entirely on its own infrastructure and as a single-tenant, dedicated-per-customer
+        hosted option for organizations that don't want to operate it themselves."
+  tags:
+    - app-development
+    - advanced
+    - collaboration
+  metadata:
+    difficulty: advanced
+    category: Collaboration
+    archetype: collaboration
+    seed_id: seed_mattermost
+- name: "[advanced] A developer platform for building applications in a heavily regulated data domai..."
+  messages:
+    - role: user
+      content: "Build me this app: A developer platform for building applications in a heavily regulated data domain, where
+        the core records are semi-structured, deeply-nested documents defined by an external, standardized
+        interoperability schema covering dozens of record types. Each record type carries its own standardized set of
+        queryable fields defined by that schema, and the platform must support ad hoc structured queries across those
+        fields, strong transactional guarantees, growing multi-tenant scale, and strict compliance/auditability
+        requirements."
+  tags:
+    - app-development
+    - advanced
+    - devtool
+  metadata:
+    difficulty: advanced
+    category: Devtool
+    archetype: devtool
+    seed_id: seed_medplum
+- name: "[advanced] A B2B platform used by healthcare provider organizations to turn existing clinic..."
+  messages:
+    - role: user
+      content: "Build me this app: A B2B platform used by healthcare provider organizations to turn existing clinical care
+        protocols into automated, two-way patient text-messaging programs that guide people through a multi-step care
+        episode, and to auto-complete simple routine follow-up documentation in the organization's records system,
+        reducing manual outreach and administrative work for clinical staff."
+  tags:
+    - app-development
+    - advanced
+    - healthtech-workflow-saas
+  metadata:
+    difficulty: advanced
+    category: Healthtech workflow saas
+    archetype: healthtech-workflow-saas
+    seed_id: seed_memora-health
+- name: "[advanced] A B2B API and dashboard that connects to thousands of separate, fragmented data ..."
+  messages:
+    - role: user
+      content: "Build me this app: A B2B API and dashboard that connects to thousands of separate, fragmented data sources in
+        a heavily regulated industry, then standardizes, deduplicates, and enriches everything into one consolidated
+        record per end customer, with AI-generated summaries layered on top. Subscribers receive near-real-time push
+        notifications for status-change events (e.g. a record becoming available at a partner source), and can also
+        contribute new information back out to the same network of partner systems, aiming to make previously siloed
+        institutional systems interoperable through one connector. Ships as both a hosted, usage-billed API/dashboard
+        and a self-hostable open-source edition for organizations that need to run the software on their own
+        infrastructure under a copyleft license."
+  tags:
+    - app-development
+    - advanced
+    - vertical-data-integration-api
+  metadata:
+    difficulty: advanced
+    category: Vertical data integration api
+    archetype: vertical-data-integration-api
+    seed_id: seed_metriport
+- name: "[advanced] A payment-operations platform that lets businesses initiate, approve, and reconc..."
+  messages:
+    - role: user
+      content: "Build me this app: A payment-operations platform that lets businesses initiate, approve, and reconcile money
+        movement through a web dashboard or API. At its core is a double-entry ledger product: every payment is recorded
+        as a transaction of matched debit/credit entries against accounts, with running balances that must stay correct
+        under heavy concurrent writes (e.g. many simultaneous payouts hitting the same account) and support both
+        real-time authorization checks and higher-throughput asynchronous recording of external bank/processor events."
+  tags:
+    - app-development
+    - advanced
+    - fintech-ledger
+  metadata:
+    difficulty: advanced
+    category: Fintech ledger
+    archetype: fintech-ledger
+    seed_id: seed_modern-treasury
+- name: "[advanced] A cloud-based, multi-platform business phone and messaging system for small and ..."
+  messages:
+    - role: user
+      content: "Build me this app: A cloud-based, multi-platform business phone and messaging system for small and midsize
+        teams. Lets a company assign one or more shared phone numbers to teammates so calls, texts, and voicemail land
+        in a shared team inbox, paired with a lightweight built-in CRM, contact history, and workflow-automation rules.
+        Recently added an AI voice agent that can answer and handle live calls on the business's behalf. Ships native
+        apps for desktop and mobile alongside a web client, backed by a services-oriented backend."
+  tags:
+    - app-development
+    - advanced
+    - b2b-communications-saas
+  metadata:
+    difficulty: advanced
+    category: B2b communications saas
+    archetype: b2b-communications-saas
+    seed_id: seed_openphone
+- name: "[advanced] A code-first backend framework and admin-panel generator for engineering teams: ..."
+  messages:
+    - role: user
+      content: "Build me this app: A code-first backend framework and admin-panel generator for engineering teams: developers
+        describe their data model in a single config file, and the tool auto-generates a customizable admin UI along
+        with REST, GraphQL, and type-safe APIs on top of a database of the team's choosing. Commonly used to build
+        content-managed websites, e-commerce backends, and internal tools for teams that want to own their backend and
+        admin UI in code rather than adopt a hosted SaaS CMS."
+  tags:
+    - app-development
+    - advanced
+    - devtool
+  metadata:
+    difficulty: advanced
+    category: Devtool
+    archetype: devtool
+    seed_id: seed_payload
+- name: "[advanced] A developer-facing analytics platform that engineering teams embed into their ow..."
+  messages:
+    - role: user
+      content: "Build me this app: A developer-facing analytics platform that engineering teams embed into their own products
+        to capture user events, record session replays, run feature flags and A/B experiments, and track errors. Usage
+        data lands in a built-in warehouse that customers can query directly with SQL, and can also be piped through
+        customer-defined data pipelines and webhooks. Offered both as a managed cloud service and as an open-source
+        package that companies can run entirely on their own infrastructure."
+  tags:
+    - app-development
+    - advanced
+    - devtool
+  metadata:
+    difficulty: advanced
+    category: Devtool
+    archetype: devtool
+    seed_id: seed_posthog
+- name: "[advanced] A payments and financial-infrastructure platform that lets a very large number o..."
+  messages:
+    - role: user
+      content: "Build me this app: A payments and financial-infrastructure platform that lets a very large number of client
+        businesses accept online payments and move money, and that must record every transaction with strict consistency
+        and auditability. To keep up with enormous and constantly growing transaction volume, the company built its own
+        database-as-a-service layer on top of an open-source document database rather than adopting a standard
+        relational database, adding custom sharding, query routing, and a zero-downtime data-migration system so that
+        database capacity can be split, merged, and upgraded without interrupting live traffic."
+  tags:
+    - app-development
+    - advanced
+    - fintech-ledger
+  metadata:
+    difficulty: advanced
+    category: Fintech ledger
+    archetype: fintech-ledger
+    seed_id: seed_stripe
+- name: "[advanced] A B2B SaaS platform that continuously monitors a customer's cloud infrastructure..."
+  messages:
+    - role: user
+      content: "Build me this app: A B2B SaaS platform that continuously monitors a customer's cloud infrastructure, internal
+        tooling, and HR/IT systems through hundreds of third-party integrations, then aggregates the results into
+        evidence and audit trails that let the customer demonstrate ongoing adherence to industry security and privacy
+        standards. Customers range from early-stage startups to large enterprises. The product must ingest highly
+        heterogeneous, frequently-changing data describing many different kinds of monitored resources, retain a large
+        volume of historical records for multi-year audit windows even after the underlying resources are deleted, and
+        serve a fast, filterable dashboard and API on top of that data."
+  tags:
+    - app-development
+    - advanced
+    - compliance-automation
+  metadata:
+    difficulty: advanced
+    category: Compliance automation
+    archetype: compliance-automation
+    seed_id: seed_vanta
+- name: "[advanced] A developer-infrastructure product that gives AI chat agents persistent, evolvin..."
+  messages:
+    - role: user
+      content: "Build me this app: A developer-infrastructure product that gives AI chat agents persistent, evolving memory:
+        it assembles relevant context from past conversations, uploaded business documents, and observed user behavior
+        so that follow-up interactions stay personalized and accurate without re-processing an entire conversation
+        history or document set on every request. Delivered as an API/SDK layer that application developers call from
+        their own chat or agent backend, with a managed cloud offering and a component of the stack open-sourced
+        separately as a standalone library."
+  tags:
+    - app-development
+    - advanced
+    - ai-agent
+  metadata:
+    difficulty: advanced
+    category: Ai agent
+    archetype: ai-agent
+    seed_id: seed_zep-ai

@@ -7,9 +7,11 @@
   "scripts": {
     "validate": "tsx src/cli.ts validate",
     "check-sources": "tsx src/cli.ts check-sources",
+    "map-eval-dataset": "tsx src/cli.ts map-eval-dataset",
     "test": "vitest run"
   },
   "dependencies": {
+    "yaml": "^2.9.0",
     "yargs": "^17.7.3",
     "zod": "^4.4.3"
   },
